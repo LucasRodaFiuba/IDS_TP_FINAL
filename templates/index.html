@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Maison Gourmet</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -38,13 +38,13 @@
         <h2 id="Nuestromenu">Nuestro Menu</h2>
         <div id="Menu">
             <a href="{{ url_for('pagina_menu') }}">
-                <img src="{{ url_for('static', filename='entrada.jpg') }}" alt="Entradas">
+                <img src="{{ url_for('static', filename='img/entrada.jpg') }}" alt="Entradas">
                 <p>Entradas</p>
             </a>
             
-            <a href="{{ url_for('pagina_menu') }}"><img src="{{ url_for('static', filename='platoprinc.jpg') }}" alt="Platos Principales"><p>Platos Principales</p></a>
+            <a href="{{ url_for('pagina_menu') }}"><img src="{{ url_for('static', filename='img/platoprinc.jpg') }}" alt="Platos Principales"><p>Platos Principales</p></a>
             
-            <a href="{{ url_for('pagina_menu') }}"><img src="{{ url_for('static', filename='postre.jpg') }}" alt="Postres"><p>Postres</p></a>
+            <a href="{{ url_for('pagina_menu') }}"><img src="{{ url_for('static', filename='img/postre.jpg') }}" alt="Postres"><p>Postres</p></a>
             
         </div>
     </div>
@@ -62,7 +62,7 @@
         <h2>Sobre Nosotros</h2>
 
         <div id="SobreNosotros">
-            <img src="{{ url_for('static', filename='nosotros.jpg') }}" alt="Nosotros">
+            <img src="{{ url_for('static', filename='img/nosotros.jpg') }}" alt="Nosotros">
             <p>En La Maison Gourmet, combinamos tradición y creatividad para ofrecer un viaje culinario único.
             Disfruta de un ambiente elegante y de los sabores más exquisitos, preparados con ingredientes de la más alta calidad.</p>
             <a href="{{ url_for('pagina_nosotros') }}">Leer mas</a>
