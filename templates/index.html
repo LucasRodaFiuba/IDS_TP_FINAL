@@ -11,21 +11,11 @@
 </head>
 <body>
     
-    <div id="Cabecera">
-        <header>
-            <div id="Logo">
-                    <div id="Maison">Le Maison</div>
-                    <div id="Gourmet">GOURMET</div>
-            </div>
+{% extends "base.html" %}
 
-            <ul id="Botones">
-                <li><a href="{{ url_for('pagina_menu') }}">Menu</a></li>
-                <li><a href="{{ url_for('pagina_nosotros') }}">Conocenos</a></li>
-                <li><a href="{{ url_for('pagina_clientes') }}">Clientes</a></li>
-                <li><a href="{{ url_for('pagina_reservas') }}">Reservas</a></li>
-            </ul>
-        </header>
-    </div>
+{% block title %}Le Maison Gourmet{% endblock %}
+
+{% block content %}
 
     <div id="Bienvenidos">
         <p id="bienv">Bienvenidos a</p>
@@ -58,21 +48,7 @@
         </div>
     </div>
 
-    <div id="Bloque_nosotros">
-        <h2>Sobre Nosotros</h2>
-
-        <div id="SobreNosotros">
-            <img src="{{ url_for('static', filename='img/nosotros.jpg') }}" alt="Nosotros">
-            <p>En La Maison Gourmet, combinamos tradición y creatividad para ofrecer un viaje culinario único.
-            Disfruta de un ambiente elegante y de los sabores más exquisitos, preparados con ingredientes de la más alta calidad.</p>
-            <a href="{{ url_for('pagina_nosotros') }}">Leer mas</a>
-        </div>
-    </div>
-
-    <div id="Derechos">
-        <p>© 2026 La Maison Gourmet - Todos los derechos reservados</p>
-    </div>
-    
+    {% endblock %}
 
 </body>
 </html>

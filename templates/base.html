@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/icono.ico') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+
+    <title>Le Maison Gourmet</title>
+</head>
+<body>
+
+    <header>
+        <div id="Logo">
+            <a href="{{ url_for('home')}}">
+                <div id="Maison">Le Maison</div>
+                <div id="Gourmet">GOURMET</div>
+            </a>
+        </div>
+
+        <ul id="Botones">
+            <li><a href="{{ url_for('pagina_menu') }}">Menu</a></li>
+            <li><a href="{{ url_for('pagina_nosotros') }}">Conocenos</a></li>
+            <li><a href="{{ url_for('pagina_clientes') }}">Clientes</a></li>
+            <li><a href="{{ url_for('pagina_reservas') }}">Reservas</a></li>
+            <li><a href="{{ url_for('iniciar_sesion') }}">Iniciar Sesión</a></li>
+        </ul>
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer id="Derechos">
+        <a href="{{ url_for('pagina_admin') }}">
+            <p>© 2026 La Maison Gourmet - Todos los derechos reservados</p>
+        </a>
+    </footer>
+
+</body>
+</html>

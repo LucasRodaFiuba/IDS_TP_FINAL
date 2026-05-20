@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+    <title>Document</title>
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+
+    <div id="Iniciar_sesion">
+
+        <h1>Iniciar Sesión</h1> 
+
+        <p>Correo electrónico</p>
+        <input type="email" placeholder="ejemplo@correo.com" id="email">
+
+        <p>Contraseña</p>
+        <input type="password" placeholder="••••••••" id="contrasena">
+
+        <button type="submit" class="btn-ingresar">INICIAR SESIÓN</button>
+
+        <button>Registrate aquí</button>
+
+        <button>Recuperar contraseña</button>
+
+
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>

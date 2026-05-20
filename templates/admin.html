@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin.css') }}">
+    <title>Admin Le Mansion Gourmet</title>
+</head>
+<body>
+
+    {% extends "base.html" %}
+
+    {% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+
+    <div id="Explicacion">
+        <h1>Pagina de Administración</h1>
+        <p>Esta pagina le permite a los administradores gestionar el contenido del sitio, Tanto el apartado de reservas, servicios, usuarios y modificar el menu de Le maison Gourmet </p>
+    </div>
+
+    <div id ="Modificar_menu">
+        <h2>Modificar Menu</h2>
+        <div id="Agregar_plato">
+            <p>Agregar plato principal</p>
+            <input type="text" placeholder="Nombre del plato">
+            <input type="text" placeholder="Descripción del plato">
+            <input type="text" placeholder="Precio del plato">
+            <input type="text" placeholder="Ingredientes del plato">
+        </div>
+
+        <div id="Eliminar_plato">
+            <p>Eliminar plato principal</p>
+            <input type="text" placeholder="Nombre del plato a eliminar">
+        </div>
+
+        <div id="Modificar_plato">
+            <p>Modificar plato principal</p>
+            <p>Los espacios en blanco se quedaran con el ultimo valor guardado, solo ingresar los campos que desea actualizar</p>
+            <input type="text" placeholder="Nombre del plato a modificar">
+            <input type="text" placeholder="Nueva descripción del plato">
+            <input type="text" placeholder="Nuevo precio del plato">
+            <input type="text" placeholder="Nuevos ingredientes del plato">
+        </div>
+    </div>
+
+    <div id="Gestionar_reservas">
+        <h2>Gestionar reservas</h2>
+        <div id="Eliminar_reserva">
+            <p>Eliminar Reservas</p>
+            <input type="text" placeholder="Nombre del cliente">
+            <input type="datetime" placeholder="Fecha y hora de la reserva">
+        </div>
+
+        <div id="Modificar_reserva">
+            <p>Modificar Reservas</p>
+            <p>Los espacios en blanco se quedaran con el ultimo valor guardado, solo ingresar los campos que desea actualizar</p>
+            <input type="text" placeholder="Nombre del cliente">
+            <input type="datetime" placeholder="Fecha y hora de la reserva a modificar">
+            <input type="datetime" placeholder="Nueva fecha y hora de la reserva">
+        </div>
+
+        <div id="Agregar_reserva">
+            <p>Agregar Reservas</p>
+            <input type="text" placeholder="Nombre del cliente">
+            <input type="datetime" placeholder="Fecha y hora de la reserva">
+            <input type="text" placeholder="Cantidad de personas">
+        </div>
+    </div>
+
+    <div id="Gestionar_usuarios">
+        <h2>Gestionar Usuarios</h2>
+
+        <div id="Eliminar_usuario">
+            <p>Eliminar usuario</p>
+            <input type="text" placeholder="Nombre del usuario a eliminar">
+        </div>
+
+        <div id="Modificar_usuario">
+            <p>Modificar usuario</p>
+            <input type="text" placeholder="Nombre del usuario a modificar">
+            <input type="text" placeholder="Nuevo nombre de usuario">
+            <input type="email" placeholder="Nuevo correo electrónico">
+            <input type="password" placeholder="Nueva contraseña">
+        </div>
+
+        <div id="Agregar_usuario">
+            <p>Agregar usuario</p>
+            <input type="text" placeholder="Nombre de usuario">
+            <input type="email" placeholder="Correo electrónico">
+            <input type="password" placeholder="Contraseña">
+        </div>
+    </div>
+    {% endblock %}
+    
+</body>
+</html>

@@ -13,20 +13,22 @@ header {
   border: 2px solid #907a1a;
 }
 
-#Logo {
-    color: #c9a646;
+#Logo a {
+    text-decoration: none;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-
+#Logo {
+    color: #c9a646;
+}
 
 #Maison {
     color: #a6a0a0;
     font-size: 35px;
     font-family: 'Parisienne', cursive;
-     margin: 0;
+    margin: 0;
 }
 
 #Gourmet {
@@ -45,7 +47,7 @@ header {
   padding: 0;
 }
 
-#Botones a {
+#Botones li a {
   color: #a6a0a0;
   text-decoration: none;
   font-family: 'Cinzel', serif;
@@ -154,6 +156,13 @@ header {
     display: flex;
     justify-content: center;
     color: white;
+    margin-top: 20px;
+}
+
+#Derechos a {
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
 }
 
 #Nuestromenu{
@@ -167,22 +176,3 @@ header {
     margin-top: 50px;
 }
 
-#SobreNosotros{
-    color: #a6a0a0;
-}
-
-#SobreNosotros img {
-    width: 250px;
-    height: 250px;
-}
-
-#SobreNosotros{
-    color: #a6a0a0;
-    text-align: left;
-}
-
-#BloqueNosotros{
-    display: flex;
-    justify-content: center;
-    margin-top: 200px;
-}

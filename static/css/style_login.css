@@ -1,0 +1,71 @@
+#Iniciar_sesion {
+    display: flex;
+    justify-content: center;  
+    align-items: center;     
+    flex-direction: column;
+    background-color: #0d0d0d88; 
+    color: #a6a0a0;
+
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 40px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 12px;
+    border: #c9a646 solid 2px;
+    margin-bottom: 100px;
+}
+
+#Iniciar_sesion button {
+    margin-top: 40px;
+    background-color: rgba(0, 0, 0, 0.801);
+    border-radius: 12px;
+    border-color: #c9a646;
+    width: 50%;
+    color: #a6a0a0;
+    font-family: cinzel, serif;
+}
+
+#Iniciar_sesion input {
+    width: 80%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.514);
+    border-radius: 20px;
+}
+
+
+#Iniciar_sesion input::placeholder {
+    text-align: center;
+}
+
+#Botones_cuenta {
+    display: flex;
+    justify-content: center;  
+    align-items: center;     
+    flex-direction: column;
+    background-color: #0d0d0d88; 
+    color: #a6a0a0;
+
+    margin-top: 40px;
+    margin-bottom: 100px;
+    padding: 50px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 12px;
+    border: #c9a646 solid 2px;
+}
+
+#Botones_cuenta button {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.801);
+    border-radius: 12px;
+    border-color: #c9a646;
+    width: 50%;
+    color: #a6a0a0;
+    font-family: cinzel, serif;
+}
