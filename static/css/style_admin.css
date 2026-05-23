@@ -1,3 +1,43 @@
 body {
     color: white;
 }
+
+h2{
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+form button {
+    color: #a4944a;
+    cursor: pointer;
+    background-color: transparent;
+    border: 2px solid #907a1a;
+    border-radius: 6px;
+    margin-left: 10px;
+}
+
+form input {
+    padding: 5px;
+    border: 2px solid #ffffff;
+    border-radius: 6px;
+    background-color: transparent;
+    color : white;
+    margin-right: 10px;
+    margin-bottom: 50px;
+}
+
+#Formularios{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}
+
+#Formulario_modificar{
+    margin-top: 50px;
+}
+
+#Formulario_modificar p{
+    margin-bottom: 30px;
+}
