@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Clientes</h1>
-    <p>Esta sección estará disponible pronto.</p>
-    <a href="{{ url_for('home') }}"><button>Volver</button></a>
+    {% extends "base.html" %}
+
+    {% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+
+
+
+
+
+
+    {% endblock %}
+
 </body>
 </html>
