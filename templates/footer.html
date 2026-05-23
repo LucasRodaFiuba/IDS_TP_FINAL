@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <title>Le Maison Gourmet - Footer</title>
 </head>
 <body>
     <footer id="footer">
         <div id="footer-left">
-            <a href="{{ url_for('pagina_admin') }}" style="color: inherit; text-decoration: none; cursor: default;">
+            <a href="{{ url_for('pagina_admin') }}">
                 <span>© 2026 Le Maison Gourmet - Todos los derechos reservados</span>
             </a>
             

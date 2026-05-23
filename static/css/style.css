@@ -182,6 +182,12 @@ header {
     flex: 1;
 }
 
+#footer-left a {
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
+}
+
 #footer-left span {
     color: #c9a227;
     font-size: 19px;
