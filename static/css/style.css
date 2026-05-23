@@ -176,3 +176,58 @@ header {
     margin-top: 50px;
 }
 
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    padding: 18px 60px;
+    margin-top: 80px;
+
+    border-top: 1px solid #b08d2f;
+    background: rgba(0, 0, 0, 0.85);
+
+    box-sizing: border-box;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-left p {
+    margin: 0;
+    color: #c9a227;
+    font-size: 18px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.footer-right a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-right img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.footer-right img:hover {
+    transform: scale(1.15);
+}
+
+#Derechos a {
+    text-decoration: none;
+    color: inherit;
+    cursor: default;
+}
