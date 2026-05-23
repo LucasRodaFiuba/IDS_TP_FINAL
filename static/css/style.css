@@ -151,20 +151,6 @@ header {
   cursor: pointer;
 }
 
-#Derechos{
-    background-color: #000000;
-    display: flex;
-    justify-content: center;
-    color: white;
-    margin-top: 20px;
-}
-
-#Derechos a {
-    text-decoration: none;
-    color: inherit;
-    cursor: default;
-}
-
 #Nuestromenu{
     font-family: 'Cormorant Garamond', serif;
     font-size: 30px;
@@ -176,7 +162,7 @@ header {
     margin-top: 50px;
 }
 
-.footer {
+#footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -191,43 +177,37 @@ header {
     box-sizing: border-box;
 }
 
-.footer-left {
-    display: flex;
-    align-items: center;
+#footer-left {
+    text-align: center;
+    flex: 1;
 }
 
-.footer-left p {
-    margin: 0;
+#footer-left span {
     color: #c9a227;
-    font-size: 18px;
+    font-size: 19px;
     font-family: 'Cormorant Garamond', serif;
 }
 
-.footer-right {
+#footer-right {
     display: flex;
     align-items: center;
     gap: 18px;
 }
 
-.footer-right a {
+#footer-right a {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.footer-right img {
+#footer-right img {
     width: 28px;
     height: 28px;
     object-fit: contain;
     transition: transform 0.3s ease;
 }
 
-.footer-right img:hover {
+#footer-right img:hover {
     transform: scale(1.15);
 }
 
-#Derechos a {
-    text-decoration: none;
-    color: inherit;
-    cursor: default;
-}
