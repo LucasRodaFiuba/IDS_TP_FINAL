@@ -1,0 +1,904 @@
+openapi: 3.0.0
+info:
+  title: API Le Mansion Gourmet
+  description: API para la gestión del restaurante Le Mansion Gourmet
+  version: 1.0.0
+servers:
+- url: /
+
+# Configuración de Seguridad Global para endpoints protegidos
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  # --- AUTENTICACIÓN ---
+  /auth/register:
+    post:
+      tags:
+      - Autenticación
+      summary: Registrar un nuevo usuario
+      description: Permite registrar clientes o administradores en el sistema.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistroRequest"
+        required: true
+      responses:
+        "201":
+          description: Usuario registrado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /auth/login:
+    post:
+      tags:
+      - Autenticación
+      summary: Iniciar sesión
+      description: Autentica al usuario y retorna un token JWT junto con sus datos de perfil.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: Autenticación exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          description: Credenciales inválidas.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  # --- MENÚ ---
+  /menu:
+    get:
+      tags:
+      - Menú
+      summary: Obtener menú completo
+      description: Retorna una lista paginada y filtrable de los platos disponibles en la carta de Le Mansion Gourmet.
+      parameters:
+      - $ref: "#/components/parameters/Limit"
+      - $ref: "#/components/parameters/Offset"
+      - $ref: "#/components/parameters/Restriccion"
+      responses:
+        "200":
+          $ref: "#/components/responses/GetPlatoList200"
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      tags:
+      - Menú
+      summary: Crear plato (admin)
+      description: Permite dar de alta una nueva propuesta gastronómica en la carta.
+      security:
+      - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlatoBase"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /menu/{id}:
+    get:
+      tags:
+      - Menú
+      summary: Obtener un plato
+      description: Recupera el detalle completo de un plato específico mediante su ID.
+      parameters:
+      - $ref: "#/components/parameters/IdPlato"
+      responses:
+        "200":
+          description: Detalle del plato gourmet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Plato"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    put:
+      tags:
+      - Menú
+      summary: Actualizar plato
+      description: Reemplaza de forma completa los datos de un plato existente.
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: "#/components/parameters/IdPlato"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlatoBase"
+        required: true
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+      - Menú
+      summary: Eliminar plato
+      description: Remueve un plato de la carta de Le Mansion Gourmet.
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: "#/components/parameters/IdPlato"
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    patch:
+      tags:
+      - Menú
+      summary: Editar plato
+      description: Modifica parcialmente los atributos de un plato (ideal para actualizaciones de precio de mercado o disponibilidad).
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: "#/components/parameters/IdPlato"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlatoActualizacion"
+        required: true
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  # --- SERVICIOS ---
+  /servicios:
+    get:
+      tags:
+      - Servicios Extras
+      summary: Listar servicios extras
+      description: Devuelve las experiencias adicionales disponibles para añadir a las reservas.
+      responses:
+        "200":
+          $ref: "#/components/responses/GetServicios200"
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      tags:
+      - Servicios Extras
+      summary: Crear servicio extra (admin)
+      description: Añade una nueva opción de servicio de valor agregado (ej. shows, catas privadas).
+      security:
+      - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServicioBase"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/Created"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /servicios/{id}:
+    put:
+      tags:
+      - Servicios Extras
+      summary: Actualizar un servicio
+      description: Reemplaza por completo la información de un servicio complementario.
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: "#/components/parameters/IdServicio"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServicioBase"
+        required: true
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+      - Servicios Extras
+      summary: Eliminar un servicio
+      description: Da de baja una experiencia o servicio del catálogo.
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: "#/components/parameters/IdServicio"
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  # --- RESERVAS ---
+  /reservas/disponibilidad:
+    get:
+      tags:
+      - Reservas
+      summary: Consultar disponibilidad de mesas
+      description: Verifica los turnos horarios que cuentan con capacidad según la cantidad de comensales requerida.
+      parameters:
+      - $ref: "#/components/parameters/FechaConsulta"
+      - $ref: "#/components/parameters/Comensales"
+      responses:
+        "200":
+          $ref: "#/components/responses/GetDisponibilidad200"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /reservas:
+    post:
+      tags:
+      - Reservas
+      summary: Crear una reserva
+      description: Registra una solicitud de reserva asociada a un cliente, fecha, turno y opcionalmente servicios extras.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaBase"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/ReservaCreada201"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /reservas/{id}:
+    put:
+      tags:
+      - Reservas
+      summary: Modificar una reserva
+      description: Reasigna o modifica completamente los parámetros de una reserva activa.
+      parameters:
+      - $ref: "#/components/parameters/IdReserva"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaBase"
+        required: true
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+      - Reservas
+      summary: Cancelar una reserva
+      description: Realiza una cancelación formal de la reserva (baja lógica/cambio de estado).
+      parameters:
+      - $ref: "#/components/parameters/IdReserva"
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  # --- DASHBOARD ---
+  /dashboard:
+    get:
+      tags:
+      - Dashboard Admin
+      summary: Métricas del Dashboard (admin)
+      description: Provee indicadores clave de rendimiento filtrados por rango de fechas, tipo de restricción o estados específicos de reserva.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: fecha_inicio
+        in: query
+        description: Fecha inicial del rango de análisis de métricas.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: 2026-05-01
+      - name: fecha_fin
+        in: query
+        description: Fecha final del rango de análisis de métricas.
+        required: true
+        schema:
+          type: string
+          format: date
+        example: 2026-05-31
+      - name: restriccion_popular
+        in: query
+        description: Filtrar el rendimiento de la carta por una restricción alimentaria específica.
+        required: false
+        schema:
+          $ref: "#/components/schemas/Restriccion"
+      - name: incluir_canceladas
+        in: query
+        description: Define si el cálculo de ingresos proyectados debe o no contemplar reservas canceladas.
+        required: false
+        schema:
+          type: boolean
+          default: false
+        example: false
+      responses:
+        "200":
+          $ref: "#/components/responses/GetDashboard200"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  schemas:
+    # --- ESQUEMAS DE ERRORES ---
+    ErrorResponse:
+      type: object
+      required:
+      - codigo
+      - mensaje
+      - timestamp
+      properties:
+        codigo:
+          type: string
+          description: Código de error interno identificable por el frontend.
+          example: VALIDATION_ERROR
+        mensaje:
+          type: string
+          description: Explicación amigable o técnica del error provisto.
+          example: El formato del campo email es inválido.
+        timestamp:
+          type: string
+          format: date-time
+          example: "2026-05-24T00:30:00Z"
+        detalles:
+          type: array
+          description: Lista de inconsistencias específicas encontradas (opcional).
+          items:
+            type: string
+          example: ["El campo 'precio' debe ser mayor a 0."]
+
+    # --- ESQUEMAS DE AUTENTICACIÓN ---
+    RegistroRequest:
+      type: object
+      required:
+      - nombre
+      - email
+      - password
+      properties:
+        nombre:
+          type: string
+          example: Juan Pérez
+        email:
+          type: string
+          format: email
+          example: juan.perez@ejemplo.com.ar
+        password:
+          type: string
+          format: password
+          minLength: 8
+          example: "MansionSecure2026!"
+        rol:
+          type: string
+          enum: [cliente, admin]
+          default: cliente
+          example: cliente
+
+    LoginRequest:
+      type: object
+      required:
+      - email
+      - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: admin@lemansion.com.ar
+        password:
+          type: string
+          format: password
+          example: "AdminMansion99!"
+
+    AuthResponse:
+      type: object
+      required:
+      - token
+      - tipo
+      - usuario
+      properties:
+        token:
+          type: string
+          description: Token JWT Bearer estructurado para interactuar con rutas seguras.
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        tipo:
+          type: string
+          example: Bearer
+        usuario:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 12
+            nombre:
+              type: string
+              example: Juan Pérez
+            email:
+              type: string
+              example: juan.perez@ejemplo.com.ar
+            rol:
+              type: string
+              example: admin
+
+    # --- ESQUEMAS DE NEGOCIO ---
+    Restriccion:
+      type: string
+      description: Restricción alimenticia asignada al plato para seguridad del comensal.
+      example: sin_tacc
+      enum:
+      - vegetariano
+      - vegano
+      - sin_tacc
+      - sin_lactosa
+      - ninguno
+
+    PlatoBase:
+      required:
+      - descripcion
+      - nombre
+      - precio
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: Denominación del plato gourmet.
+          example: Ojo de Bife Madurado
+        descripcion:
+          type: string
+          description: Ingredientes, técnicas de cocción y guarnición.
+          example: Ojo de bife madurado en seco por 45 días, con reducción de Malbec de altura de Salta y aligot de papas andinas.
+        precio:
+          type: number
+          description: Precio expresado en pesos argentinos (ARS).
+          example: 28500
+        restriccion:
+          $ref: "#/components/schemas/Restriccion"
+      description: Datos requeridos para estructurar o alterar un plato.
+
+    PlatoActualizacion:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Ojo de Bife Madurado Selección
+        descripcion:
+          type: string
+        precio:
+          type: number
+          example: 31000
+        restriccion:
+          $ref: "#/components/schemas/Restriccion"
+      description: Campos modificables parciales de la oferta gastronómica.
+
+    PlatoResumen:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 42
+        nombre:
+          type: string
+          example: Empanadas de Cordero Patagónico
+        precio:
+          type: number
+          example: 5200
+      description: Estructura optimizada de un plato para listados veloces.
+
+    Plato:
+      description: Entidad detallada de un plato de la alta cocina.
+      allOf:
+      - $ref: "#/components/schemas/PlatoResumen"
+      - type: object
+        properties:
+          descripcion:
+            type: string
+            example: Empanadas braseadas al horno de barro, cortadas a cuchillo con cebolla de verdeo y suave salsa llajua.
+          restriccion:
+            $ref: "#/components/schemas/Restriccion"
+
+    PlatoListResponse:
+      type: object
+      properties:
+        platos:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlatoResumen"
+
+    ServicioBase:
+      required:
+      - descripcion
+      - nombre
+      - precio
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Maridaje Exclusivo con Sommelier
+        descripcion:
+          type: string
+          example: Selección guiada de 4 etiquetas de bodegas boutique de Mendoza alineadas con los pasos elegidos.
+        precio:
+          type: number
+          example: 16000
+
+    Servicio:
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            example: 3
+      - $ref: "#/components/schemas/ServicioBase"
+
+    ServicioListResponse:
+      type: object
+      properties:
+        servicios:
+          type: array
+          items:
+            $ref: "#/components/schemas/Servicio"
+
+    ReservaBase:
+      required:
+      - comensales
+      - email
+      - fecha
+      - hora
+      - nombre_cliente
+      type: object
+      properties:
+        nombre_cliente:
+          type: string
+          example: Amalia Fortabat
+        email:
+          type: string
+          format: email
+          example: amalia@ejemplo.com.ar
+        telefono:
+          type: string
+          example: "+541148010000"
+        fecha:
+          type: string
+          format: date
+          example: 2026-06-20
+        hora:
+          pattern: "^([01]\\d|2[0-3]):([0-5]\\d)$"
+          type: string
+          description: Formato de tiempo de 24 horas.
+          example: 21:30
+        comensales:
+          minimum: 1
+          type: integer
+          example: 2
+        servicios_extras_id:
+          type: array
+          description: Colección de identificadores de servicios adicionales elegidos.
+          example: [3]
+          items:
+            type: integer
+        notas_especiales:
+          type: string
+          description: Comentarios de organización (ej. alergias específicas, aniversarios).
+          example: Mesa de aniversario estable, preferentemente cerca de la cava de vinos.
+
+    Reserva:
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: integer
+            example: 1024
+          estado:
+            type: string
+            example: confirmada
+            enum:
+            - confirmada
+            - pendiente
+            - asistida
+            - cancelada
+      - $ref: "#/components/schemas/ReservaBase"
+
+    DisponibilidadTurnos:
+      type: object
+      properties:
+        fecha:
+          type: string
+          format: date
+          example: 2026-06-20
+        turnos_disponibles:
+          type: array
+          example: ["20:00", "21:30", "23:00"]
+          items:
+            type: string
+
+    DashboardResponse:
+      type: object
+      properties:
+        fecha_analisis_inicio:
+          type: string
+          format: date
+          example: 2026-05-01
+        fecha_analisis_fin:
+          type: string
+          format: date
+          example: 2026-05-31
+        resumen_operaciones:
+          $ref: "#/components/schemas/DashboardResponse_resumen_operaciones"
+        rendimiento_carta:
+          $ref: "#/components/schemas/DashboardResponse_rendimiento_carta"
+
+    DashboardResponse_resumen_operaciones:
+      type: object
+      properties:
+        total_reservas_activas:
+          type: integer
+          example: 48
+        total_cubiertos_proyectados:
+          type: integer
+          example: 112
+        ingreso_estimado_ars:
+          type: number
+          example: 3450000
+
+    DashboardResponse_rendimiento_carta:
+      type: object
+      properties:
+        plato_estrella:
+          type: string
+          example: Ojo de Bife Madurado
+        servicio_mas_solicitado:
+          type: string
+          example: Maridaje Exclusivo con Sommelier
+
+  # --- RESPUESTAS CENTRALIZADAS ---
+  responses:
+    GetPlatoList200:
+      description: Operación de listado de carta completada con éxito.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PlatoListResponse"
+    GetServicios200:
+      description: Catálogo de experiencias premium recuperado.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ServicioListResponse"
+    GetDisponibilidad200:
+      description: Consulta de disponibilidad resuelta correctamente.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DisponibilidadTurnos"
+    ReservaCreada201:
+      description: La reserva fue generada de manera exitosa y el turno quedó bloqueado.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Reserva"
+    GetDashboard200:
+      description: Métricas consolidadas de administración procesadas de forma exitosa.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DashboardResponse"
+    Created:
+      description: Entidad de negocio generada con éxito en la base de datos.
+    NoContent:
+      description: Petición procesada correctamente sin contenido de retorno en el cuerpo.
+
+    # Respuestas de error con cuerpos JSON detallados
+    BadRequest:
+      description: Error de validación sintáctica o de negocio en los parámetros provistos.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            codigo: BAD_REQUEST
+            mensaje: "Parámetros de entrada mal formados o inválidos."
+            timestamp: "2026-05-24T00:35:00Z"
+    Unauthorized:
+      description: No Autorizado - Token inválido, vencido o ausente.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            codigo: UNAUTHORIZED
+            mensaje: "Acceso denegado. Se requiere un token JWT válido."
+            timestamp: "2026-05-24T00:35:00Z"
+    NotFound:
+      description: El recurso solicitado mediante la URI no existe en el sistema.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            codigo: NOT_FOUND
+            mensaje: "El recurso solicitado no fue encontrado en nuestros servidores."
+            timestamp: "2026-05-24T00:35:00Z"
+    Conflict:
+      description: Conflicto de negocio (ej. la mesa ya se encuentra reservada en ese horario exacto).
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            codigo: CONFLICT
+            mensaje: "El recurso que intenta crear o modificar entra en conflicto con las reglas del negocio."
+            timestamp: "2026-05-24T00:35:00Z"
+    InternalServerError:
+      description: Fallo crítico no controlado en la capa de infraestructura del servidor.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            codigo: INTERNAL_SERVER_ERROR
+            mensaje: "Ocurrió un error inesperado en el servidor. Por favor, intente más tarde."
+            timestamp: "2026-05-24T00:35:00Z"
+
+  # --- PARÁMETROS REUTILIZABLES ---
+  parameters:
+    IdPlato:
+      name: id
+      in: path
+      description: Identificador unívoco numérico del plato.
+      required: true
+      schema:
+        type: integer
+      example: 42
+    IdServicio:
+      name: id
+      in: path
+      description: Identificador numérico del servicio complementario.
+      required: true
+      schema:
+        type: integer
+      example: 3
+    IdReserva:
+      name: id
+      in: path
+      description: Identificador único alfa-numérico o numérico de la reserva.
+      required: true
+      schema:
+        type: integer
+      example: 1024
+    Restriccion:
+      name: restriction
+      in: query
+      description: Filtro para restringir los resultados a un tipo alimenticio determinado.
+      required: false
+      schema:
+        $ref: "#/components/schemas/Restriccion"
+    Limit:
+      name: _limit
+      in: query
+      description: Volumen máximo de registros a recuperar por solicitud.
+      required: false
+      schema:
+        type: integer
+        default: 10
+      example: 10
+    Offset:
+      name: _offset
+      in: query
+      description: Índice inicial de desplazamiento para el paginado de registros.
+      required: false
+      schema:
+        type: integer
+        default: 0
+      example: 0
+    FechaConsulta:
+      name: fecha
+      in: query
+      description: Fecha objetivo para validar los turnos operativos disponibles.
+      required: true
+      schema:
+        type: string
+        format: date
+      example: 2026-06-20
+    Comensales:
+      name: comensales
+      in: query
+      description: Número total de cubiertos requeridos para la reserva.
+      required: true
+      schema:
+        minimum: 1
+        type: integer
+      example: 2
