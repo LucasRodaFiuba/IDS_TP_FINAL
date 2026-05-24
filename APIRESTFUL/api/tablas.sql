@@ -1,4 +1,4 @@
-CREATE DATABASE restaurante_db;
+CREATE DATABASE IF NOT EXISTS restaurante_db;
 USE restaurante_db;
 
 -- =========================
@@ -115,4 +115,4 @@ CREATE TABLE logs (
 
     FOREIGN KEY (id_usuario)
     REFERENCES usuarios(id_usuario)
-);
+)

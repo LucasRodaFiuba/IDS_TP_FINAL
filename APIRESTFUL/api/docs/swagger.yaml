@@ -6,14 +6,6 @@ info:
 servers:
 - url: /
 
-# Configuración de Seguridad Global para endpoints protegidos
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
 paths:
   # --- AUTENTICACIÓN ---
   /auth/register:
@@ -72,7 +64,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  # --- MENÚ ---
+  # --- CARTA COMPLETA (MENÚ) ---
   /menu:
     get:
       tags:
@@ -92,11 +84,14 @@ paths:
           $ref: "#/components/responses/BadRequest"
         "500":
           $ref: "#/components/responses/InternalServerError"
+
+  # --- ENTIDAD PLATO (ABM INDIVIDUAL) ---
+  /plato:
     post:
       tags:
-      - Menú
+      - Platos Individuales
       summary: Crear plato (admin)
-      description: Permite dar de alta una nueva propuesta gastronómica en la carta.
+      description: Permite dar de alta una nueva propuesta gastronómica independiente en la base de datos.
       security:
       - BearerAuth: []
       requestBody:
@@ -117,17 +112,17 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  /menu/{id}:
+  /plato/{id}:
     get:
       tags:
-      - Menú
-      summary: Obtener un plato
+      - Platos Individuales
+      summary: Obtener un plato específico
       description: Recupera el detalle completo de un plato específico mediante su ID.
       parameters:
       - $ref: "#/components/parameters/IdPlato"
       responses:
         "200":
-          description: Detalle del plato gourmet
+          description: Detalle del plato gourmet recuperado.
           content:
             application/json:
               schema:
@@ -138,9 +133,9 @@ paths:
           $ref: "#/components/responses/InternalServerError"
     put:
       tags:
-      - Menú
+      - Platos Individuales
       summary: Actualizar plato
-      description: Reemplaza de forma completa los datos de un plato existente.
+      description: Reemplaza de forma completa los datos de un plato existente mediante su ID.
       security:
       - BearerAuth: []
       parameters:
@@ -162,29 +157,11 @@ paths:
           $ref: "#/components/responses/NotFound"
         "500":
           $ref: "#/components/responses/InternalServerError"
-    delete:
-      tags:
-      - Menú
-      summary: Eliminar plato
-      description: Remueve un plato de la carta de Le Mansion Gourmet.
-      security:
-      - BearerAuth: []
-      parameters:
-      - $ref: "#/components/parameters/IdPlato"
-      responses:
-        "204":
-          $ref: "#/components/responses/NoContent"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
-        "404":
-          $ref: "#/components/responses/NotFound"
-        "500":
-          $ref: "#/components/responses/InternalServerError"
     patch:
       tags:
-      - Menú
-      summary: Editar plato
-      description: Modifica parcialmente los atributos de un plato (ideal para actualizaciones de precio de mercado o disponibilidad).
+      - Platos Individuales
+      summary: Editar plato parcialmente
+      description: Modifica parcialmente los atributos de un plato específico (ideal para actualizaciones de precio o disponibilidad).
       security:
       - BearerAuth: []
       parameters:
@@ -195,6 +172,24 @@ paths:
             schema:
               $ref: "#/components/schemas/PlatoActualizacion"
         required: true
+      responses:
+        "204":
+          $ref: "#/components/responses/NoContent"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+      - Platos Individuales
+      summary: Eliminar plato
+      description: Remueve físicamente un plato del catálogo del restaurante mediante su ID.
+      security:
+      - BearerAuth: []
+      parameters:
+      - $ref: "#/components/parameters/IdPlato"
       responses:
         "204":
           $ref: "#/components/responses/NoContent"
@@ -414,7 +409,16 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+# ==========================================
+# UN SOLO BLOQUE COMPONENTS CONSOLIDADO
+# ==========================================
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     # --- ESQUEMAS DE ERRORES ---
     ErrorResponse:
@@ -672,7 +676,7 @@ components:
             type: integer
         notas_especiales:
           type: string
-          description: Comentarios de organización (ej. alergias específicas, aniversarios).
+          description: Comentarios de organización (ej. alergias específicas, anniversarios).
           example: Mesa de aniversario estable, preferentemente cerca de la cava de vinos.
 
     Reserva:
