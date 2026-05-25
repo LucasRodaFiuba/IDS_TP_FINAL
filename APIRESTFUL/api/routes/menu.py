@@ -5,14 +5,28 @@ from api.utils import construir_error_api
 menu_bp = Blueprint('menu', __name__)
  
 RESTRICCIONES_VALIDAS = {'vegetariano', 'vegano', 'sin_tacc', 'sin_lactosa', 'ninguno'}
+CATEGORIAS_VALIDAS    = {'bebida', 'entrada', 'postre', 'plato_principal'}
  
 @menu_bp.route('/menu', methods=['GET'])
 def obtener_menu():
     try:
         restriccion = request.args.get('restriction', 'ninguno')
-        limit  = request.args.get('_limit', 10)
-        offset = request.args.get('_offset', 0)
- 
+        try:
+            limit  = int(request.args.get('_limit', 20))
+            offset = int(request.args.get('_offset', 0))
+        except(ValueError,TypeError):
+            return jsonify(construir_error_api(
+                code='invalid.pagination',
+                message='Parámetros inválidos',
+                description="Los campos '_limit' y '_offset' deben ser números enteros."
+            )), 400
+        
+        if offset <= 0:
+               return jsonify(construir_error_api(
+                code='invalid.pagination',
+                message='Parámetros de paginacion invalidos.',
+                description='El offset no puede ser un numero negativo'
+            )), 400
         if restriccion not in RESTRICCIONES_VALIDAS:
             return jsonify(construir_error_api(
                 code='invalid.restriction',
@@ -45,6 +59,40 @@ def obtener_menu():
             message='Se produjo un error inesperado en el servidor.',
             description=str(e)
         )), 500
+        
+@menu_bp.route('/menu/<string:categoria>', methods=['GET'])
+def obtener_menu_por_categoria(categoria):
+    try:
+        if categoria not in CATEGORIAS_VALIDAS:
+            return jsonify(construir_error_api(
+                code='invalid.categoria',
+                message='Categoría no encontrada.',
+                description=f"La categoría '{categoria}' no existe, ejemplos de catgorias: {', '.join(CATEGORIAS_VALIDAS)}"
+            )), 404
+
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            "SELECT id_plato AS id, nombre, precio FROM menu WHERE categoria = %s",
+            (categoria,)
+        )
+        platos = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        if not platos:
+            return '', 204
+
+        return jsonify({"platos": platos}), 200
+
+    except Exception as e:
+        return jsonify(construir_error_api(
+            code='internal.server.error',
+            message='Ocurrió un error inesperado en el servidor. Por favor, intente más tarde.',
+            description=str(e)
+        )), 500
  
  
 @menu_bp.route('/plato', methods=['POST'])
@@ -65,7 +113,15 @@ def crear_plato():
                 message='Parámetros inválidos',
                 description="El campo 'precio' debe ser mayor a 0"
             )), 400
- 
+            
+        categoria = data.get('categoria', None)
+        if not categoria or categoria not in CATEGORIAS_VALIDAS:
+            return jsonify(construir_error_api(
+                code='invalid.categoria',
+                message='Parámetros inválidos',
+                description=f"El campo categoria es obligatorio, ejemplos de categorias : {', '.join(CATEGORIAS_VALIDAS)}"
+            )), 400
+         
         restriccion = data.get('restriccion', 'ninguno')
         if restriccion not in RESTRICCIONES_VALIDAS:
             return jsonify(construir_error_api(
@@ -73,7 +129,7 @@ def crear_plato():
                 message='Parámetros inválidos',
                 description=f"La restriccion'{restriccion}' no es válida,las restricciones validas son :{', '.join(RESTRICCIONES_VALIDAS)}"
             )), 400
- 
+        
         vegetariano = restriccion == 'vegetariano'
         vegano      = restriccion == 'vegano'
         sin_tacc    = restriccion == 'sin_tacc'
@@ -93,9 +149,9 @@ def crear_plato():
             )), 409
  
         cursor.execute("""
-            INSERT INTO menu (nombre, descripcion, precio, vegetariano, vegano, sin_tacc, sin_lactosa)
+            INSERT INTO menu (nombre, descripcion, precio, vegetariano, vegano, sin_tacc, sin_lactosa, categoria)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (data['nombre'], data['descripcion'], float(data['precio']), vegetariano, vegano, sin_tacc, sin_lactosa))
+        """, (data['nombre'], data['descripcion'], float(data['precio']), vegetariano, vegano, sin_tacc, sin_lactosa, categoria))
  
         connection.commit()
         cursor.close()
@@ -109,4 +165,4 @@ def crear_plato():
             message='Error inesperado en el servidor',
             description=str(e)
         )), 500
- 
+

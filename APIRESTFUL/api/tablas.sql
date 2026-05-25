@@ -79,7 +79,8 @@ CREATE TABLE menu (
     vegano BOOLEAN DEFAULT FALSE,
     sin_tacc BOOLEAN DEFAULT FALSE,
     sin_lactosa BOOLEAN DEFAULT FALSE,
-    imagen VARCHAR(255)
+    imagen VARCHAR(255),
+    categoria VARCHAR(20)  NOT NULL CHECK (categoria IN ('bebida', 'entrada', 'postre', 'plato_principal'))
 );
 
 
