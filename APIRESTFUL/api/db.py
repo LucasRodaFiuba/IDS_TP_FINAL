@@ -73,13 +73,13 @@ def mesa_ocupada(numero_mesa, fecha, hora):
         return True
     return False
 
-def añadir_reserva(id_usuario,numero_mesa,fecha,hora,comensales):
+def añadir_reserva(id_usuario,numero_mesa,fecha,hora,comensales,codigo_qr):
     query = """
         INSERT INTO reservas(
-          id_usuario, numero_mesa, fecha_reserva, hora_reserva, cantidad_personas 
-        ) VALUES (:id_usuario,:numero_mesa,:fecha_reserva,:hora_reserva,:cantidad_personas)
+          id_usuario, numero_mesa, fecha_reserva, hora_reserva, cantidad_personas,codigo_qr 
+        ) VALUES (:id_usuario,:numero_mesa,:fecha_reserva,:hora_reserva,:cantidad_personas,:codigo_qr)
     """
-    return ejecutar_insert(query,{'id_usuario':id_usuario, 'numero_mesa':numero_mesa,'fecha_reserva':fecha,'hora_reserva':hora,'cantidad_personas':comensales})
+    return ejecutar_insert(query,{'id_usuario':id_usuario, 'numero_mesa':numero_mesa,'fecha_reserva':fecha,'hora_reserva':hora,'cantidad_personas':comensales,'codigo_qr':codigo_qr})
 
 
 def obtener_usuario_por_email(email):
@@ -172,3 +172,33 @@ def cancelar_reserva(id_reserva):
     if resultado == 0:
         return False
     return True
+
+
+#--------------------------------------------------------------------------
+# Queries relacionadas con tokens y QR
+#--------------------------------------------------------------------------
+
+def buscar_reserva_por_token(token):
+    query = """
+        SELECT estado
+        FROM reservas
+        WHERE codigo_qr = :codigo_qr
+    """
+
+    resultados =  ejecutar_consulta(query,{'codigo_qr':token})
+
+    if resultados:
+        return resultados[0]
+    return None
+
+def actualizar_estado_reserva(token,nuevo_estado):
+    query = """
+        UPDATE reservas
+        SET estado = :estado
+        WHERE codigo_qr = :codigo_qr
+    """
+
+    ejecutar_mutacion(query, {
+        "estado": nuevo_estado,
+        "codigo_qr": token
+    })
