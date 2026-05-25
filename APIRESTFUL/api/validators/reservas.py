@@ -11,6 +11,13 @@ from ..utils import (
     validar_que_sea_lista
 )
 
+def validar_id(id) -> int:
+    """Valida que el id recibido sea un entero positivo."""
+    id = validar_entero(id, 'padron')
+
+    return validar_minimo(id, 1, 'padron')
+
+
 def validar_parametros(fecha,comensales):
     """
     Valida los parámetros de  GET /reservas/disponibilidad.
@@ -136,24 +143,33 @@ def validar_body_nueva_reserva(body: dict) -> dict:
     try:
         servicios_extras_id = body.get('servicios_extras_id')
 
-        #valido que sea una lista
-        validar_que_sea_lista(servicios_extras_id, 'servicios_extras_id')
+        servicios_validos = []
 
+        if servicios_extras_id is not None:
 
-        for servicio in servicios_extras_id:
-            #valido que sea entero
-            servicio = validar_entero(servicio, 'servicios_extras')
+            validar_que_sea_lista(servicios_extras_id, 'servicios_extras_id')
 
-            #valido que este en el rango permitido
-            validar_minimo(servicio, MIN_ID, 'servicios_extras')
-            validar_maximo(servicio, MAX_ID, 'servicios_extras')
+            for servicio in servicios_extras_id:
+
+                servicio = validar_entero(servicio, 'servicios_extras')
+
+                validar_minimo(servicio, MIN_ID, 'servicios_extras')
+                validar_maximo(servicio, MAX_ID, 'servicios_extras')
+
+                servicios_validos.append(servicio)
+
+            servicios_extras_id = servicios_validos
+
+        else:
+            servicios_extras_id = None
 
     except ValueError as e:
         errores.extend(e.args[0]['errors'])
 
     #Valido notas_especiales
     try:
-        notas_especiales = validar_string_no_vacio(body.get('notas_especiales'), 'Notas_especiales')
+        notas_especiales = body.get("notas_especiales")
+        #notas_especiales = validar_string_no_vacio(body.get('notas_especiales'), 'Notas_especiales')
     except ValueError as e:
         errores.extend(e.args[0]['errors'])
 
