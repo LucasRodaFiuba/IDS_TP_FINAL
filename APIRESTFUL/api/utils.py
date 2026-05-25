@@ -40,11 +40,8 @@ def validar_formato_fecha_o_horario(fecha: str, formato: str, nombre: str = 'fec
 
 
 def validar_entero(numero, nombre: str = 'numero') -> int:
-    valor = str(numero)
-    valor_sin_letras = sub('[a-zA-Z]+', '', valor)
-
     try:
-        return int(valor_sin_letras)
+        return int(numero)
     except ValueError:
         logger.warning(f"Valor numerico invalido: '{numero}' no puede convertirse a entero")
 
