@@ -99,3 +99,23 @@ def crear_reserva(body):
     "numero_mesa": mesa_asignada["numero_mesa"],
     "estado": "pendiente"
     }
+
+def cambiar_reserva(id_reserva,body):
+    """
+    Retorna el dic con la reserva actualizada
+    o puede retornar errores por validación, o por conflictos.
+    """
+    datos = validar_body_nueva_reserva(body)
+
+    id_usuario = db.obtener_id_usuario(id_reserva)
+
+    if not id_usuario:
+        raise ValueError("Reserva no existe",404)
+
+    db.update_reserva(id_reserva, datos)
+    db.update_usuario(id_usuario, datos)
+
+    return {
+        "message": "Reserva actualizada correctamente",
+        "id_reserva": id_reserva
+    }
