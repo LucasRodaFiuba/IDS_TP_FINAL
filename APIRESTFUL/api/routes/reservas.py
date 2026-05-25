@@ -4,7 +4,8 @@ from ..services.reservas import (
     consultar_disponibilidad,
     crear_reserva,
     cambiar_reserva,
-    cancelar_reserva_service
+    cancelar_reserva_service,
+    validar_reserva_service
 )
 from ..validators.reservas import validar_id
 
@@ -116,3 +117,27 @@ def cancelar_reserva(id):
         }), 500
 
     return "", 204
+
+#Página a la que va a entrar al escanear el QR
+@reservas_bp.route("/reservas/validar/<token>")
+def validar_reserva(token):
+    # buscar reserva por token
+    try:
+        resultado = validar_reserva_service(token)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        print("ERROR REAL:", e)
+        #Para cualquier error inesperado del servidor.
+        return jsonify({
+            'errors': [
+                {
+                    'code': 'internal.server.error',
+                    'message': str(e),
+                    'description': 'Ocurrio un error inesperado, estoy en routes'
+                }
+            ]
+        }), 500
+
+    return jsonify(resultado), 200
