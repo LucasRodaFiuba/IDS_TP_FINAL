@@ -1,9 +1,42 @@
 import logging
 from ..utils import construir_error_api
-from ..validators.reservas import validar_body_nueva_reserva
+from ..validators.reservas import validar_body_nueva_reserva,validar_parametros
 from .. import db
+from ..constantes import HORARIOS_PARA_RESERVAR
 logger = logging.getLogger(__name__)
 
+def consultar_disponibilidad(fecha,comensales):
+    """
+    Retorna el dic con la consulta o puede retornar errores
+    por validación o por conflictos
+    """
+    datos = validar_parametros(fecha,comensales)
+
+    fecha = datos['fecha']
+    comensales = datos['comensales']
+
+    mesas = db.obtener_mesas_por_capacidad(comensales)
+    print("MESAS:", mesas)
+    turnos_disponibles = []
+
+    #Recorro los horarios, con que haya al menos una mesa disponible
+    #entra en mesas_disponibles
+    for hora in HORARIOS_PARA_RESERVAR:
+        for mesa in mesas:
+            print("MESA:", mesa)
+            if not db.mesa_ocupada(mesa['numero_mesa'],fecha,hora):
+                #No está ocupada
+                turnos_disponibles.append(hora)
+                break #en caso de que se repita horario
+
+    #Retorno respetando el swagger
+    return {
+        'fecha': fecha,
+        'turnos_disponibles': turnos_disponibles
+    }
+
+
+    
 #agregar_reserva la voy a utilizar en routes en crear_reserva.
 def crear_reserva(body):
     """
