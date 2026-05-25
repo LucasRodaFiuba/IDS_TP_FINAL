@@ -14,6 +14,9 @@ MAX_COMENSALES = 10
 MIN_ID = 1
 MAX_ID = 7
 
+#Horarios fijos en que se pueden hacer la reserva (18-23hs)
+HORARIOS_PARA_RESERVAR = ["18:00","19:00","20:00","21:00","22:00","23:00"]
+
 #Errores tipo code
 ERROR_CODE_INVALID_MIN_VALUE   = 'invalid.min.value'
 ERROR_CODE_INVALID_MAX_VALUE   = 'invalid.max.value'
