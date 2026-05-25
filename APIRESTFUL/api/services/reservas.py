@@ -102,8 +102,8 @@ def crear_reserva(body):
 
 def cambiar_reserva(id_reserva,body):
     """
-    Retorna el dic con la reserva actualizada
-    o puede retornar errores por validación, o por conflictos.
+    Retorna un diccionario mostrando mensajes válidos 
+    o puede retornar errores por validación.
     """
     datos = validar_body_nueva_reserva(body)
 
@@ -118,4 +118,21 @@ def cambiar_reserva(id_reserva,body):
     return {
         "message": "Reserva actualizada correctamente",
         "id_reserva": id_reserva
+    }
+
+def cancelar_reserva_service(id_reserva):
+    """
+    Cancela una reserva y devuelve un mensaje
+    """
+    #el id_reserva ya viene validado
+
+    filas_afectadas = db.cancelar_reserva(id_reserva)
+
+    #En caso de que el id_reserva no exista
+    if filas_afectadas == 0:
+        raise ValueError("Reserva no existe", 404)
+
+    return{
+        "message": "Rerserva cancelada con éxito",
+        "id_reserva" : id_reserva
     }
