@@ -3,6 +3,13 @@ from ..utils import construir_error_api
 from ..validators.reservas import validar_body_nueva_reserva,validar_parametros
 from .. import db
 from ..constantes import HORARIOS_PARA_RESERVAR
+
+#UTIL PARA LO DEL QR
+import uuid
+from ..utils import generar_qr
+from ..services.email_service import enviar_mail
+#from ..db import reservas as db
+#from ..utils.errores import construir_error_api
 logger = logging.getLogger(__name__)
 
 def consultar_disponibilidad(fecha,comensales):
@@ -49,19 +56,14 @@ def crear_reserva(body):
     # 1.Obtengo las mesas posibles , es decir
     # podrían entrar esa cantidad de comensales
     # (no significa que esten libres)
-    print("COMENSALES FINAL:", datos['comensales'], type(datos['comensales']))
     mesas = db.obtener_mesas_por_capacidad(datos['comensales'])
-    print(mesas)
     mesa_asignada = None
 
     if len(datos["hora"]) == 5:
         datos["hora"] += ":00"
 
-    print("DEBUG MESAS:", mesas)
     # 2.Busco si hay alguna mesa libre. (de las que están disponibles)
     for mesa in mesas:
-        print("MESA:", mesa['numero_mesa'])
-        print("OCUPADA:", db.mesa_ocupada(mesa['numero_mesa'], datos['fecha'], datos['hora']))
         if not db.mesa_ocupada(mesa['numero_mesa'], datos['fecha'], datos['hora']):
             mesa_asignada = mesa
             break
@@ -74,16 +76,42 @@ def crear_reserva(body):
             description="No hay mesas libres para esa fecha y hora"
         ),409)
 
-    #Obtengo el id del usuario
+    #4. Obtengo el id del usuario
     id_usuario = db.obtener_usuario_por_email(datos['email'])
 
-    # 4. insertar reserva
-    db.añadir_reserva(
+    #Muestro mensaje de error sino existe usuario
+    if not id_usuario:
+        raise ValueError(construir_error_api(
+            code="usuario.no.existe",
+            message="Usuario no encontrado",
+            description="El email no está registrado en la base de datos"
+        ), 404)
+
+    # 5. generar token QR
+    token = str(uuid.uuid4())
+
+    # 6. insertar reserva (debe devolver el id_reserva)
+    id_reserva = db.añadir_reserva(
         id_usuario= id_usuario,
         numero_mesa=mesa_asignada['numero_mesa'],
         fecha=datos['fecha'],
         hora=datos['hora'],
-        comensales=datos['comensales']
+        comensales=datos['comensales'],
+        codigo_qr=token
+    )
+
+    # 7. Genero QR
+    qr_path = generar_qr(token,{
+        "id_reserva": id_reserva,
+        "token": token
+    })
+
+    # 8. Enviar email con QR + link cancelar
+    enviar_mail(
+    destinatario=datos["email"],
+    asunto="Tu reserva",
+    cuerpo="Tu reserva fue confirmada. Adjuntamos el QR.",
+    archivo_adjunto=qr_path
     )
 
     # 5. devolver DTO
@@ -97,7 +125,9 @@ def crear_reserva(body):
     "servicios_extras_id": datos["servicios_extras_id"],
     "notas_especiales": datos["notas_especiales"],
     "numero_mesa": mesa_asignada["numero_mesa"],
-    "estado": "pendiente"
+    "estado": "pendiente",
+    "codigo_qr": token,
+    "id_reserva" : id_reserva
     }
 
 def cambiar_reserva(id_reserva,body):
@@ -136,3 +166,28 @@ def cancelar_reserva_service(id_reserva):
         "message": "Rerserva cancelada con éxito",
         "id_reserva" : id_reserva
     }
+
+
+
+#Services para todo el tema del QR
+def validar_reserva_service(token):
+    print("TOKEN:", token)
+    reserva = db.buscar_reserva_por_token(token)
+    print("RESERVA:", reserva)
+
+    if not reserva:
+        raise ValueError(construir_error_api(
+            code="reserva.no.existe",
+            message="reserva no encontrado",
+            description="Reserva no encontrada"))
+
+    if reserva["estado"] != "pendiente":
+        raise ValueError(construir_error_api(
+            code="reserva.invalida",
+            message="invlaido",
+            description="El email no está registrado en la base de datos"))
+
+    #Actualizo el estado en confirmada
+    db.actualizar_estado_reserva(token, "confirmada")
+
+    return {"message": "Reserva confirmada"}
