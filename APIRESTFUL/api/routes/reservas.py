@@ -3,7 +3,8 @@ from ..utils import construir_error_api
 from ..services.reservas import (
     consultar_disponibilidad,
     crear_reserva,
-    cambiar_reserva
+    cambiar_reserva,
+    cancelar_reserva_service
 )
 from ..validators.reservas import validar_id
 
@@ -70,6 +71,35 @@ def modificar_reserva(id):
 
     try:
         cambiar_reserva(id,body)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        #Para cualquier error inesperado del servidor.
+        return jsonify({
+            'errors': [
+                {
+                    'code': 'internal.server.error',
+                    'message': str(e),
+                    'description': 'Ocurrio un error inesperado, estoy en routes'
+                }
+            ]
+        }), 500
+
+    return "", 204
+
+
+@reservas_bp.route('/reservas/<int:id>', methods = ['DELETE'])
+def cancelar_reserva(id):
+    #Valido id
+    try:
+        id = validar_id(id)
+    except ValueError as e:
+        return jsonify(e.args[0]), 400
+
+    #Cancelo la reserva
+    try:
+        cancelar_reserva_service(id)
     except ValueError as e:
         status = e.args[1] if len(e.args) > 1 else 400
         return jsonify(e.args[0]), status
