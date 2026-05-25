@@ -147,11 +147,28 @@ def update_usuario(id_usuario, datos):
         WHERE id_usuario = :id
     """
 
-    params = {
+    parametros = {
         "id": id_usuario,
         "nombre": datos["nombre_cliente"],
         "email": datos["email"],
         "telefono": datos["telefono"]
     }
 
-    ejecutar_mutacion(query, params)
+    ejecutar_mutacion(query, parametros)
+
+
+#--------------------------------------------------------------------------
+# Queries para modificar reservas (especialmente)
+#--------------------------------------------------------------------------
+def cancelar_reserva(id_reserva):
+    query = """
+        UPDATE reservas
+        SET estado = 'cancelada'
+        WHERE id_reserva = :id_reserva
+    """
+
+    resultado = ejecutar_mutacion(query,{'id_reserva':id_reserva})
+
+    if resultado == 0:
+        return False
+    return True
