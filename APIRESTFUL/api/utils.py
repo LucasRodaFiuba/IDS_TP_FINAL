@@ -1,6 +1,11 @@
 from datetime import datetime
 from re import sub,match
 import logging
+#Para el QR
+import qrcode
+import json
+from PIL import Image
+import os
 
 #from .constantes import (
 #    ERROR_CODE_INVALID_MIN_VALUE,
@@ -127,3 +132,18 @@ def validar_que_sea_lista(valor,nombre):
                 description=f"'{nombre}' debe ser una lista"
             )
         )
+
+#Generar QR
+def generar_qr(token,data):
+
+    #img = qrcode.make(json.dumps(data))
+    url = f"https://unhitched-halved-surname.ngrok-free.dev/reservas/validar/{token}"
+
+    img = qrcode.make(url)
+
+    os.makedirs("qrs", exist_ok=True)
+
+    path = f"qrs/reserva_{data['id_reserva']}.png"
+    img.save(path)
+
+    return path
