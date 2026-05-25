@@ -24,7 +24,7 @@ def ejecutar_consulta(sql: str, parametros: dict = None) -> list[dict]:
         return [fila_a_dict(fila) for fila in resultado]
 
 
-def ejecutar_mutacion(sql: str, parametros: dict = None) -> int:
+def ejecutar_insert(sql: str, parametros: dict = None) -> int:
     """
     Ejecuta un INSERT, UPDATE o DELETE y hace commit.
     Retorna el id autoincremental generado por el INSERT (0 si no aplica).
@@ -34,12 +34,17 @@ def ejecutar_mutacion(sql: str, parametros: dict = None) -> int:
 
         return resultado.lastrowid or 0
 
+def ejecutar_mutacion(sql, parametros=None):
+    with motor.begin() as conexion:
+        result = conexion.execute(text(sql), parametros or {})
+        return result.rowcount
+
 #--------------------------------------------------------------------------
 #  RESERVAS
 #--------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------
-# Queries para crear reservas
+# Queries para crear reservas (especialmente)
 #--------------------------------------------------------------------------
 def obtener_mesas_por_capacidad(min_capacidad):
     query = """
@@ -74,7 +79,7 @@ def añadir_reserva(id_usuario,numero_mesa,fecha,hora,comensales):
           id_usuario, numero_mesa, fecha_reserva, hora_reserva, cantidad_personas 
         ) VALUES (:id_usuario,:numero_mesa,:fecha_reserva,:hora_reserva,:cantidad_personas)
     """
-    return ejecutar_mutacion(query,{'id_usuario':id_usuario, 'numero_mesa':numero_mesa,'fecha_reserva':fecha,'hora_reserva':hora,'cantidad_personas':comensales})
+    return ejecutar_insert(query,{'id_usuario':id_usuario, 'numero_mesa':numero_mesa,'fecha_reserva':fecha,'hora_reserva':hora,'cantidad_personas':comensales})
 
 
 def obtener_usuario_por_email(email):
@@ -96,3 +101,57 @@ def obtener_usuario_por_email(email):
         return resultado[0]['id_usuario']
 
     return None
+
+#--------------------------------------------------------------------------
+# Queries para modificar reservas (especialmente)
+#--------------------------------------------------------------------------
+def update_reserva(id_reserva, datos):
+    query = """
+        UPDATE reservas
+        SET fecha_reserva = :fecha_reserva,
+            hora_reserva = :hora_reserva,
+            cantidad_personas = :cantidad_personas
+        WHERE id_reserva = :id
+    """
+
+    parametros = {
+        "id": id_reserva,
+        "fecha_reserva": datos["fecha"],
+        "hora_reserva": datos["hora"],
+        "cantidad_personas": datos["comensales"]
+    }
+
+    ejecutar_mutacion(query, parametros)
+
+
+def obtener_id_usuario(id_reserva):
+    query = """
+        SELECT id_usuario
+        FROM reservas
+        WHERE id_reserva = :id
+    """
+
+    resultado = ejecutar_consulta(query, {"id": id_reserva})
+
+    if not resultado:
+        return None
+
+    return resultado[0]["id_usuario"]
+
+def update_usuario(id_usuario, datos):
+    query = """
+        UPDATE usuarios
+        SET nombre = :nombre,
+            email = :email,
+            telefono = :telefono
+        WHERE id_usuario = :id
+    """
+
+    params = {
+        "id": id_usuario,
+        "nombre": datos["nombre_cliente"],
+        "email": datos["email"],
+        "telefono": datos["telefono"]
+    }
+
+    ejecutar_mutacion(query, params)
