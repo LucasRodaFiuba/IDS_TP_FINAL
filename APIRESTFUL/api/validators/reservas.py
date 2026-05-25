@@ -11,6 +11,56 @@ from ..utils import (
     validar_que_sea_lista
 )
 
+def validar_parametros(fecha,comensales):
+    """
+    Valida los parámetros de  GET /reservas/disponibilidad.
+    Dos casos:
+    1.Los datos son válidos entonces devuelve los parámetros en forma de diccionario
+    2.Hay algún error de validación y devuelve error.
+    """
+
+    if fecha is None or comensales is None:
+        raise ValueError(construir_error_api(
+            code='invalid.params',
+            message='Parámetros inválidos',
+            description='Faltan fecha o comensales en la query'
+        ))
+
+    errores = []
+
+    fecha_valida = None
+    comensales_valido = None
+
+    try:
+        fecha_str = validar_string_no_vacio(fecha, 'fecha')
+        validar_formato_fecha_o_horario(fecha_str, FORMATO_FECHA, 'fecha')
+        fecha_valida = fecha_str
+    except ValueError as e:
+        errores.extend(e.args[0]['errors'])
+
+    try:
+        comensales_val = validar_entero(comensales, 'comensales')
+        comensales_val = validar_minimo(comensales_val, MIN_COMENSALES, 'comensales')
+        comensales_val = validar_maximo(comensales_val, MAX_COMENSALES, 'comensales')
+        comensales_valido = comensales_val
+    except ValueError as e:
+        errores.extend(e.args[0]['errors'])
+
+    if errores:
+        raise ValueError(construir_error_api(
+            code='validation.error',
+            message='Error de validación',
+            description='Los parámetros no son válidos'
+        ))
+    print(fecha_valida)
+    print(comensales_valido)
+
+    return {
+        'fecha': fecha_valida,
+        'comensales': comensales_valido
+    }
+
+
 def validar_body_nueva_reserva(body: dict) -> dict:
     """
     Valida el body del POST /reservas.
