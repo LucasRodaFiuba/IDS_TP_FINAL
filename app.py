@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
+from services.reservas import obtener_reservas, enviar_reserva
 
 
 app = Flask(__name__)
@@ -18,9 +19,24 @@ def pagina_nosotros():
     return render_template('nosotros.html')
 
 
-@app.route('/reservas')
+@app.route('/reservas', methods=['GET', 'POST'])
 def pagina_reservas():
-    return render_template('reserva.html')
+    if request.method == 'POST':
+        fecha = request.form.get('fecha_reserva')
+        hora = request.form.get('horario_reserva')
+        personas = request.form.get('cantidad_personas')
+        nombre = request.form.get('nombre_cliente')
+
+        resultado = enviar_reserva(fecha, hora, personas, nombre)
+
+        if 'ok' in resultado:
+            return redirect(url_for('reservas.pagina_reservas', exito=True))
+        else:
+            return render_template('reservas.html', reservas=obtener_reservas(), errores_api=resultado['errores'])
+
+    lista_reservas = obtener_reservas()
+
+    return render_template('reservas.html', reservas=lista_reservas, exito=request.args.get('exito'))
 
 
 @app.route('/clientes')
@@ -43,8 +59,6 @@ def admin_reservas():
 @app.route('/admin/clientes')
 def admin_clientes():
     return render_template('admin_clientes.html')
-
-
 
 @app.route('/admin/menu/entradas', methods=['POST'])
 def agregar_entrada():
@@ -119,7 +133,6 @@ def modificar_usuario():
 @app.route('/admin/usuarios/eliminar', methods=['DELETE'])
 def eliminar_usuario():
     nombre_usuario = request.form['nombre_usuario']
-
 
 if __name__ == "__main__":
     app.run(debug=True)

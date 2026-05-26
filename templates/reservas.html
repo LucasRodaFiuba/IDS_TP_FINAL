@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Le Maison Gourmet</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_reservas.css') }}">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+    <div id="Contenedor_Reserva">
+
+        <h1>Reserva tu Mesa</h1> 
+        <p class="subtitulo">Disfrutá de una experiencia gastronómica única</p>
+
+        <div class="barra-progreso">
+            <div class="progreso-nodo activo" id="nodo-1">1</div>
+            <div class="progreso-nodo" id="nodo-2">2</div>
+            <div class="progreso-nodo" id="nodo-3">3</div>
+            <div class="progreso-nodo" id="nodo-4">4</div>
+        </div>
+
+        <form action="{{url_for('pagina_reservas')}}" method="POST" id="form-reserva">
+
+            <div class="paso-bloque activo" id="bloque-1">
+                <div class="paso-cuerpo">
+                    <label for="fecha_reserva">¿Qué día nos visitarás?</label>
+                    <input type="date" id="fecha_reserva" name="fecha_reserva" required>
+                </div>
+                <button type="button" class="btn-reserva" onclick="cambiarPaso(1, 2)">CONTINUAR</button>
+            </div>
+
+            <div class="paso-bloque" id="bloque-2">
+                <div class="paso-cuerpo">
+                    <label for="horario_reserva">Seleccioná un horario disponible</label>
+                    <select id="horario_reserva" name="horario_reserva" required>
+                        <option value="" disabled selected>Elegí un turno...</option>
+                        <option value="18:00">18:00 hs</option>
+                        <option value="19:00">19:00 hs</option>
+                        <option value="20:00">20:00 hs</option>
+                        <option value="21:00">21:00 hs</option>
+                        <option value="22:00">22:00 hs</option>
+                        <option value="23:00">23:00 hs</option>
+                    </select>
+                </div>
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(2, 1)">Atrás</button>
+                    <button type="button" class="btn-reserva" onclick="cambiarPaso(2, 3)">CONTINUAR</button>
+                </div>
+            </div>
+
+            <div class="paso-bloque" id="bloque-3">
+                <div class="paso-cuerpo">
+                    <label for="cantidad_personas">¿Cuántos comensales serán?</label>
+                    <input type="number" id="cantidad_personas" name="cantidad_personas" min="1" max="12" placeholder="Ej: 4" required>
+                </div>
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(3, 2)">Atrás</button>
+                    <button type="button" class="btn-reserva" onclick="cambiarPaso(3, 4)">CONTINUAR</button>
+                </div>
+            </div>
+
+            <div class="paso-bloque" id="bloque-4">
+                <div class="paso-cuerpo">
+                    <label>Completá tus datos de contacto</label>
+                    <input type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Tu Nombre Completo" required style="margin-bottom: 15px;">
+                    <input type="email" id="correo_electronico" name="correo_electronico" placeholder="tu-email@ejemplo.com" required>
+                    <small class="ayuda-texto">Te enviaremos la confirmación inmediata y tu código de acceso QR a este mail.</small>
+                </div>
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(4, 3)">Atrás</button>
+                    <button type="submit" class="btn-reserva">CONFIRMAR RESERVA</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+<script src="{{ url_for('static', filename='js/script_reservas.js') }}"></script>
+
+    {% endblock %}
+
+</body>
+</html>

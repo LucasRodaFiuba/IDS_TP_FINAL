@@ -1,0 +1,161 @@
+@keyframes entradaSuave {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#Contenedor_Reserva {
+    max-width: 550px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f0f0;
+    text-align: center;
+}
+
+/* Ocultamos todos los bloques de pasos por defecto */
+.paso-bloque {
+    display: none;
+}
+
+/* Cuando JS le agrega ".activo", se muestra con animación fluida */
+.paso-bloque.activo {
+    display: block;
+    animation: entradaSuave 0.4s ease-out forwards;
+}
+
+/* Barra de progreso superior */
+.barra-progreso {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.barra-progreso::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+.progreso-nodo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #999999;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.progreso-nodo.activo {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.paso-cuerpo {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.paso-cuerpo label {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #222222;
+    margin-bottom: 12px;
+}
+
+/* Entradas de texto y selectores */
+#Contenedor_Reserva input, #Contenedor_Reserva select {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#Contenedor_Reserva input:focus, #Contenedor_Reserva select:focus {
+    outline: none;
+    border-color: #111111;
+    background-color: #ffffff;
+}
+
+/* Grupo de botones (Atrás y Continuar) */
+.botones-grupo {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-reserva {
+    flex: 2;
+    padding: 15px;
+    background: #111111;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-reserva:hover {
+    background: #c5a059;
+}
+
+.btn-volver {
+    flex: 1;
+    padding: 15px;
+    background: #ffffff;
+    color: #777777;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: #f5f5f5;
+    color: #333333;
+}
+
+.ayuda-texto {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #888888;
+    display: block;
+    margin-top: 8px;
+}
