@@ -145,6 +145,15 @@ def cambiar_reserva(id_reserva,body):
     db_funciones.update_reserva(id_reserva, datos)
     db_funciones.update_usuario(id_usuario, datos)
 
+    # Actualizo servicios extra asociados
+    servicios_extras = datos.get("servicios_extras_id")
+
+    if servicios_extras is not None:
+        db_funciones.actualizar_servicios_reserva(
+            id_reserva,
+            servicios_extras
+        )
+
     return {
         "message": "Reserva actualizada correctamente",
         "id_reserva": id_reserva
