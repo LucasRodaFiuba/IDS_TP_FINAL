@@ -156,6 +156,40 @@ def update_usuario(id_usuario, datos):
 
     ejecutar_mutacion(query, parametros)
 
+def actualizar_servicios_reserva(id_reserva, servicios_extras):
+    
+    # Borro los servicios extras actuales de la reserva
+    query_delete = """
+        DELETE FROM reserva_servicios
+        WHERE id_reserva = :id_reserva
+    """
+
+    ejecutar_mutacion(
+        query_delete,
+        {'id_reserva': id_reserva},
+    )
+
+    # Inserto los nuevos servicios
+    query_insert = """
+        INSERT INTO reserva_servicios (
+            id_reserva,
+            id_servicio
+        )
+        VALUES (
+            :id_reserva,
+            :id_servicio
+        )
+    """
+
+    for id_servicio in servicios_extras:
+
+        ejecutar_insert(
+            query_insert,
+            {
+                'id_reserva': id_reserva,
+                'id_servicio': id_servicio
+            }
+        )
 
 #--------------------------------------------------------------------------
 # Queries para modificar reservas (especialmente)
