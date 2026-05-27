@@ -4,6 +4,7 @@ from flask import Flask
 from .constantes import BASE_URL
 #agregar importaciones para los blueprints u otras cosas importantes
 from .routes.reservas import reservas_bp
+from .routes.servicios import servicios_extra_bp
 
 
 # Buscar módulos en la carpeta donde esté app.py
@@ -17,6 +18,7 @@ app = Flask(__name__)
 registrar_rutas(app)
 #agregar blueprints
 app.register_blueprint(reservas_bp, url_prefix=BASE_URL)
+app.register_blueprint(servicios_extra_bp)
 
 
 if __name__ == '__main__':
