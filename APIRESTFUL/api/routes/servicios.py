@@ -1,13 +1,14 @@
 from flask import jsonify, request, Blueprint
-from api.db import get_connection
+#from api.db import get_connection #estaba antes
+from api.db import get_db_connection
 
 
-servicios_extra_db= Blueprint("servicios_extra",__name__)
+servicios_extra_bp= Blueprint("servicios_extra",__name__)
 
 
-@servicios_extra_db.route("/")
+@servicios_extra_bp.route("/")
 def obtener_servicios_extra():
-    conn= get_connection()
+    conn= get_db_connection()
     cursor= conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM servicios_extra")
     servicios= cursor.fetchall()       
@@ -16,9 +17,9 @@ def obtener_servicios_extra():
     return jsonify(servicios), 200
 
 
-@servicios_extra_db.route("/", methods= ['POST'])
+@servicios_extra_bp.route("/", methods= ['POST'])
 def agregar_servicio():
-    conn= get_connection()
+    conn= get_db_connection()
     cursor= conn.cursor(dictionary=True)
     data= request.json
 
@@ -39,9 +40,9 @@ def agregar_servicio():
     return jsonify({'mensaje':'Servicio agregado correctamente'}), 201
 
 
-@servicios_extra_db.route("/<int:id>", methods= ['PATCH'])
+@servicios_extra_bp.route("/<int:id>", methods= ['PATCH'])
 def acutualizar_servicio(id):
-    conn= get_connection()
+    conn= get_db_connection()
     cursor= conn.cursor(dictionary=True)
     data = request.json
     disponible= data.get("disponible")
@@ -65,9 +66,9 @@ def acutualizar_servicio(id):
 
     return jsonify({'mensaje':'Servicio actualizado correctamente'}), 200
 
-@servicios_extra_db.route("/<int:id>", methods= ['DELETE'])
+@servicios_extra_bp.route("/<int:id>", methods= ['DELETE'])
 def eliminar_servicio(id):
-    conn= get_connection()
+    conn= get_db_connection()
     cursor= conn.cursor(dictionary=True)
     
     cursor.execute("""DELETE FROM servicios_extra
