@@ -236,3 +236,129 @@ def actualizar_estado_reserva(token,nuevo_estado):
         "estado": nuevo_estado,
         "codigo_qr": token
     })
+    
+# <=========================> CUENTAS DE USUARIO <============================>
+
+def obtener_rol_por_nombre(nombre_rol):
+    query = """
+    SELECT id_rol, nombre
+    FROM roles
+    WHERE nombre = :nombre
+    """
+    resultado = ejecutar_consulta(query, {'nombre': nombre_rol})
+    if resultado:
+        return resultado[0]
+    return None
+
+
+def obtener_usuario_publico_por_id(id_usuario):
+    query = """
+    SELECT
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.email,
+        u.telefono,
+        u.fecha_registro,
+        r.nombre AS rol
+    FROM usuarios u
+    INNER JOIN roles r ON r.id_rol = u.id_rol
+    WHERE u.id_usuario = :id_usuario
+    """
+    resultado = ejecutar_consulta(query, {'id_usuario': id_usuario})
+    if resultado:
+        return resultado[0]
+    return None
+
+
+def obtener_usuario_publico_por_email(email):
+    query = """
+    SELECT
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.email,
+        u.telefono,
+        u.fecha_registro,
+        r.nombre AS rol
+    FROM usuarios u
+    INNER JOIN roles r ON r.id_rol = u.id_rol
+    WHERE u.email = :email
+    """
+    resultado = ejecutar_consulta(query, {'email': email})
+    if resultado:
+        return resultado[0]
+    return None
+
+
+def obtener_usuario_auth_por_email(email):
+    query = """
+    SELECT
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.email,
+        u.password,
+        r.nombre AS rol
+    FROM usuarios u
+    INNER JOIN roles r ON r.id_rol = u.id_rol
+    WHERE u.email = :email
+    """
+    resultado = ejecutar_consulta(query, {'email': email})
+    if resultado:
+        return resultado[0]
+    return None
+
+
+def insertar_usuario_auth(nombre, apellido, email, password_hash, telefono, id_rol):
+    query = """
+    INSERT INTO usuarios
+        (nombre, apellido, email, password, telefono, id_rol)
+    VALUES
+        (:nombre, :apellido, :email, :password, :telefono, :id_rol)
+    """
+    return ejecutar_insert(query, {
+        'nombre': nombre,
+        'apellido': apellido,
+        'email': email,
+        'password': password_hash,
+        'telefono': telefono,
+        'id_rol': id_rol,
+    })
+
+
+def obtener_reservas_de_usuario(id_usuario):
+    query = """
+    SELECT
+        id_reserva,
+        numero_mesa,
+        fecha_reserva,
+        hora_reserva,
+        cantidad_personas,
+        estado,
+        codigo_qr,
+        fecha_creacion
+    FROM reservas
+    WHERE id_usuario = :id_usuario
+    ORDER BY fecha_reserva DESC, hora_reserva DESC
+    """
+    return ejecutar_consulta(query, {'id_usuario': id_usuario})
+
+
+def eliminar_usuario_por_id(id_usuario):
+    query = """
+    DELETE FROM usuarios
+    WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})
+
+
+def registrar_log_usuario(id_usuario, accion):
+    query = """
+    INSERT INTO logs (id_usuario, accion)
+    VALUES (:id_usuario, :accion)
+    """
+    return ejecutar_insert(query, {
+        'id_usuario': id_usuario,
+        'accion': accion,
+    })

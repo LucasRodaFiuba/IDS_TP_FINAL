@@ -5,6 +5,8 @@ from .constantes import BASE_URL
 #agregar importaciones para los blueprints u otras cosas importantes
 from .routes.reservas import reservas_bp
 from .routes.servicios import servicios_extra_bp
+from .routes.auth import auth_bp
+from .routes.usuarios import usuarios_bp
 
 
 # Buscar módulos en la carpeta donde esté app.py
@@ -19,6 +21,8 @@ registrar_rutas(app)
 #agregar blueprints
 app.register_blueprint(reservas_bp, url_prefix=BASE_URL)
 app.register_blueprint(servicios_extra_bp)
+app.register_blueprint(auth_bp, url_prefix=BASE_URL)
+app.register_blueprint(usuarios_bp, url_prefix=BASE_URL)
 
 
 if __name__ == '__main__':
