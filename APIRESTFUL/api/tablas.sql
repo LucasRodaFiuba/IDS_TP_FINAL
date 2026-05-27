@@ -116,7 +116,7 @@ CREATE TABLE logs (
 
     FOREIGN KEY (id_usuario)
     REFERENCES usuarios(id_usuario)
-)
+);
 CREATE TABLE servicios_extra (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(250),
