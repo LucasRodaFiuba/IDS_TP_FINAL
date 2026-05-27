@@ -45,16 +45,8 @@ def validar_formato_fecha_o_horario(fecha: str, formato: str, nombre: str = 'fec
 
 
 def validar_entero(numero, nombre: str = 'numero') -> int:
-<<<<<<< HEAD
-    valor = str(numero)
-    valor_sin_letras = sub('[a-zA-Z]+', '', valor)
-
-    try:
-        return int(valor_sin_letras)
-=======
     try:
         return int(numero)
->>>>>>> desarrollo-backend-reservas
     except ValueError:
         logger.warning(f"Valor numerico invalido: '{numero}' no puede convertirse a entero")
 
@@ -139,9 +131,6 @@ def validar_que_sea_lista(valor,nombre):
                 message=f"Formato de '{nombre}' invalido",
                 description=f"'{nombre}' debe ser una lista"
             )
-<<<<<<< HEAD
-        )
-=======
         )
 
 #Generar QR
@@ -158,4 +147,3 @@ def generar_qr(token,data):
     img.save(path)
 
     return path
->>>>>>> desarrollo-backend-reservas
