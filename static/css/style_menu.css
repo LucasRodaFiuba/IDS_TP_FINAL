@@ -1,0 +1,47 @@
+body {
+    background-color: #f8f9fa; 
+    font-family: 'Raleway', sans-serif;
+}
+h2 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #847979;
+}.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {              /*pasa el mouse, la tarjeta parece que “flota”*/
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.card-img-top {            /*Edición de la imagen*/        
+    display: block;        
+    margin: 0 auto;        
+    width: 10%;            
+    border-radius: 8px;    
+}
+.card-body {
+    text-align: center;
+}
+.card-title {
+    font-weight: bold;
+    color: #b7bcc1;
+}
+.card-text {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+.fw-bold {                 /*texto se muestra en negrita*/
+    color: #898b15; 
+    font-size: 1.1rem;
+}hr {
+    border: 0;
+    height: 2px;
+    background: linear-gradient(to right, #27ae60, #2980b9);
+    margin: 40px auto;
+    width: 60%;
+}

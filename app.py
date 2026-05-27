@@ -1,23 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for
 from services.reservas import obtener_reservas, enviar_reserva
-
+import mysql.connector
+from mysql.connector import Error
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
+# Carpeta donde se guardan las imágenes
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img')
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-
-@app.route('/menu')
-def pagina_menu(): 
-    return render_template('menu.html')
-
-
 @app.route('/nosotros')
 def pagina_nosotros():
     return render_template('nosotros.html')
-
 
 @app.route('/reservas', methods=['GET', 'POST'])
 def pagina_reservas():
@@ -37,7 +36,6 @@ def pagina_reservas():
     lista_reservas = obtener_reservas()
 
     return render_template('reservas.html', reservas=lista_reservas, exito=request.args.get('exito'))
-
 
 @app.route('/clientes')
 def pagina_clientes():
@@ -59,6 +57,73 @@ def admin_reservas():
 @app.route('/admin/clientes')
 def admin_clientes():
     return render_template('admin_clientes.html')
+
+def get_db_connection():
+    try:
+        connection = mysql.connector.connect(
+            host='localhost',
+            database='restaurante_db',
+            user='nacho',
+            password='1234'
+        )
+        if connection.is_connected():
+            return connection
+    except Error as e:
+        print(f"Error al conectar con la base de datos: {e}")
+        return None
+
+@app.route('/admin/menu', methods=['POST'])
+def agregar_objeto():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    nombre = request.form['nombre']
+    descripcion = request.form['descripcion']
+    precio = request.form['precio']
+    vegetariano = request.form.get('vegetariano', False)
+    vegano = request.form.get('vegano', False)
+    sin_tacc = request.form.get('sin_tacc', False)
+    sin_lactosa = request.form.get('sin_lactosa', False)
+    categoria = request.form['categoria']
+    # Procesar imagen
+    imagen_url = None
+
+    # Si subieron archivo
+    imagen = request.files.get('imagen')
+    if imagen and imagen.filename != '':
+        filename = secure_filename(imagen.filename)
+        imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        imagen_url = f"/static/img/{filename}"
+
+    # Si pegaron URL
+    if not imagen_url:  # solo si no se subió archivo
+        imagen_url = request.form.get('imagen_url')
+    cursor.execute("""
+        INSERT INTO menu (nombre, descripcion, precio, vegetariano, vegano, sin_tacc, sin_lactosa, categoria, imagen_url)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (nombre, descripcion, precio, vegetariano, vegano, sin_tacc, sin_lactosa, categoria, imagen_url))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect(url_for('pagina_menu'))
+
+@app.route('/menu')
+def pagina_menu():
+    conn = get_db_connection()
+    if conn is None:
+        return "Error: no se pudo conectar a la base de datos", 500
+
+    cursor = conn.cursor(dictionary=True)  # mysql.connector soporta dictionary=True
+
+    cursor.execute("SELECT * FROM menu")
+    platos = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("menu.html", platos=platos)
 
 @app.route('/admin/menu/entradas', methods=['POST'])
 def agregar_entrada():
@@ -115,7 +180,6 @@ def modificar_reserva():
 def eliminar_reserva():
     nombre_cliente = request.form['nombre_cliente']
     fecha_hora = request.form['fecha_hora']
-
 
 @app.route('/admin/usuarios/agregar', methods=['POST'])
 def agregar_usuario():

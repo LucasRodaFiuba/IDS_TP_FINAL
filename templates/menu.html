@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_menu.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
     {% extends "base.html" %}
@@ -12,17 +13,75 @@
     {% block title %}Le Maison Gourmet{% endblock %}
 
     {% block content %}
-    
-    
 
-
-
-
-
-
-
-
-    
+            <h2>Entradas</h2>
+            <div class="row">
+                {% for plato in platos if plato.categoria == 'entrada' %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plato.nombre }}</h5>
+                            <p class="card-text">{{ plato.descripcion }}</p>
+                            <p class="fw-bold">${{ plato.precio }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>            
+            <h2>Platos principales</h2>
+            <div class="row">
+                {% for plato in platos if plato.categoria == 'plato_principal' %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ plato.nombre }}</h5>
+                            <p class="card-text">{{ plato.descripcion }}</p>
+                            <p class="fw-bold">${{ plato.precio }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>    
+            <h2>Postres</h2>
+            <div class="row">
+                {% for plato in platos if plato.categoria == 'postre' %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                        {% endif %}
+                            <div class="card-body">
+                            <h5 class="card-title">{{ plato.nombre }}</h5>
+                            <p class="card-text">{{ plato.descripcion }}</p>
+                            <p class="fw-bold">${{ plato.precio }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>            
+            <h2>Bebidas</h2>
+            <div class="row">
+                {% for plato in platos if plato.categoria == 'bebida' %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                        {% endif %}
+                            <div class="card-body">
+                            <h5 class="card-title">{{ plato.nombre }}</h5>
+                            <p class="card-text">{{ plato.descripcion }}</p>
+                            <p class="fw-bold">${{ plato.precio }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
     {% endblock %}
 
 </body>
