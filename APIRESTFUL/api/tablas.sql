@@ -140,3 +140,11 @@ sorprender a esa persona especial con un momento inolvidable en Le Maison Gourme
 adultos disfrutan con tranquilidad. Un ambiente familiar, cómodo y supervisado.',TRUE),
 ('Terraza','Un espacio al aire libre rodeado de un ambiente cálido y relajado. Ideal para disfrutar de una comida tranquila, 
 buena compañía y aire fresco en cualquier momento del día.',TRUE);
+
+CREATE TABLE reserva_servicios (
+    id_reserva INT,
+    id_servicio INT,
+
+    FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
+    FOREIGN KEY (id_servicio) REFERENCES servicios_extra(id)
+);
