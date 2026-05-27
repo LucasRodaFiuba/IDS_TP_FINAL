@@ -25,8 +25,9 @@ def pagina_reservas():
         hora = request.form.get('horario_reserva')
         personas = request.form.get('cantidad_personas')
         nombre = request.form.get('nombre_cliente')
+        telefono = request.form.get('telefono_cliente')
 
-        resultado = enviar_reserva(fecha, hora, personas, nombre)
+        resultado = enviar_reserva(fecha, hora, personas, nombre, telefono)
 
         if 'ok' in resultado:
             return redirect(url_for('reservas.pagina_reservas', exito=True))

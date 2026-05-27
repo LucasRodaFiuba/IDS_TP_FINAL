@@ -22,10 +22,10 @@ def obtener_reservas():
         return {'errores': ['Ocurrió un error inesperado.']}
     return reservas
 
-def enviar_reserva(fecha: str, hora: str, personas: int, nombre: str):
+def enviar_reserva(fecha: str, hora: str, personas: int, nombre: str, telefono: str):
 
     try:
-        response = requests.post(f'{API_BASE_URL}/reservas',json={'fecha': fecha,'hora': hora,'personas': personas, 'nombre': nombre},timeout=10,)
+        response = requests.post(f'{API_BASE_URL}/reservas',json={'fecha': fecha,'hora': hora,'personas': personas, 'nombre': nombre, 'telefono': telefono},timeout=10,)
 
         if response.status_code == 201:
             return {'ok': True}

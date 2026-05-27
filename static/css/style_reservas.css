@@ -20,18 +20,15 @@
     text-align: center;
 }
 
-/* Ocultamos todos los bloques de pasos por defecto */
 .paso-bloque {
     display: none;
 }
 
-/* Cuando JS le agrega ".activo", se muestra con animación fluida */
 .paso-bloque.activo {
     display: block;
     animation: entradaSuave 0.4s ease-out forwards;
 }
 
-/* Barra de progreso superior */
 .barra-progreso {
     display: flex;
     justify-content: space-between;
@@ -81,6 +78,10 @@
     text-align: left;
 }
 
+.paso-cuerpo input {
+    margin-bottom: 15px;
+}
+
 .paso-cuerpo label {
     display: block;
     font-family: 'Cormorant Garamond', serif;
@@ -90,7 +91,6 @@
     margin-bottom: 12px;
 }
 
-/* Entradas de texto y selectores */
 #Contenedor_Reserva input, #Contenedor_Reserva select {
     width: 100%;
     padding: 14px 18px;
@@ -109,7 +109,6 @@
     background-color: #ffffff;
 }
 
-/* Grupo de botones (Atrás y Continuar) */
 .botones-grupo {
     display: flex;
     gap: 15px;
