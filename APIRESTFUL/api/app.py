@@ -7,6 +7,7 @@ from .routes.reservas import reservas_bp
 from .routes.servicios import servicios_extra_bp
 from .routes.auth import auth_bp
 from .routes.usuarios import usuarios_bp
+from .routes.menu import menu_bp
 
 
 # Buscar módulos en la carpeta donde esté app.py
@@ -23,7 +24,7 @@ app.register_blueprint(reservas_bp, url_prefix=BASE_URL)
 app.register_blueprint(servicios_extra_bp)
 app.register_blueprint(auth_bp, url_prefix=BASE_URL)
 app.register_blueprint(usuarios_bp, url_prefix=BASE_URL)
-
+app.register_blueprint(menu_bp, url_prefix=BASE_URL)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
