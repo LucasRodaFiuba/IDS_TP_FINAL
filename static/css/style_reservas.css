@@ -20,18 +20,15 @@
     text-align: center;
 }
 
-/* Ocultamos todos los bloques de pasos por defecto */
 .paso-bloque {
     display: none;
 }
 
-/* Cuando JS le agrega ".activo", se muestra con animación fluida */
 .paso-bloque.activo {
     display: block;
     animation: entradaSuave 0.4s ease-out forwards;
 }
 
-/* Barra de progreso superior */
 .barra-progreso {
     display: flex;
     justify-content: space-between;
@@ -81,6 +78,10 @@
     text-align: left;
 }
 
+.paso-cuerpo input {
+    margin-bottom: 15px;
+}
+
 .paso-cuerpo label {
     display: block;
     font-family: 'Cormorant Garamond', serif;
@@ -90,7 +91,6 @@
     margin-bottom: 12px;
 }
 
-/* Entradas de texto y selectores */
 #Contenedor_Reserva input, #Contenedor_Reserva select {
     width: 100%;
     padding: 14px 18px;
@@ -109,7 +109,6 @@
     background-color: #ffffff;
 }
 
-/* Grupo de botones (Atrás y Continuar) */
 .botones-grupo {
     display: flex;
     gap: 15px;
@@ -158,4 +157,40 @@
     color: #888888;
     display: block;
     margin-top: 8px;
+}
+
+.tarjeta-simple {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.tarjeta-simple:hover {
+    border-color: #111111;
+    background-color: #fafafa;
+}
+
+.tarjeta-simple input[type="checkbox"] {
+    width: 20px !important; 
+    height: 20px !important;
+    margin-right: 15px !important;
+    cursor: pointer;
+}
+
+.tarjeta-textos {
+    display: flex;
+    flex-direction: column;
+    text-align: left;        
+    align-items: flex-start;  
+    width: 100%;
+}
+
+.tarjeta-textos strong {
+    font-size: 1.1rem;
+    color: #222222;
 }

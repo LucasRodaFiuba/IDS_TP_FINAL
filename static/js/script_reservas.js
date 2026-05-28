@@ -14,7 +14,7 @@ function cambiarPaso(actual, siguiente) {
     document.getElementById(`bloque-${actual}`).classList.remove('activo');
     document.getElementById(`bloque-${siguiente}`).classList.add('activo');
 
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 5; i++) {
         const nodo = document.getElementById(`nodo-${i}`);
         if (nodo) {
             if (i <= siguiente) {
