@@ -24,9 +24,11 @@ def pagina_nosotros():
 def pagina_reservas():
     if request.method == 'POST':
         data = request.form.to_dict()
-        print(data)
+        #Hago posible que servicios extras tenga como valor una lista.
+        data['servicios_extras'] = request.form.getlist('servicios_extras')
+
         resultado = enviar_reserva(data)
-        print(resultado)
+
         if resultado.get("ok"):
             flash("Reserva creada", "success")
             return redirect(url_for("pagina_reservas"))
