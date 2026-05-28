@@ -10,12 +10,14 @@ from .routes.usuarios import usuarios_bp
 from .routes.menu import menu_bp
 
 
+
 # Buscar módulos en la carpeta donde esté app.py
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from api.routes import registrar_rutas
 
 app = Flask(__name__)
+app.json.sort_keys = False  #no ordena alfabaticamente 
 
 # Registrar los endpoints distribuidos en la carpeta routes
 registrar_rutas(app)

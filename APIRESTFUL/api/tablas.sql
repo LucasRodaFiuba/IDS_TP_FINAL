@@ -74,11 +74,8 @@ CREATE TABLE menu (
     id_plato INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
-   precio DECIMAL(10,2) NOT NULL,
-    vegetariano BOOLEAN DEFAULT FALSE,
-    vegano BOOLEAN DEFAULT FALSE,
-    sin_tacc BOOLEAN DEFAULT FALSE,
-    sin_lactosa BOOLEAN DEFAULT FALSE,
+    precio DECIMAL(10,2) NOT NULL,
+    restriccion VARCHAR(20) CHECK (restriccion IN ('ninguno','sin lactosa', 'vegetariano', 'vegano', 'sin tacc')),
     imagen VARCHAR(255),
     categoria VARCHAR(20)  NOT NULL CHECK (categoria IN ('bebida', 'entrada', 'postre', 'plato_principal'))
 );
