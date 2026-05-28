@@ -14,73 +14,68 @@
 
     {% block content %}
 
-            <h2>Entradas</h2>
-            <div class="row">
-                {% for plato in platos if plato.categoria == 'entrada' %}
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
+           <div id="entradas">
+                <h2 id="titulo-entradas">Entradas</h2>          
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'entrada' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
                         {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
                         {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ plato.nombre }}</h5>
-                            <p class="card-text">{{ plato.descripcion }}</p>
-                            <p class="fw-bold">${{ plato.precio }}</p>
-                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>            
-            <h2>Platos principales</h2>
-            <div class="row">
-                {% for plato in platos if plato.categoria == 'plato_principal' %}
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
+            </div>
+        
+            <div id="entradas">
+                <h2 id="titulo-entradas">Platos principales</h2>          
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'plato_principal' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
                         {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
                         {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ plato.nombre }}</h5>
-                            <p class="card-text">{{ plato.descripcion }}</p>
-                            <p class="fw-bold">${{ plato.precio }}</p>
-                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>    
-            <h2>Postres</h2>
-            <div class="row">
-                {% for plato in platos if plato.categoria == 'postre' %}
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
+            </div>  
+
+            <div id="entradas">
+                <h2 id="titulo-entradas">Postres</h2>          
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'postre' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
                         {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
                         {% endif %}
-                            <div class="card-body">
-                            <h5 class="card-title">{{ plato.nombre }}</h5>
-                            <p class="card-text">{{ plato.descripcion }}</p>
-                            <p class="fw-bold">${{ plato.precio }}</p>
-                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>            
-            <h2>Bebidas</h2>
-            <div class="row">
-                {% for plato in platos if plato.categoria == 'bebida' %}
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 shadow-sm">
+            </div>
+
+            <div id="entradas">
+                <h2 id="titulo-entradas">Bebidas</h2>                       
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'bebida' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
                         {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" class="card-img-top">
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
                         {% endif %}
-                            <div class="card-body">
-                            <h5 class="card-title">{{ plato.nombre }}</h5>
-                            <p class="card-text">{{ plato.descripcion }}</p>
-                            <p class="fw-bold">${{ plato.precio }}</p>
-                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
     {% endblock %}
 

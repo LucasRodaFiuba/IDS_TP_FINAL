@@ -177,6 +177,12 @@ header {
     box-sizing: border-box;
 }
 
+#footer p {
+    color: white;
+    font-size: 18px;   
+    font-weight: 600;  
+}
+
 #footer-left {
     text-align: center;
     flex: 1;
