@@ -1,14 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
-from services.reservas import obtener_reservas, enviar_reserva
+from flask import Flask, render_template, request, redirect, url_for,flash
+#from services.reservas import obtener_reservas, enviar_reserva
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
+from services.reservas import enviar_reserva
 
 app = Flask(__name__)
 # Carpeta donde se guardan las imágenes
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img')
 
+app.secret_key = "dev-secret-key-123"
 
 @app.route("/")
 def home():
@@ -21,21 +23,35 @@ def pagina_nosotros():
 @app.route('/reservas', methods=['GET', 'POST'])
 def pagina_reservas():
     if request.method == 'POST':
-        fecha = request.form.get('fecha_reserva')
-        hora = request.form.get('horario_reserva')
-        personas = request.form.get('cantidad_personas')
-        nombre = request.form.get('nombre_cliente')
+        data = request.form.to_dict()
+        print(data)
+        resultado = enviar_reserva(data)
+        print(resultado)
+        if resultado.get("ok"):
+            flash("Reserva creada", "success")
+            return redirect(url_for("pagina_reservas"))
+        
+        #Manejo caso en el que tira 404 (no se puede reservar si el usuario no está)
+        errores = resultado.get("errores", [])
+        # 5. Busco específicamente el error de usuario no registrado
+        # any(...) recorre todos los errores y chequea si alguno contiene ese código
+        if any("usuario.no.existe" in str(e) for e in errores):
 
-        resultado = enviar_reserva(fecha, hora, personas, nombre)
+            # muestro mensaje al usuario en pantalla
+            flash("Tenés que iniciar sesión primero", "error")
 
-        if 'ok' in resultado:
-            return redirect(url_for('reservas.pagina_reservas', exito=True))
-        else:
-            return render_template('reservas.html', reservas=obtener_reservas(), errores_api=resultado['errores'])
+            # redirijo al login y termino la ejecución
+            return redirect(url_for("iniciar_sesion"))
 
-    lista_reservas = obtener_reservas()
+        # 6. Si no era ese error específico, muestro todos los errores generales
+        for e in errores:
+            flash(e, "error")
 
-    return render_template('reservas.html', reservas=lista_reservas, exito=request.args.get('exito'))
+        # 7. Vuelvo a la página de reservas con los errores mostrados
+        return redirect(url_for("pagina_reservas"))
+
+    # 8. Si es GET, simplemente muestro la página
+    return render_template("reservas.html")
 
 @app.route('/clientes')
 def pagina_clientes():
@@ -199,4 +215,4 @@ def eliminar_usuario():
     nombre_usuario = request.form['nombre_usuario']
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port = 5001)
