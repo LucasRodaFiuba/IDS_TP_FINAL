@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_mis_reservas.css') }}">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+    <h1 id="titulo-principal">Historial de reservas del usuario</h1>
+    <p id="mensaje-introductorio-historial">Aquí puedes ver todo el historial de tus reservas</p>
+
+    <!-- PRIMER ESTADO: USUARIO NO LOGEADO -->
+
+    <!-- PRIMER ESTADO: USUARIO NO LOGEADO 
+    <div class="mensaje-login">
+        <p id="mensaje_">Iniciá sesión para ver tus reservas.</p>
+
+        <a href="{{ url_for('iniciar_sesion') }}">
+            <button id="boton-login">Iniciar sesión</button>
+        </a>
+    </div>
+    -->
+
+    <!-- SEGUNDO ESTADO: USUARIO LOGEADO-->
+    <!-- Modelo de una reserva de como se contruiría.-->
+    <!-- SIN USO DE JINJA.-->
+    <!--
+    <p id="mensaje-introductorio-historial">Aquí puedes ver todo el historial de tus reservas</p>
+    <div class="contenedor-reservas">
+        <div class="card-reserva">
+            <img src="{{ url_for('static', filename='img/calendario.jpg') }}" id="imagen-calendario">
+            <div class="hora">
+                <span>Hora</span>
+                <span>21:00hs</span>
+            </div>
+            <div class="mesa">
+                <p>Mesa</p>
+                <p>Mesa 1</p>
+            </div>
+            <div class="fecha">
+                <p>Fecha</p>
+                <p>25 de Mayo,2026</p>
+            </div>
+            <div class="cantidad-personas">
+                <p>Personas</p>
+                <p>4</p>
+            </div>
+            <div class="estado-reserva">
+                <p>Pendiente</p>
+                <button id="boton-cancelar-reserva">
+                    <img src="{{ url_for('static', filename = 'img/eliminar.png') }}" id="imagen_eliminar">
+                    Cancelar reserva
+                </button>
+            </div>
+        </div>
+        <div class="card-reserva">
+            <img src="{{ url_for('static', filename='img/calendario.jpg') }}" id="imagen-calendario">
+            <div class="hora">
+                <p>Hora</p>
+                <p>21:00hs</p>
+            </div>
+            <div class="mesa">
+                <p>Mesa</p>
+                <p>Mesa 1</p>
+            </div>
+            <div class="fecha">
+                <p>Fecha</p>
+                <p>25 de Mayo,2026</p>
+            </div>
+            <div class="cantidad-personas">
+                <p>Personas</p>
+                <p>4</p>
+            </div>
+            <div class="estado-reserva">
+                <p>Pendiente</p>
+                <button id="boton-cancelar-reserva">
+                    <img src="{{ url_for('static', filename = 'img/eliminar.png') }}" id="imagen_eliminar">
+                    Cancelar reserva
+                </button>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <!-- LOGEADO - USAMOS JINJA (VERSION CORRECTA)-->
+    <div class="contenedor-reservas">
+        {% for reserva in reservas %}
+        <div class="card-reserva">
+            <img src="{{ url_for('static', filename='img/calendario.jpg') }}" id="imagen-calendario">
+            <div class="hora">
+                <span>Hora</span>
+                <span>{{ reserva.hora }}</span>
+            </div>
+            <div class="mesa">
+                <p>Mesa</p>
+                <p>{{ reserva.mesa }}</p>
+            </div>
+            <div class="fecha">
+                <p>Fecha</p>
+                <p>{{ reserva.fecha }}</p>
+            </div>
+            <div class="cantidad-personas">
+                <p>Personas</p>
+                <p>{{ reserva.personas}}</p>
+            </div>
+            <div class="estado-reserva">
+                <p class="{{ reserva.estado }}">{{ reserva.estado}}</p>
+                <button id="boton-cancelar-reserva">
+                    <img src="{{ url_for('static', filename = 'img/eliminar.png') }}" id="imagen_eliminar">
+                    Cancelar reserva
+                </button>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% endblock %}
+
+</body>
+</html>
