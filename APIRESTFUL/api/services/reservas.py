@@ -200,3 +200,28 @@ def validar_reserva_service(token):
     db_funciones.actualizar_estado_reserva(token, "confirmada")
 
     return {"message": "Reserva confirmada"}
+
+#Service para mis_reservas
+def obtener_reservas_segun_email(email):
+    usuario = db_funciones.obtener_usuario_publico_por_email(email)
+
+    if not usuario:
+        raise ValueError(construir_error_api(
+            code="email.inexistente",
+            message="invlaido",
+            description="El email no está registrado en la base de datos"),404)
+
+    reservas = db_funciones.obtener_reservas_de_usuario(
+        usuario["id_usuario"]
+    )
+
+    if len(reservas) == 0:
+        return []
+
+    #convierto hora_reserva en string (hay problemas con eso)
+    for reserva in reservas:
+        reserva["hora_reserva"] = str(reserva["hora_reserva"])
+        reserva["fecha_reserva"] = str(reserva["fecha_reserva"])
+        reserva["fecha_creacion"] = str(reserva["fecha_creacion"])
+
+    return reservas
