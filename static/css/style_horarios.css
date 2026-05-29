@@ -1,0 +1,22 @@
+.horarios {
+    background: rgba(0, 0, 0, 0.781);
+    color: white;
+    padding: 60px;
+}
+
+.horarios h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.fila-horario {
+    display: flex;
+    justify-content: space-between;
+
+    width: 70%;
+    margin: auto;
+
+    padding: 20px 0;
+
+    border-top: 1px solid rgba(172, 144, 20, 0.747);
+}

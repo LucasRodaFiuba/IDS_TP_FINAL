@@ -55,8 +55,8 @@ header {
 
 
 #Bienvenidos{
-    color: white;
-    background-color: #ffffff00;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.70);
     display: flex;
     align-items: center;
     flex-direction: column;

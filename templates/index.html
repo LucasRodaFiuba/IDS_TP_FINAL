@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Maison Gourmet</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_horarios.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -47,6 +48,26 @@
             <a href="{{ url_for('pagina_reservas') }}">Reservar Ahora</a>
         </div>
     </div>
+    <section class="horarios">
+
+    <h2>HORARIOS</h2>
+
+    <div class="fila-horario">
+        <span>DESAYUNO</span>
+        <span>7:00 AM – 11:00 AM</span>
+    </div>
+
+    <div class="fila-horario">
+        <span>ALMUERZO</span>
+        <span>12:30 PM – 3:30 PM</span>
+    </div>
+
+    <div class="fila-horario">
+        <span>CENA</span>
+        <span>7:00 PM – 12:00 AM</span>
+    </div>
+
+    </section>
     {% endblock %}
 
 </body>
