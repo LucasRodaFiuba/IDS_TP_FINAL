@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for,flash
+from flask import Flask, render_template, request, redirect, url_for,flash,session
 #from services.reservas import obtener_reservas, enviar_reserva
 import mysql.connector
 from mysql.connector import Error
@@ -62,6 +62,7 @@ def pagina_clientes():
 
 @app.route('/iniciar_sesion')
 def iniciar_sesion():
+    session["usuario_email"] = "fedeoos2005@gmail.com"
     return render_template('iniciar_sesion.html')
 
 @app.route('/admin')
@@ -75,6 +76,57 @@ def admin_reservas():
 @app.route('/admin/clientes')
 def admin_clientes():
     return render_template('admin_clientes.html')
+
+@app.route('/mis_reservas')
+def pagina_mis_reservas():
+    reservas = [
+        {
+            "mesa": 1,
+            "fecha": "2026-06-20",
+            "hora": "18:00",
+            "personas": 4,
+            "estado": "pendiente"
+        },
+        {
+            "mesa": 3,
+            "fecha": "2026-06-22",
+            "hora": "21:00",
+            "personas": 2,
+            "estado":"confirmado"
+        },
+        {
+            "mesa": 2,
+            "fecha": "2026-07-22",
+            "hora": "23:00",
+            "personas": 1,
+            "estado":"confirmado"
+        },
+        {
+            "mesa": 6,
+            "fecha": "2025-06-22",
+            "hora": "19:00",
+            "personas": 6,
+            "estado":"confirmado"
+        },
+        {
+            "mesa": 7,
+            "fecha": "2026-06-22",
+            "hora": "22:00",
+            "personas": 5,
+            "estado":"pendiente"
+        }
+    ]
+    #veo que está logeado
+    #print(session.get("usuario_email"))
+
+    #Obtengo email logeado
+    email = session.get("usuario_email")
+
+    #mando una lista diciionarios que simula como si lo recibió del backend.
+    return render_template(
+        "mis_reservas.html",
+        reservas=reservas
+    )
 
 def get_db_connection():
     try:
