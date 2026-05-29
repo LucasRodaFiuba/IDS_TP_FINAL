@@ -216,5 +216,154 @@ def modificar_usuario():
 def eliminar_usuario():
     nombre_usuario = request.form['nombre_usuario']
 
+@app.route('/admin/dashboard')
+def pagina_dashboard():
+    fecha_inicio = request.args.get('fecha_inicio', '2026-05-01')
+    fecha_fin = request.args.get('fecha_fin', '2026-05-31')
+
+
+    datos_ficticios = {
+        "fecha_analisis_inicio": fecha_inicio,
+        "fecha_analisis_fin": fecha_fin,
+        "resumen_operaciones": {
+            "total_reservas_activas": 142,
+            "total_cubiertos_proyectados": 418,
+            "ingreso_estimado_ars": 11913000.00 
+        },
+        "rendimiento_carta": {
+            "plato_estrella": "Ojo de Bife Madurado",
+            "servicio_mas_solicitado": "Maridaje Exclusivo con Sommelier"
+        },
+        "ultimas_reservas": [
+            {
+                "id": 1031,
+                "nombre_cliente": "Lionel Messi",
+                "fecha": "2026-05-05",
+                "hora": "21:30",
+                "comensales": 5,
+                "estado": "confirmada",
+                "notas_especiales": "Mesa VIP. Requires máxima discreción y seguridad."
+            },
+            {
+                "id": 1036,
+                "nombre_cliente": "Sofía Martínez",
+                "fecha": "2026-05-06",
+                "hora": "19:30",
+                "comensales": 2,
+                "estado": "confirmada",
+                "notas_especiales": "Un comensal tiene alergia severa a los mariscos."
+            },
+            {
+                "id": 1037,
+                "nombre_cliente": "Juan Pérez",
+                "fecha": "2026-05-07",
+                "hora": "13:00",
+                "comensales": 8,
+                "estado": "confirmada",
+                "notas_especiales": "Almuerzo familiar. Necesitan espacio para un cochecito de bebé."
+            },
+            {
+                "id": 1038,
+                "nombre_cliente": "Ricardo Fort",
+                "fecha": "2026-05-08",
+                "hora": "23:00",
+                "comensales": 4,
+                "estado": "confirmada",
+                "notas_especiales": "Quiere el mejor champagne de la carta listo y frío en la mesa al llegar."
+            },
+            {
+                "id": 1034,
+                "nombre_cliente": "Ana Rodríguez",
+                "fecha": "2026-05-14",
+                "hora": "20:00",
+                "comensales": 2,
+                "estado": "confirmada",
+                "notas_especiales": "Cena romántica de aniversario. ¿Tienen option de flores en la mesa?"
+            },
+            {
+                "id": 1033,
+                "nombre_cliente": "Carlos Fernández",
+                "fecha": "2026-05-15",
+                "hora": "21:00",
+                "comensales": 4,
+                "estado": "confirmada",
+                "notas_especiales": ""
+            },
+            {
+                "id": 1031,
+                "nombre_cliente": "Lionel Messi",
+                "fecha": "2026-05-18",
+                "hora": "21:30",
+                "comensales": 5,
+                "estado": "cancelada",
+                "notas_especiales": "Mesa VIP. Requires máxima discreción y seguridad."
+            },
+            {
+                "id": 1031,
+                "nombre_cliente": "Lionel Messi",
+                "fecha": "2026-05-20",
+                "hora": "21:30",
+                "comensales": 5,
+                "estado": "cancelada",
+                "notas_especiales": "Mesa VIP. Requires máxima discreción y seguridad."
+            },
+            {
+                "id": 1027,
+                "nombre_cliente": "Martina Galperin",
+                "fecha": "2026-05-22",
+                "hora": "21:00",
+                "comensales": 6,
+                "estado": "confirmada",
+                "notas_especiales": "Cena corporativa. Solicita discreción y mesa alejada del centro."
+            },
+            {
+                "id": 1026,
+                "nombre_cliente": "Alejandro Bozou",
+                "fecha": "2026-05-27",
+                "hora": "22:15",
+                "comensales": 2,
+                "estado": "cancelada",
+                "notas_especiales": ""
+            },
+            {
+                "id": 1035,
+                "nombre_cliente": "Diego Maradona",
+                "fecha": "2026-05-28",
+                "hora": "22:00",
+                "comensales": 6,
+                "estado": "confirmada",
+                "notas_especiales": "Reserva cancelada por imprevisto."
+            },
+            {
+                "id": 1030,
+                "nombre_cliente": "Miguel Angel",
+                "fecha": "2026-05-29",
+                "hora": "20:30",
+                "comensales": 2,
+                "estado": "confirmada",
+                "notes_especiales": "Mesa tranquila, prefiere sector del patio."
+            },
+            {
+                "id": 1025,
+                "nombre_cliente": "Juan Pérez",
+                "fecha": "2026-05-30",
+                "hora": "20:00",
+                "comensales": 4,
+                "estado": "pendiente",
+                "notas_especiales": "Un comensal requiere menú estricto sin TACC."
+            },
+            {
+                "id": 1032,
+                "nombre_cliente": "María Gómez",
+                "fecha": "2026-05-31",
+                "hora": "19:00",
+                "comensales": 3,
+                "estado": "pendiente",
+                "notas_especiales": "Festejo de cumpleaños, solicita porción de torta con velita."
+            }
+    ]
+}
+    return render_template('dashboard.html', data=datos_ficticios, f_inicio=datos_ficticios["fecha_analisis_inicio"], f_fin=datos_ficticios["fecha_analisis_fin"])
+
 if __name__ == "__main__":
     app.run(debug=True,port = 5001)

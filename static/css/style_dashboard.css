@@ -1,0 +1,196 @@
+#Filtros_Dashboard {
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: #0d0d0d;
+    padding: 15px 30px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+#Filtros_Dashboard form {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+#Filtros_Dashboard label {
+    font-family: 'Cinzel', serif;
+    color: #a6a0a0;
+    font-size: 14px;
+}
+
+#Filtros_Dashboard input[type="date"] {
+    background-color: #1a1a1a;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 8px 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.btn-filtrar {
+    background-color: #907a1a;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-filtrar:hover {
+    background-color: #c9a646;
+    color: black;
+}
+
+#Contenedor_Dashboard {
+    max-width: 900px;
+    margin: 0 auto 60px auto;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.grid-kpis {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.tarjeta-kpi {
+    flex: 1;
+    background-color: #0d0d0d;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.tarjeta-kpi h3 {
+    font-family: 'Cinzel', serif;
+    color: #a6a0a0;
+    font-size: 14px;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+}
+
+.numero-kpi {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.destocado-dinero .numero-kpi {
+    color: #c9a646;
+}
+
+.grid-rendimiento {
+    display: flex;
+    gap: 20px;
+}
+
+.tarjeta-rendimiento {
+    flex: 1;
+    background-color: #121212;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.tarjeta-rendimiento h4 {
+    font-family: 'Cinzel', serif;
+    color: #c9a646;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.tarjeta-rendimiento p {
+    font-size: 24px;
+    color: white;
+    margin: 0;
+    font-style: italic;
+}
+
+.seccion-tabla {
+    margin-top: 35px;
+    background-color: #0d0d0d;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+.seccion-tabla h3 {
+    font-family: 'Cinzel', serif;
+    color: #c9a646;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.tabla-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tabla-gourmet {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    text-align: left;
+}
+
+.tabla-gourmet th {
+    font-family: 'Cinzel', serif;
+    color: #a6a0a0;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 12px 15px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1c1c1c;
+}
+
+.tabla-gourmet td {
+    color: white;
+    padding: 16px 15px;
+    border-bottom: 1px solid #151515;
+}
+
+.tabla-gourmet tbody tr:hover {
+    background-color: #121212;
+}
+
+.badge {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.estado-confirmada {
+    background-color: #112613;
+    color: #52c41a;
+}
+
+.estado-pendiente {
+    background-color: #2b210f;
+    color: #faad14;
+}
+
+.estado-cancelada {
+    background-color: #291114;
+    color: #ff4d4f;
+}
