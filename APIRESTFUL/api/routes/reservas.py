@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, request
-from ..utils import construir_error_api
+from ..utils import construir_error_api,validar_email
 from ..services.reservas import (
     consultar_disponibilidad,
     crear_reserva,
     cambiar_reserva,
     cancelar_reserva_service,
-    validar_reserva_service
+    validar_reserva_service,
+    obtener_reservas_segun_email
 )
 from ..validators.reservas import validar_id
 
@@ -124,6 +125,39 @@ def validar_reserva(token):
     # buscar reserva por token
     try:
         resultado = validar_reserva_service(token)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        print("ERROR REAL:", e)
+        #Para cualquier error inesperado del servidor.
+        return jsonify({
+            'errors': [
+                {
+                    'code': 'internal.server.error',
+                    'message': str(e),
+                    'description': 'Ocurrio un error inesperado, estoy en routes'
+                }
+            ]
+        }), 500
+
+    return jsonify(resultado), 200
+
+@reservas_bp.route('/reservas/usuario/<email>')
+def obtener_reservas(email):
+    """
+    Devuelve todas las reservas de un usuario logeado
+    necesito devolver: numero mesa, fecha, hora, cantidad de personas
+    """
+    #validar email
+    try:
+        email = validar_email(email,"email")
+    except ValueError as e:
+        return jsonify(e.args[0]), 400
+
+    #con el email consigo el id_usuario.
+    try:
+        resultado = obtener_reservas_segun_email(email)
     except ValueError as e:
         status = e.args[1] if len(e.args) > 1 else 400
         return jsonify(e.args[0]), status
