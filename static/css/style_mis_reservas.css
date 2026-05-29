@@ -1,0 +1,125 @@
+#titulo-principal{
+    color:black;
+    background-color: white;
+    margin:10px;
+    padding:5px;
+}
+
+.mensaje-login{
+    background-color: white;
+    padding:5px;
+    margin:10px;
+}
+
+.mensaje-login p {
+    font-size: 20px;
+}
+
+#boton-login{
+    font-size:20px;
+    background-color:white;
+    border-radius: 20px;
+}
+
+/*ESTADO: El usuario está logeado*/
+#mensaje-introductorio-historial{
+    color:white;
+    margin:5px;
+    padding:5px;
+}
+.contenedor-reservas{
+    background-color: rgb(71, 69, 69);
+    padding:10px;
+    margin:10px;
+    gap:20px;
+}
+
+.card-reserva{
+    background-color: black;
+    padding:10px;
+    margin:10px;
+    display: flex;
+    gap:20px;
+    flex-wrap: wrap;
+}
+
+#imagen-calendario{
+    border-radius:50px;
+    width:50px;
+    height:50px;
+}
+
+.hora{
+    padding:10px;
+    background-color:white;
+    display:flex;
+    flex-direction: column;
+}
+
+.fecha{
+    padding:10px;
+    background-color:white;
+}
+
+.cantidad-personas{
+    padding:10px;
+    background-color:white;
+}
+
+.mesa{
+    padding:10px;
+    background-color:white;
+}
+
+.estado-reserva{
+    padding:10px;
+    background-color: white;
+}
+
+#boton-cancelar-reserva{
+    /*FLEX*/
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    /*OTRO*/
+    background-color:white;
+    color:red;
+    border-color:red;
+    border-radius:20px;
+    padding:7px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+#boton-cancelar-reserva:hover{
+    background-color: red;
+    color:white;
+}
+
+#boton-cancelar-reserva{
+    cursor:pointer;
+}
+
+#imagen_eliminar{
+    width:20px;
+    height:20px;
+}
+
+.confirmado{
+    background-color:rgb(86, 225, 86);
+    color:white;
+    font-size:15px;
+}
+
+.cancelado{
+    background-color: red;
+    color:white;
+    font-size:15px;
+}
+
+.pendiente{
+    background-color:orange;
+    color:white;
+    font-size:15px;
+}
