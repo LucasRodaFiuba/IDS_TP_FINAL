@@ -13,10 +13,26 @@
     max-width: 550px;
     margin: 60px auto;
     padding: 40px;
-    background: #ffffff;
+    background: #0d0d0d;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f0f0f0;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+}
+
+#Contenedor_Reserva h1 {
+    color: #c9a646;                         
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#Contenedor_Reserva .subtitulo {
+    color: #a6a0a0;                           
+    font-size: 18px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
@@ -43,7 +59,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: #e0e0e0;
+    background: #333333;
     z-index: 1;
     transform: translateY(-50%);
 }
@@ -51,26 +67,24 @@
 .progreso-nodo {
     width: 35px;
     height: 35px;
+    line-height: 35px;
     border-radius: 50%;
-    background: #ffffff;
-    border: 2px solid #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #1a1a1a;
+    color: #a6a0a0;
+    text-align: center;
+    font-weight: bold;
     font-family: 'Cinzel', serif;
     font-size: 0.9rem;
-    font-weight: bold;
-    color: #999999;
     position: relative;
-    z-index: 2;
+    z-index: 2;                            
     transition: all 0.3s ease;
 }
 
 .progreso-nodo.activo {
-    background: #111111;
-    border-color: #111111;
+    background-color: #907a1a;
     color: #ffffff;
     transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(201, 166, 70, 0.5);
 }
 
 .paso-cuerpo {
@@ -84,11 +98,10 @@
 
 .paso-cuerpo label {
     display: block;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #222222;
+    color: #a6a0a0;
+    font-size: 20px;
     margin-bottom: 12px;
+    text-align: left;
 }
 
 #Contenedor_Reserva input, #Contenedor_Reserva select {
@@ -96,17 +109,18 @@
     padding: 14px 18px;
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.1rem;
-    border: 1px solid #dddddd;
+    border: none;
     border-radius: 8px;
-    background-color: #fafafa;
+    background-color: #151515;
+    color: #ffffff;
     box-sizing: border-box;
     transition: all 0.3s ease;
 }
 
 #Contenedor_Reserva input:focus, #Contenedor_Reserva select:focus {
     outline: none;
-    border-color: #111111;
-    background-color: #ffffff;
+    background-color: #1c1c1c;
+    box-shadow: 0 0 0 2px #c9a646;
 }
 
 .botones-grupo {
@@ -117,12 +131,12 @@
 .btn-reserva {
     flex: 2;
     padding: 15px;
-    background: #111111;
+    background: #907a1a;
     color: #ffffff;
     border: none;
     border-radius: 8px;
     font-family: 'Cinzel', serif;
-    font-size: 1rem;
+    font-size: 14px;
     font-weight: bold;
     letter-spacing: 2px;
     cursor: pointer;
@@ -130,31 +144,32 @@
 }
 
 .btn-reserva:hover {
-    background: #c5a059;
+    background: #c9a646;
+    color: #000000;
 }
 
 .btn-volver {
     flex: 1;
     padding: 15px;
-    background: #ffffff;
-    color: #777777;
-    border: 1px solid #cccccc;
+    background: #1a1a1a;
+    color: #a6a0a0;
+    border: none;
     border-radius: 8px;
     font-family: 'Cinzel', serif;
-    font-size: 0.9rem;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .btn-volver:hover {
-    background: #f5f5f5;
-    color: #333333;
+    background: #252525;
+    color: #ffffff;
 }
 
 .ayuda-texto {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    color: #888888;
+    color: #a6a0a0;
     display: block;
     margin-top: 8px;
 }
@@ -162,17 +177,17 @@
 .tarjeta-simple {
     display: flex;
     align-items: center;
-    border: 1px solid #cccccc;
+    border: none;
     border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: #ffffff;
+    padding: 16px;
+    margin-bottom: 12px;
+    background-color: #121212;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .tarjeta-simple:hover {
-    border-color: #111111;
-    background-color: #fafafa;
+    background-color: #1c1c1c;
 }
 
 .tarjeta-simple input[type="checkbox"] {
@@ -180,6 +195,7 @@
     height: 20px !important;
     margin-right: 15px !important;
     cursor: pointer;
+    accent-color: #c9a646;
 }
 
 .tarjeta-textos {
@@ -191,6 +207,34 @@
 }
 
 .tarjeta-textos strong {
-    font-size: 1.1rem;
-    color: #222222;
+    font-size: 1.2rem;
+    color: #c9a646;
+    font-family: 'Cormorant Garamond', serif;
+}
+.tarjeta-textos .ayuda-texto {
+    font-size: 15px;
+    color: #a6a0a0;
+    margin-top: 4px;
+}
+.info-carta {
+    background-color: #14130e;
+    border: 1px dashed #907a1a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+    text-align: left;
+}
+
+.info-carta p strong {
+    color: #c9a646;
+}
+
+.desc-check {
+    display: block;
+    margin-top: 6px;
+    color: #a6a0a0;
+}
+.texto-centrado {
+    text-align: center !important;
+    width: 100%;
 }

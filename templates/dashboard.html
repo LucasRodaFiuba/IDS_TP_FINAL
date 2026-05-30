@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Control - Le Maison Gourmet{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+
+<div id="Filtros_Dashboard">
+    <form action="{{ url_for('paginda_dashboard') }}" method="GET">
+        <label>Desde: <input type="date" name="fecha_inicio" value="{{ f_inicio }}"></label>
+        <label>Hasta: <input type="date" name="fecha_fin" value="{{ f_fin }}"></label>
+        <button type="submit" class="btn-filtrar">Actualizar</button>
+    </form>
+</div>
+
+{% if data %}
+<div id="Contenedor_Dashboard">
+
+    <div class="grid-kpis">
+        <div class="tarjeta-kpi">
+            <h3>Reservas Activas</h3>
+            <p class="numero-kpi">{{ data.resumen_operaciones.total_reservas_activas }}</p>
+        </div>
+        
+        <div class="tarjeta-kpi">
+            <h3>Cubiertos Proyectados</h3>
+            <p class="numero-kpi">{{ data.resumen_operaciones.total_cubiertos_proyectados }}</p>
+        </div>
+
+        <div class="tarjeta-kpi destacado-dinero">
+            <h3>Ingreso Estimado</h3>
+            <p class="numero-kpi">${{ "{:,.2f}".format(data.resumen_operaciones.ingreso_estimado_ars) }}</p>
+        </div>
+    </div>
+
+    <div class="grid-rendimiento">
+        <div class="tarjeta-rendimiento">
+            <h4>Plato Estrella </h4>
+            <p>{{ data.rendimiento_carta.plato_estrella }}</p>
+        </div>
+        
+        <div class="tarjeta-rendimiento">
+            <h4>Experiencia Más Solicitada </h4>
+            <p>{{ data.rendimiento_carta.servicio_mas_solicitado }}</p>
+        </div>
+    </div>
+
+    <div class="seccion-tabla">
+        <h3>Últimas Reservas del Período</h3>
+        <div class="tabla-responsiva">
+            <table class="tabla-gourmet">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Cubiertos</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in data.ultimas_reservas %}
+                    <tr>
+                        <td>
+                            <strong>{{ reserva.nombre_cliente }}</strong>
+                            
+                        </td>
+                        <td>{{ reserva.fecha }}</td>
+                        <td>{{ reserva.hora }} hs</td>
+                        <td>{{ reserva.comensales }} Cubiertos</td>
+                        <td>
+                            <span class="badge estado-{{ reserva.estado }}">{{ reserva.estado }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% else %}
+{% endif %}
+{% endblock %}

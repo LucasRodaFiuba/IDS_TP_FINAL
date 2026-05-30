@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+    <title>Document</title>
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+    <style>
+    #Iniciar_sesion {
+        text-align: center;
+    }
+
+    #Iniciar_sesion p {
+        margin: 18px 0;
+        line-height: 1.4;
+    }
+
+    #Iniciar_sesion h1,
+    #Iniciar_sesion h2 {
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    #Iniciar_sesion .acciones-perfil {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+    }
+
+    #Iniciar_sesion .acciones-perfil form {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    #Iniciar_sesion .btn-perfil {
+        width: auto;
+        min-width: 150px;
+        max-width: 190px;
+        padding: 10px 16px;
+        line-height: 1.25;
+        text-align: center;
+        white-space: normal;
+    }
+    
+</style>
+
+    <div id="Iniciar_sesion">
+
+        <h1>Mi cuenta</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if usuario %}
+            <p>Nombre: {{ usuario.nombre }}</p>
+            <p>Email: {{ usuario.email }}</p>
+            <p>Rol: {{ usuario.rol }}</p>
+        {% endif %}
+
+        <h2>Historial de reservas</h2>
+
+        {% if reservas %}
+            {% for reserva in reservas %}
+                <p>
+                    Reserva #{{ reserva.id_reserva }}
+                    {% if reserva.fecha %} - {{ reserva.fecha }}{% endif %}
+                    {% if reserva.hora %} - {{ reserva.hora }}{% endif %}
+                    {% if reserva.estado %} - {{ reserva.estado }}{% endif %}
+                </p>
+            {% endfor %}
+        {% else %}
+            <p>No tenés reservas registradas.</p>
+        {% endif %}
+
+        <div class="acciones-perfil">
+    <form method="POST" action="{{ url_for('cerrar_sesion') }}">
+        <button type="submit" class="btn-perfil">Cerrar sesión</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('eliminar_cuenta') }}">
+        <button type="submit" class="btn-perfil">Eliminar cuenta</button>
+    </form>
+</div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>
