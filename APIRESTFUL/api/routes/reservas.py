@@ -91,7 +91,7 @@ def modificar_reserva(id):
     return "", 204
 
 
-@reservas_bp.route('/reservas/<int:id>', methods = ['DELETE'])
+@reservas_bp.route('/reservas/<int:id>', methods = ['POST'])
 def cancelar_reserva(id):
     #Valido id
     try:
