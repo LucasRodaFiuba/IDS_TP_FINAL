@@ -1,43 +1,174 @@
-body {
-    color: white;
+@keyframes entradaSuave {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-h2{
-    text-align: center;
+
+#Explicacion, 
+#Modificar_menu, 
+#Formularios {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #0d0d0d;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
     font-family: 'Cormorant Garamond', serif;
-    margin-top: 80px;
-    margin-bottom: 40px;
+    text-align: center;
+    animation: entradaSuave 0.5s ease-out forwards;
 }
 
-form button {
-    color: #a4944a;
-    cursor: pointer;
-    background-color: transparent;
-    border: 2px solid #907a1a;
-    border-radius: 6px;
-    margin-left: 10px;
+
+h1 {
+    color: #c9a646;                         
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
 }
 
-form input {
-    padding: 5px;
-    border: 2px solid #ffffff;
-    border-radius: 6px;
-    background-color: transparent;
-    color : white;
-    margin-right: 10px;
-    margin-bottom: 50px;
-}
-
-#Formularios{
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-}
-
-#Formulario_modificar{
-    margin-top: 50px;
-}
-
-#Formulario_modificar p{
+h2 {
+    color: #c9a646;                         
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    letter-spacing: 1.5px;
     margin-bottom: 30px;
+    border-bottom: 1px solid #252525;
+    padding-bottom: 15px;
+}
+
+p {
+    color: #a6a0a0;                           
+    font-size: 19px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+
+form {
+    background-color: #121212;
+    border: 1px dashed #333333;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+form:hover {
+    border-color: #907a1a;
+    background-color: #151515;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+form p {
+    color: #c9a646;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center; 
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="datetime"] {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 15px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="datetime"]::placeholder {
+    color: #555555;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus {
+    outline: none;
+    background-color: #222222;
+    box-shadow: 0 0 0 2px #c9a646;
+}
+
+
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: #151515;
+    color: #a6a0a0;
+    border: 1px dashed #907a1a;
+    border-radius: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="file"]:hover {
+    background-color: #1c1c1c;
+}
+
+
+input[type="file"]::file-selector-button {
+    background: #1a1a1a;
+    color: #c9a646;
+    border: 1px solid #c9a646;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 15px;
+    font-family: 'Cinzel', serif;
+    transition: all 0.3s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: #c9a646;
+    color: #000000;
+}
+
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    background: #7e6b19;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #c9a646;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(201, 166, 70, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
 }
