@@ -13,9 +13,9 @@
 
     {% block content %}
 
-    <form id="Iniciar_sesion" method="POST" action="{{ url_for('iniciar_sesion') }}">
+    <form id="Iniciar_sesion" method="POST" action="{{ url_for('recuperar_contrasena') }}">
 
-        <h1>Iniciar Sesión</h1>
+        <h1>Recuperar contraseña</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -28,14 +28,9 @@
         <p>Correo electrónico</p>
         <input type="email" placeholder="ejemplo@correo.com" id="email" name="email" required>
 
-        <p>Contraseña</p>
-        <input type="password" placeholder="••••••••" id="contrasena" name="password" required>
+        <button type="submit" class="btn-ingresar">RECUPERAR CONTRASEÑA</button>
 
-        <button type="submit" class="btn-ingresar">INICIAR SESIÓN</button>
-
-        <button type="button" onclick="window.location.href='{{ url_for('registro') }}'">Registrate aquí</button>
-
-        <button type="button" onclick="window.location.href='{{ url_for('recuperar_contrasena') }}'">Recuperar contraseña</button>
+        <button type="button" onclick="window.location.href='{{ url_for('iniciar_sesion') }}'">Volver al login</button>
 
     </form>
 
