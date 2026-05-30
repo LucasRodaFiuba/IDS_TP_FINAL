@@ -5,6 +5,7 @@ from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.reservas import enviar_reserva
+from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 
 app = Flask(__name__)
 # Carpeta donde se guardan las imágenes
@@ -77,56 +78,36 @@ def admin_reservas():
 def admin_clientes():
     return render_template('admin_clientes.html')
 
-@app.route('/mis_reservas')
+@app.route('/mis_reservas', methods=['GET'])
 def pagina_mis_reservas():
-    reservas = [
-        {
-            "mesa": 1,
-            "fecha": "2026-06-20",
-            "hora": "18:00",
-            "personas": 4,
-            "estado": "pendiente"
-        },
-        {
-            "mesa": 3,
-            "fecha": "2026-06-22",
-            "hora": "21:00",
-            "personas": 2,
-            "estado":"confirmado"
-        },
-        {
-            "mesa": 2,
-            "fecha": "2026-07-22",
-            "hora": "23:00",
-            "personas": 1,
-            "estado":"confirmado"
-        },
-        {
-            "mesa": 6,
-            "fecha": "2025-06-22",
-            "hora": "19:00",
-            "personas": 6,
-            "estado":"confirmado"
-        },
-        {
-            "mesa": 7,
-            "fecha": "2026-06-22",
-            "hora": "22:00",
-            "personas": 5,
-            "estado":"pendiente"
-        }
-    ]
-    #veo que está logeado
-    #print(session.get("usuario_email"))
-
     #Obtengo email logeado
-    email = session.get("usuario_email")
+    #email = session.get("usuario_email")
+    #email="fedeoos2005@gmail.com"
+    email="pedro@gmail.com"
+    if not email:
+        flash("Tenés que iniciar sesión primero", "error")
+        return redirect(url_for("iniciar_sesion"))
 
-    #mando una lista diciionarios que simula como si lo recibió del backend.
-    return render_template(
-        "mis_reservas.html",
-        reservas=reservas
-    )
+    #uso services
+    resultado = obtener_reservas(email)
+    
+    if resultado.get("ok"):
+        flash("Reservas obtenidas", "success")
+        return render_template("mis_reservas.html",reservas=resultado['response'])
+        
+    errores = resultado.get("errores", [])
+    
+    for e in errores:
+        flash(e, "error")
+
+    return render_template("mis_reservas.html", reservas=None)
+
+#FUNCIONALIDAD botón cancelar de mis_reservas
+@app.route('/cancelar_reserva/<int:id_reserva>', methods=['POST'])
+def cancelar_reserva(id_reserva):
+    cancelar_reserva_service(id_reserva)
+    return redirect(url_for("pagina_mis_reservas"))
+
 
 def get_db_connection():
     try:
