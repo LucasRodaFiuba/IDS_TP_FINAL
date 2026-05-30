@@ -56,7 +56,6 @@ header {
 
 #Bienvenidos{
     width: 100%;
-    background: rgba(0, 0, 0, 0.70);
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -114,20 +113,45 @@ header {
     font-size: 20px;
 }
 
-#Reserva{
+#Reserva a.btn-reserva {
+  background: #907a1a;
+  color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+#Reserva a.btn-reserva:hover {
+  background: #c9a646;
+  color: #000000;
+}
+
+#Reserva {
+    max-width: 550px;
+    margin: 120px auto;
+    margin-bottom: 60px;
+    padding: 40px;
+    background: #0d0d0ddd;
+    border-radius: 16px;
+    box-shadow: 0 0px 70px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
     text-align: center;
-    margin-top: 80px;
 }
 
 #Reserva1 {
     display: inline-block; 
-    background-color: #00000063;  
-    text-align: center;          
-    padding: 20px 40px;       
-    border: 2px solid #c9a646; 
-    border-radius: 8px;   
-    color: white;     
+    text-align: center;
+    padding: 20px 40px;
+    border-radius: 8px;
+    color: white;
 }
+
 
 #Reserva1 h2{
     color: #a6a0a0;
@@ -223,3 +247,22 @@ header {
     transform: scale(1.15);
 }
 
+.btn-reservar {
+    flex: 2;
+    padding: 15px;
+    background: #907a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-reservar:hover {
+    background: #c9a646;
+    color: #000000;
+}

@@ -1,7 +1,17 @@
 .horarios {
-    background: rgba(0, 0, 0, 0.781);
-    color: white;
-    padding: 60px;
+    background: #0d0d0deb;
+    color: #a6a0a0;
+    padding: 20px;
+    margin-top: 60px;
+    border-radius: 16px;
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;  
+    padding-bottom: 50px;
+    box-shadow: 0 0px 70px rgba(0, 0, 0, 0.9);
+    
+
+
 }
 
 .horarios h2 {
