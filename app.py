@@ -188,9 +188,14 @@ def admin_clientes():
 @app.route('/mis_reservas', methods=['GET'])
 def pagina_mis_reservas():
     #Obtengo email logeado
-    #email = session.get("usuario_email")
-    #email="fedeoos2005@gmail.com"
-    email="pedro@gmail.com"
+    usuario = session.get("usuario")
+
+    if not usuario:
+        flash("Tenés que iniciar sesión primero", "error")
+        return redirect(url_for("iniciar_sesion"))
+
+    email = usuario.get("email")
+
     if not email:
         flash("Tenés que iniciar sesión primero", "error")
         return redirect(url_for("iniciar_sesion"))
