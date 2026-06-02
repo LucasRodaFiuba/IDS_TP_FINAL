@@ -362,3 +362,72 @@ def registrar_log_usuario(id_usuario, accion):
         'id_usuario': id_usuario,
         'accion': accion,
     })
+
+def obtener_servicios_extra():
+    query= """SELECT * FROM servicios_extra"""
+
+    resultado= ejecutar_consulta(query)
+
+    return resultado
+
+
+
+def agregar_servicio_extra(nombre,descripcion):
+    query= """INSERT INTO servicios_extra (nombre,descripcion)
+              VALUES (:nombre,:descripcion)"""
+    
+    datos= {
+        "nombre": nombre,
+        "descripcion":descripcion
+    }
+
+    resultado= ejecutar_insert(query,datos)
+
+    return resultado
+
+
+def obtener_servicio_por_id(id_servicio):
+    query= """SELECT * FROM servicios_extra WHERE id_servicio= :id_servicio"""
+
+    datos = {
+        "id_servicio": id_servicio
+    }
+
+    resultado= ejecutar_consulta(query,datos)
+
+
+    if not resultado:
+        return None
+
+    return resultado[0]
+
+
+
+def actualizar_servicio_extra(id_servicio,nombre,descripcion):
+    query= """UPDATE servicios_extra
+              SET nombre= :nombre, descripcion= :descripcion
+              WHERE id_servicio= :id_servicio"""
+    
+    datos={
+        "id_servicio":id_servicio,
+        "nombre":nombre,
+        "descripcion":descripcion
+
+    }
+
+    resultado= ejecutar_mutacion(query,datos)
+
+    return resultado
+
+  
+
+def eliminar_servicio_extra(id_servicio):
+    query= """DELETE FROM servicios_extra WHERE id_servicio = :id_servicio"""
+
+    datos={
+        "id_servicio": id_servicio
+    }
+
+    resultado= ejecutar_mutacion(query,datos)
+    
+    return resultado

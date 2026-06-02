@@ -23,7 +23,7 @@ app.json.sort_keys = False  #no ordena alfabaticamente
 registrar_rutas(app)
 #agregar blueprints
 app.register_blueprint(reservas_bp, url_prefix=BASE_URL)
-app.register_blueprint(servicios_extra_bp)
+app.register_blueprint(servicios_extra_bp,url_prefix=BASE_URL)
 app.register_blueprint(auth_bp, url_prefix=BASE_URL)
 app.register_blueprint(usuarios_bp, url_prefix=BASE_URL)
 app.register_blueprint(menu_bp, url_prefix=BASE_URL)
