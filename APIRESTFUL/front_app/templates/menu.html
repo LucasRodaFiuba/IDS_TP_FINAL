@@ -1,18 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <h1>Menu</h1>
-    <ol></ol>
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_menu.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway:wght@400&display=swap" rel="stylesheet">
+{% endblock %}
+{% block title %}Menú{% endblock %}
 
+    {% block content %}
 
-    <a href="{{ url_for('home') }}">
-        <button>Volver</button>
-    </a>
-</body>
-</html>
+           <div id="entradas">
+                <h2 id="titulo-entradas">Entradas</h2>          
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'entrada' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        
+            <div id="entradas">
+                <h2 id="titulo-entradas">Platos principales</h2>          
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'plato_principal' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>  
+
+            <div id="entradas">
+                <h2 id="titulo-entradas">Postres</h2>          
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'postre' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="entradas">
+                <h2 id="titulo-entradas">Bebidas</h2>                       
+                <div id="contenedor-entradas">
+                    {% for plato in platos if plato.categoria == 'bebida' %}
+                    <div id="entrada-carta">
+                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p id="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen_url %}
+                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+{% endblock %}

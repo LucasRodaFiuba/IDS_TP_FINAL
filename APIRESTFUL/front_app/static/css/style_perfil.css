@@ -1,0 +1,38 @@
+#Iniciar_sesion {
+        text-align: center;
+}
+
+#Iniciar_sesion p {
+        margin: 18px 0;
+        line-height: 1.4;
+}
+
+#Iniciar_sesion h1,
+#Iniciar_sesion h2 {
+        text-align: center;
+        line-height: 1.2;
+}
+
+#Iniciar_sesion .acciones-perfil {
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+}
+
+#Iniciar_sesion .acciones-perfil form {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+}
+
+#Iniciar_sesion .btn-perfil {
+        width: auto;
+        min-width: 150px;
+        max-width: 190px;
+        padding: 10px 16px;
+        line-height: 1.25;
+        text-align: center;
+        white-space: normal;
+}

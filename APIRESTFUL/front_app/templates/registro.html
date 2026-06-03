@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+{% block title %}Registrarse{% endblock %}
+
+    {% block content %}
+
+    <form id="Iniciar_sesion" method="POST" action="{{ url_for('registro') }}">
+
+        <h1>Registrarse</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <p>Nombre</p>
+        <input type="text" placeholder="Nombre" id="nombre" name="nombre" required>
+
+        <p>Apellido</p>
+        <input type="text" placeholder="Apellido" id="apellido" name="apellido">
+
+        <p>Correo electrónico</p>
+        <input type="email" placeholder="ejemplo@correo.com" id="email" name="email" required>
+
+        <p>Teléfono</p>
+        <input type="tel" placeholder="+5491123456789" id="telefono" name="telefono">
+
+        <p>Contraseña</p>
+        <input type="password" placeholder="••••••••" id="contrasena" name="password" required>
+
+        <button type="submit" class="btn-ingresar">REGISTRARME</button>
+
+        <button type="button" onclick="window.location.href='{{ url_for('iniciar_sesion') }}'">Ya tengo cuenta</button>
+
+    </form>
+
+{% endblock %}

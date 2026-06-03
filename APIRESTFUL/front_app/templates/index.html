@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Maison Gourmet</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+{% block title %}Le Maison Gourmet{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_horarios.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    
-{% extends "base.html" %}
-
-{% block title %}Le Maison Gourmet{% endblock %}
+{% endblock %}
 
 {% block content %}
 
@@ -44,11 +36,27 @@
         <div id="Reserva1">
             <h2>Reserva Tu Mesa</h2>
             <p>Haz tu reserva y vive una velada inolvidable en Le Maison Gourmet</p>
-            <a href="{{ url_for('pagina_reservas') }}">Reservar Ahora</a>
+            <a href="{{ url_for('pagina_reservas') }}" class="btn-reserva">Reservar Ahora</a>
         </div>
     </div>
+    <section class="horarios">
 
-    {% endblock %}
+    <h2>HORARIOS</h2>
 
-</body>
-</html>
+    <div class="fila-horario">
+        <span>DESAYUNO</span>
+        <span>7:00 – 11:00 </span>
+    </div>
+
+    <div class="fila-horario">
+        <span>ALMUERZO</span>
+        <span>12:30 – 15:30 </span>
+    </div>
+
+    <div class="fila-horario">
+        <span>CENA</span>
+        <span>19:00 – 00:00 </span>
+    </div>
+
+    </section>
+{% endblock %}

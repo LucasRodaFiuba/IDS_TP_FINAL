@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_perfil.css') }}">
+{% endblock %}
+{% block title %}Perfil{% endblock %}
+
+    {% block content %}
+
+    <div id="Iniciar_sesion">
+
+        <h1>Mi cuenta</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if usuario %}
+            <p>Nombre: {{ usuario.nombre }}</p>
+            <p>Email: {{ usuario.email }}</p>
+            <p>Rol: {{ usuario.rol }}</p>
+        {% endif %}
+
+        <h2>Historial de reservas</h2>
+
+        {% if reservas %}
+            {% for reserva in reservas %}
+                <p>
+                    Reserva #{{ reserva.id_reserva }}
+                    {% if reserva.fecha %} - {{ reserva.fecha }}{% endif %}
+                    {% if reserva.hora %} - {{ reserva.hora }}{% endif %}
+                    {% if reserva.estado %} - {{ reserva.estado }}{% endif %}
+                </p>
+            {% endfor %}
+        {% else %}
+            <p>No tenés reservas registradas.</p>
+        {% endif %}
+
+        <div class="acciones-perfil">
+    <form method="POST" action="{{ url_for('cerrar_sesion') }}">
+        <button type="submit" class="btn-perfil">Cerrar sesión</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('eliminar_cuenta') }}">
+        <button type="submit" class="btn-perfil">Eliminar cuenta</button>
+    </form>
+</div>
+
+    </div>
+
+{% endblock %}
+

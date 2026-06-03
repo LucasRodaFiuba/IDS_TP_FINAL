@@ -1,23 +1,10 @@
 {% extends "base.html" %}
 {% block extra_css %}
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_nosotros.css') }}">
 {% endblock %}
-{% block title %}Nosotros{% endblock %}
+{% block title %}Reseñas{% endblock %}
 
 {% block content %}
-
-    <div class="container">
-        <h1>Le Maison Gourmet</h1>
-
-        <p>En Le Maison Gourmet creemos que la cocina argentina es mucho más que comida: es encuentro, es historia y es pasión. Nuestra propuesta nace de la tradición de las parrillas familiares, las recetas transmitidas de generación en generación y el respeto por los ingredientes nobles de nuestra tierra.</p>
-
-        <p>Combinamos la esencia del asado, las empanadas y los guisos criollos con un toque de innovación, para que cada plato sea un homenaje a nuestras raíces y, al mismo tiempo, una experiencia contemporánea.</p>
-
-        <p>Trabajamos con productores locales, seleccionando carnes, verduras y vinos de la mejor calidad, porque sabemos que detrás de cada sabor hay un pedazo de identidad argentina. Nuestro compromiso es ofrecer un menú que celebre lo auténtico, lo cercano y lo que nos une alrededor de la mesa.</p>
-    </div>
-
 <section class="seccion-resenas">
     <div class="resena">
         <h2>Miguel Angel</h2>
@@ -39,9 +26,7 @@
 
         <span>★</span>
     </div>
-
-
-    <div class="resena">
+        <div class="resena">
         <h2>María Gómez</h2>
         <p>
             Muy buena atención y los platos salieron rápido. Me encantó el postre.
@@ -97,6 +82,4 @@
         <span>★★★★</span>
     </div>
 </section>
-
-
 {% endblock %}

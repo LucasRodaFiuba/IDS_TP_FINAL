@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_reservas.css') }}">
+{% endblock %}
+{% block title %}Le Maison Gourmet{% endblock %}
+
+    {% block content %}
+    <div id="Contenedor_Reserva">
+
+        <h1>Reserva tu Mesa</h1> 
+        <p class="subtitulo">Disfrutá de una experiencia gastronómica única</p>
+
+        <div class="barra-progreso">
+            <div class="progreso-nodo activo" id="nodo-1">1</div>
+            <div class="progreso-nodo" id="nodo-2">2</div>
+            <div class="progreso-nodo" id="nodo-3">3</div>
+            <div class="progreso-nodo" id="nodo-4">4</div>
+            <div class="progreso-nodo" id="nodo-5">5</div>
+        </div>
+
+        <form action="{{url_for('pagina_reservas')}}" method="POST" id="form-reserva">
+
+            <div class="paso-bloque activo" id="bloque-1">
+                <div class="paso-cuerpo">
+                    <label for="fecha_reserva">¿Qué día nos visitarás?</label>
+                    <input type="date" id="fecha_reserva" name="fecha_reserva" required>
+                </div>
+                <button type="button" class="btn-reserva" onclick="cambiarPaso(1, 2)">CONTINUAR</button>
+            </div>
+
+            <div class="paso-bloque" id="bloque-2">
+                <div class="paso-cuerpo">
+                    <label for="horario_reserva">Seleccioná un horario disponible</label>
+                    <select id="horario_reserva" name="horario_reserva" required>
+                        <option value="" disabled selected>Elegí un turno...</option>
+                        <option value="18:00">18:00 hs</option>
+                        <option value="19:00">19:00 hs</option>
+                        <option value="20:00">20:00 hs</option>
+                        <option value="21:00">21:00 hs</option>
+                        <option value="22:00">22:00 hs</option>
+                        <option value="23:00">23:00 hs</option>
+                    </select>
+                </div>
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(2, 1)">Atrás</button>
+                    <button type="button" class="btn-reserva" onclick="cambiarPaso(2, 3)">CONTINUAR</button>
+                </div>
+            </div>
+
+            <div class="paso-bloque" id="bloque-3">
+                <div class="paso-cuerpo">
+                    <label for="cantidad_personas">¿Cuántos comensales serán?</label>
+                    <input type="number" id="cantidad_personas" name="cantidad_personas" min="1" max="12" placeholder="Ej: 4" required>
+                </div>
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(3, 2)">Atrás</button>
+                    <button type="button" class="btn-reserva" onclick="cambiarPaso(3, 4)">CONTINUAR</button>
+                </div>
+            </div>
+
+            <div class="paso-bloque" id="bloque-4">
+                <div class="paso-cuerpo">
+                    <label>Personalizá tu Experiencia</label>
+                    <span class="ayuda-texto texto-centrado">Seleccioná los servicios adicionales:</span>
+                </div>
+                
+                <label class="tarjeta-simple">
+                    <input type="checkbox" name="servicios_extras" value=1>
+                    <div class="tarjeta-textos">
+                        <strong>¿Celebrás un cumpleaños?</strong>
+                        <span class="ayuda-texto">Decoración especial en la mesa.</span>
+                    </div>
+                </label>
+
+                <label class="tarjeta-simple">
+                    <input type="checkbox" name="servicios_extras" value=2>
+                    <div class="tarjeta-textos">
+                        <strong>¿Te acompaña tu mascota?</strong>
+                        <span class="ayuda-texto">Espacio cómodo y amigable.</span>
+                    </div>
+                </label>
+
+                <label class="tarjeta-simple">
+                    <input type="checkbox" name="servicios_extras" value=3>
+                    <div class="tarjeta-textos">
+                        <strong>¿Requerís opciones veganas?</strong>
+                        <span class="ayuda-texto">Platos 100% de origen vegetal.</span>
+                    </div>
+                </label>   
+
+                <label class="tarjeta-simple">
+                    <input type="checkbox" name="servicios_extras" value=4>
+                    <div class="tarjeta-textos">
+                        <strong>¿Preferís mesa en la terraza?</strong>
+                        <span class="ayuda-texto">Espacio al aire libre rodeado de un ambiente cálido y relajado.</span>
+                    </div>
+                </label>
+
+                <div class="paso-cuerpo">
+                    <div class="info-carta">
+                        <p><strong>Nuestro local incluye gratis:</strong></p>
+                        <span class="ayuda-texto desc-check">• Conexión Wifi de alta velocidad</span>
+                        <span class="ayuda-texto desc-check">• Rampa de acceso adaptada y segura</span>
+                        <span class="ayuda-texto desc-check">• Área infantil supervisada</span>
+                    </div>
+                </div>
+
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(4, 3)">Atrás</button>
+                    <button type="button" class="btn-reserva" onclick="cambiarPaso(4, 5)">CONTINUAR</button>
+                </div>
+            </div>
+
+            <div class="paso-bloque" id="bloque-5">
+                <div class="paso-cuerpo">
+                    <label>Completá tus datos de contacto</label>
+                    <input type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Tu Nombre Completo" required>
+                    <input type="email" id="correo_electronico" name="correo_electronico" placeholder="tu-email@ejemplo.com" required>
+                    <input type="text" id="telefono-cliente" name="telefono-cliente" placeholder="Tu Telefono" required>
+                    <small class="ayuda-texto">Te enviaremos la confirmación inmediata y tu código de acceso QR a este mail.</small>
+                </div>
+                <div class="botones-grupo">
+                    <button type="button" class="btn-volver" onclick="cambiarPaso(5, 4)">Atrás</button>
+                    <button type="submit" class="btn-reserva">CONFIRMAR RESERVA</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+<script src="{{ url_for('static', filename='js/script_reservas.js') }}"></script>
+
+{% endblock %}

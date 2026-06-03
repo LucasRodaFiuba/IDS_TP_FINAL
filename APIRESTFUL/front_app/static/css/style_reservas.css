@@ -1,0 +1,240 @@
+@keyframes entradaSuave {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#Contenedor_Reserva {
+    max-width: 550px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #0d0d0d;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+}
+
+#Contenedor_Reserva h1 {
+    color: #c9a646;                         
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+#Contenedor_Reserva .subtitulo {
+    color: #a6a0a0;                           
+    font-size: 18px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.paso-bloque {
+    display: none;
+}
+
+.paso-bloque.activo {
+    display: block;
+    animation: entradaSuave 0.4s ease-out forwards;
+}
+
+.barra-progreso {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.barra-progreso::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #333333;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+.progreso-nodo {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 50%;
+    background-color: #1a1a1a;
+    color: #a6a0a0;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 2;                            
+    transition: all 0.3s ease;
+}
+
+.progreso-nodo.activo {
+    background-color: #907a1a;
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(201, 166, 70, 0.5);
+}
+
+.paso-cuerpo {
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.paso-cuerpo input {
+    margin-bottom: 15px;
+}
+
+.paso-cuerpo label {
+    display: block;
+    color: #a6a0a0;
+    font-size: 20px;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+#Contenedor_Reserva input, #Contenedor_Reserva select {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #151515;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#Contenedor_Reserva input:focus, #Contenedor_Reserva select:focus {
+    outline: none;
+    background-color: #1c1c1c;
+    box-shadow: 0 0 0 2px #c9a646;
+}
+
+.botones-grupo {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-reserva {
+    flex: 2;
+    padding: 15px;
+    background: #907a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-reserva:hover {
+    background: #c9a646;
+    color: #000000;
+}
+
+.btn-volver {
+    flex: 1;
+    padding: 15px;
+    background: #1a1a1a;
+    color: #a6a0a0;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: #252525;
+    color: #ffffff;
+}
+
+.ayuda-texto {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #a6a0a0;
+    display: block;
+    margin-top: 8px;
+}
+
+.tarjeta-simple {
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background-color: #121212;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tarjeta-simple:hover {
+    background-color: #1c1c1c;
+}
+
+.tarjeta-simple input[type="checkbox"] {
+    width: 20px !important; 
+    height: 20px !important;
+    margin-right: 15px !important;
+    cursor: pointer;
+    accent-color: #c9a646;
+}
+
+.tarjeta-textos {
+    display: flex;
+    flex-direction: column;
+    text-align: left;        
+    align-items: flex-start;  
+    width: 100%;
+}
+
+.tarjeta-textos strong {
+    font-size: 1.2rem;
+    color: #c9a646;
+    font-family: 'Cormorant Garamond', serif;
+}
+.tarjeta-textos .ayuda-texto {
+    font-size: 15px;
+    color: #a6a0a0;
+    margin-top: 4px;
+}
+.info-carta {
+    background-color: #14130e;
+    border: 1px dashed #907a1a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+    text-align: left;
+}
+
+.info-carta p strong {
+    color: #c9a646;
+}
+
+.desc-check {
+    display: block;
+    margin-top: 6px;
+    color: #a6a0a0;
+}
+.texto-centrado {
+    text-align: center !important;
+    width: 100%;
+}

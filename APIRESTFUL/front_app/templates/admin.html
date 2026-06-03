@@ -1,97 +1,155 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin.css') }}">
-    <title>Admin Le Mansion Gourmet</title>
-</head>
-<body>
+{% endblock %}
+
+{% block title %}Administración{% endblock %}
 
     {% extends "base.html" %}
-
-    {% block title %}Le Maison Gourmet{% endblock %}
 
     {% block content %}
 
     <div id="Explicacion">
         <h1>Pagina de Administración</h1>
-        <p>Esta pagina le permite a los administradores gestionar el contenido del sitio, Tanto el apartado de reservas, servicios, usuarios y modificar el menu de Le maison Gourmet </p>
+        <p>Esta pagina le permite a los administradores gestionar el contenido del sitio, tanto el apartado de reservas, servicios, usuarios y modificar el menú de Le Maison Gourmet.</p>
     </div>
 
-    <div id ="Modificar_menu">
-        <h2>Modificar Menu</h2>
-        <div id="Agregar_plato">
-            <p>Agregar plato principal</p>
-            <input type="text" placeholder="Nombre del plato">
-            <input type="text" placeholder="Descripción del plato">
-            <input type="text" placeholder="Precio del plato">
-            <input type="text" placeholder="Ingredientes del plato">
-        </div>
+    <div id="Modificar_menu">
+        <h2>Modificar Menú</h2>
 
-        <div id="Eliminar_plato">
-            <p>Eliminar plato principal</p>
-            <input type="text" placeholder="Nombre del plato a eliminar">
-        </div>
+        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
+            <p>Agregar Entrada</p>
+            <input type="text" name="nombre" placeholder="Nombre de la entrada">
+            <input type="text" name="descripcion" placeholder="Descripción de la entrada">
+            <input type="text" name="precio" placeholder="Precio de la entrada">
+            <input type="hidden" name="categoria" value="entrada">
+            <input type="file" name="imagen" accept="image/*">
+            <button type="submit">Agregar</button>
+        </form>
 
-        <div id="Modificar_plato">
-            <p>Modificar plato principal</p>
-            <p>Los espacios en blanco se quedaran con el ultimo valor guardado, solo ingresar los campos que desea actualizar</p>
-            <input type="text" placeholder="Nombre del plato a modificar">
-            <input type="text" placeholder="Nueva descripción del plato">
-            <input type="text" placeholder="Nuevo precio del plato">
-            <input type="text" placeholder="Nuevos ingredientes del plato">
-        </div>
+        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
+            <p>Agregar Plato Principal</p>
+            <input type="text" name="nombre" placeholder="Nombre del plato">
+            <input type="text" name="descripcion" placeholder="Descripción del plato">
+            <input type="text" name="precio" placeholder="Precio del plato">
+            <input type="hidden" name="categoria" value="plato_principal">
+            <input type="file" name="imagen" accept="image/*">
+            <button type="submit">Agregar</button>
+        </form>
+
+        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
+            <p>Agregar Postre</p>
+            <input type="text" name="nombre" placeholder="Nombre del postre">
+            <input type="text" name="descripcion" placeholder="Descripción del postre">
+            <input type="text" name="precio" placeholder="Precio del postre">
+            <input type="hidden" name="categoria" value="postre">
+            <input type="file" name="imagen" accept="image/*">
+            <button type="submit">Agregar</button>
+        </form>
+
+        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
+            <p>Agregar Bebida</p>
+            <input type="text" name="nombre" placeholder="Nombre de la bebida">
+            <input type="text" name="descripcion" placeholder="Descripción de la bebida">
+            <input type="text" name="precio" placeholder="Precio de la bebida">
+            <input type="hidden" name="categoria" value="bebida">
+            <input type="file" name="imagen" accept="image/*">
+            <button type="submit">Agregar</button>
+        </form>
     </div>
 
-    <div id="Gestionar_reservas">
+    <div id="Formularios">
+        <form action="{{ url_for('modificar_objeto') }}" method="post" id="Formulario_modificar">
+            <h2>Modifica cualquier objeto del menú</h2>
+            <p>Los espacios en blanco se quedarán con el último valor guardado, solo ingresar los campos que desea actualizar.</p>
+            <p>El nombre del objeto es obligatorio para poder identificarlo.</p>
+            <input type="text" name="nombre" placeholder="Nombre del objeto a modificar">
+            <input type="text" name="descripcion" placeholder="Nueva descripción del objeto">
+            <input type="text" name="precio" placeholder="Nuevo precio del objeto">
+            <input type="text" name="ingredientes" placeholder="Nuevos ingredientes del objeto">
+            <button>Confirmar cambios</button>
+        </form>
+    </div>
+
+    <div id="Formularios">
+        <form action="{{ url_for('eliminar_objeto') }}" method="post">
+            <h2>Eliminar cualquier objeto del menú</h2>
+            <input type="text" name="nombre" placeholder="Nombre del objeto a eliminar">
+            <button>Confirmar</button>
+        </form>
+    </div>
+
+    <div id="Formularios">
         <h2>Gestionar reservas</h2>
-        <div id="Eliminar_reserva">
-            <p>Eliminar Reservas</p>
-            <input type="text" placeholder="Nombre del cliente">
-            <input type="datetime" placeholder="Fecha y hora de la reserva">
+
+        <div id="Agregar_reserva">
+            <form action="{{ url_for('agregar_reserva') }}" method="post">
+                <p>Agregar Reservas</p>
+                <input type="text" name="cliente" placeholder="Nombre del cliente">
+                <input type="datetime" name="fecha" placeholder="Fecha y hora de la reserva">
+                <input type="text" name="personas" placeholder="Cantidad de personas">
+                <button>Confirmar</button>
+            </form>
         </div>
 
         <div id="Modificar_reserva">
-            <p>Modificar Reservas</p>
-            <p>Los espacios en blanco se quedaran con el ultimo valor guardado, solo ingresar los campos que desea actualizar</p>
-            <input type="text" placeholder="Nombre del cliente">
-            <input type="datetime" placeholder="Fecha y hora de la reserva a modificar">
-            <input type="datetime" placeholder="Nueva fecha y hora de la reserva">
+            <form action="{{ url_for('modificar_reserva') }}" method="post">
+                <p>Modificar Reservas</p>
+                <input type="text" name="cliente" placeholder="Nombre del cliente">
+                <input type="datetime" name="fecha_actual" placeholder="Fecha y hora de la reserva a modificar">
+                <input type="datetime" name="fecha_nueva" placeholder="Nueva fecha y hora de la reserva">
+                <button>Confirmar cambios</button>
+            </form>
         </div>
 
-        <div id="Agregar_reserva">
-            <p>Agregar Reservas</p>
-            <input type="text" placeholder="Nombre del cliente">
-            <input type="datetime" placeholder="Fecha y hora de la reserva">
-            <input type="text" placeholder="Cantidad de personas">
+        <div id="Eliminar_reserva">
+            <form action="{{ url_for('eliminar_reserva') }}" method="post">
+                <p>Eliminar Reservas</p>
+                <input type="text" name="cliente" placeholder="Nombre del cliente">
+                <input type="datetime" name="fecha" placeholder="Fecha y hora de la reserva">
+                <button>Confirmar</button>
+            </form>
         </div>
     </div>
 
-    <div id="Gestionar_usuarios">
+    <div id="Formularios">
         <h2>Gestionar Usuarios</h2>
 
-        <div id="Eliminar_usuario">
-            <p>Eliminar usuario</p>
-            <input type="text" placeholder="Nombre del usuario a eliminar">
+        <div id="Agregar_usuario">
+            <form action="{{ url_for('agregar_usuario') }}" method="post">
+                <p>Agregar usuario</p>
+                <input type="text" name="usuario" placeholder="Nombre de usuario">
+                <input type="email" name="correo" placeholder="Correo electrónico">
+                <input type="password" name="password" placeholder="Contraseña">
+                <button>Confirmar</button>
+            </form>
         </div>
 
         <div id="Modificar_usuario">
-            <p>Modificar usuario</p>
-            <input type="text" placeholder="Nombre del usuario a modificar">
-            <input type="text" placeholder="Nuevo nombre de usuario">
-            <input type="email" placeholder="Nuevo correo electrónico">
-            <input type="password" placeholder="Nueva contraseña">
+            <form action="{{ url_for('modificar_usuario') }}" method="post">
+                <p>Modificar usuario</p>
+                <input type="text" name="usuario_actual" placeholder="Nombre del usuario a modificar">
+                <input type="text" name="usuario_nuevo" placeholder="Nuevo nombre de usuario">
+                <input type="email" name="correo_nuevo" placeholder="Nuevo correo electrónico">
+                <input type="password" name="password_nuevo" placeholder="Nueva contraseña">
+                <button>Confirmar cambios</button>
+            </form>
         </div>
 
-        <div id="Agregar_usuario">
-            <p>Agregar usuario</p>
-            <input type="text" placeholder="Nombre de usuario">
-            <input type="email" placeholder="Correo electrónico">
-            <input type="password" placeholder="Contraseña">
+        <div id="Eliminar_usuario">
+            <form action="{{ url_for('eliminar_usuario') }}" method="post">
+                <p>Eliminar usuario</p>
+                <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
+                <button>Confirmar</button>
+            </form>
         </div>
     </div>
-    {% endblock %}
-    
-</body>
-</html>
+    <div id="dashboard">
+        <a href="{{ url_for('pagina_dashboard') }}"><button>Estadisticas</button></a>
+    </div>
+    <div id="dashboard">
+        <a href="{{ url_for('pagina_404') }}"><button>PRUEBA ERROR 404</button></a>
+    </div>
+    <script src="../js/script.js"></script>
+
+{% endblock %}
+

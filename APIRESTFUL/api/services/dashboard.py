@@ -4,21 +4,21 @@ def obtener_metricas_dashboard(filtros):
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     
-    f_inicio = filtros['fecha_inicio']
-    f_fin = filtros['fecha_fin']
-    incluir_canceladas = filtros['incluir_canceladas']
-    restriccion = filtros['restriccion']
+    # 1. Recuperar los filtros del Frontend
+    f_inicio = filtros.get('fecha_inicio', '2026-05-01')
+    f_fin = filtros.get('fecha_fin', '2026-05-31')
+    incluir_canceladas = filtros.get('incluir_canceladas', False)
 
-    # 1. Definir estados a considerar para las métricas
+    # Definir la lógica de estados según el checkbox
     estados = "('confirmada', 'pendiente', 'finalizada')"
     if incluir_canceladas:
         estados = "('confirmada', 'pendiente', 'finalizada', 'cancelada')"
 
-    # Query para totalizar reservas y cubiertos (cantidad de personas)
+    # 2. Métrica: Total de reservas y cubiertos proyectados
     query_reservas = f"""
         SELECT 
             COUNT(*) as total_reservas,
-            SUM(cantidad_personas) as total_cubiertos
+            IFNULL(SUM(cantidad_personas), 0) as total_cubiertos
         FROM reservas
         WHERE fecha_reserva BETWEEN %s AND %s
           AND estado IN {estados}
@@ -26,37 +26,82 @@ def obtener_metricas_dashboard(filtros):
     cursor.execute(query_reservas, (f_inicio, f_fin))
     res_reservas = cursor.fetchone()
 
-    total_reservas = res_reservas['total_reservas'] or 0
-    total_cubiertos = res_reservas['total_cubiertos'] or 0
+    total_reservas = res_reservas['total_reservas'] if res_reservas else 0
+    total_cubiertos = res_reservas['total_cubiertos'] if res_reservas else 0
 
-    # 2. Calcular ingreso estimado basado en el precio promedio de la carta
-    query_precio_promedio = "SELECT AVG(precio) as promedio FROM menu"
+    # 3. Métrica: Precio promedio de la carta
+    query_precio_promedio = "SELECT IFNULL(AVG(precio), 0) as promedio FROM menu"
     cursor.execute(query_precio_promedio)
     res_precio = cursor.fetchone()
-    precio_promedio = float(res_precio['promedio'] or 0)
+    precio_promedio = float(res_precio['promedio']) if res_precio else 0.0
 
-    ingreso_estimado = total_cubiertos * precio_promedio
+    ingreso_estimado = float(total_cubiertos) * precio_promedio
 
-    # 3. Determinar el plato estrella filtrado por restricción alimenticia (si aplica)
-    where_restriccion = ""
-    if restriccion in ['vegetariano', 'vegano', 'sin_tacc', 'sin_lactosa']:
-        where_restriccion = f"WHERE {restriccion} = TRUE"
-
-    # Como no hay detalle de pedidos, selecciona de forma simulada el plato más representativo/caro de esa sección
-    query_plato = f"""
-        SELECT nombre FROM menu 
-        {where_restriccion} 
-        ORDER BY precio DESC 
-        LIMIT 1
-    """
+    # 4. Métrica: Plato estrella de la carta
+    query_plato = "SELECT nombre FROM menu ORDER BY precio DESC LIMIT 1"
     cursor.execute(query_plato)
     res_plato = cursor.fetchone()
     plato_estrella = res_plato['nombre'] if res_plato else "No disponible"
 
+    # 5. Métrica: Servicio extra más solicitado
+    query_servicio = f"""
+        SELECT 
+            se.nombre,
+            COUNT(*) as total_solicitudes
+        FROM reserva_servicios rs
+        INNER JOIN reservas r 
+            ON rs.id_reserva = r.id_reserva
+        INNER JOIN servicios_extra se 
+            ON rs.id_servicio = se.id
+        WHERE r.fecha_reserva BETWEEN %s AND %s
+          AND r.estado IN {estados}
+        GROUP BY se.id, se.nombre
+        ORDER BY total_solicitudes DESC
+        LIMIT 1
+    """
+
+    cursor.execute(query_servicio, (f_inicio, f_fin))
+    res_servicio = cursor.fetchone()
+
+    servicio_mas_solicitado = (
+        res_servicio["nombre"]
+        if res_servicio
+        else "No disponible"
+    )
+
+    # 6. Tabla: Últimas 5 reservas uniendo la tabla 'usuarios' para sacar el nombre real
+    query_ultimas = f"""
+        SELECT 
+            CONCAT(u.nombre, ' ', u.apellido) as cliente, 
+            r.fecha_reserva, 
+            r.hora_reserva, 
+            r.cantidad_personas as comensales, 
+            r.estado
+        FROM reservas r
+        INNER JOIN usuarios u ON r.id_usuario = u.id_usuario
+        WHERE r.fecha_reserva BETWEEN %s AND %s
+          AND r.estado IN {estados}
+        ORDER BY r.fecha_reserva DESC, r.hora_reserva DESC
+        LIMIT 10
+    """
+    cursor.execute(query_ultimas, (f_inicio, f_fin))
+    res_ultimas = cursor.fetchall()
+
+    # Formatear el resultado procesando los objetos de MySQL a strings limpios
+    ultimas_reservas = []
+    for r in res_ultimas:
+        ultimas_reservas.append({
+            "nombre_cliente": r["cliente"],
+            "fecha": str(r["fecha_reserva"]),
+            "hora": str(r["hora_reserva"])[:5] if r["hora_reserva"] else "00:00",
+            "comensales": r["comensales"],
+            "estado": r["estado"]
+        })
+
     cursor.close()
     connection.close()
 
-    # Retorna la estructura para el frontend
+    # Estructura devuelta que encaja al 100% con tu frontend
     return {
         "fecha_analisis_inicio": f_inicio,
         "fecha_analisis_fin": f_fin,
@@ -67,6 +112,7 @@ def obtener_metricas_dashboard(filtros):
         },
         "rendimiento_carta": {
             "plato_estrella": plato_estrella,
-            "servicio_mas_solicitado": "Maridaje Exclusivo con Sommelier"
-        }
+            "servicio_mas_solicitado": servicio_mas_solicitado
+        },
+        "ultimas_reservas": ultimas_reservas
     }

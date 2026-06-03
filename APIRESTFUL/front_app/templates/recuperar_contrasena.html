@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% endblock %}
+{% block title %}Recuperar contraseña{% endblock %}
+
+    {% block content %}
+
+    <form id="Iniciar_sesion" method="POST" action="{{ url_for('recuperar_contrasena') }}">
+
+        <h1>Recuperar contraseña</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <p>Correo electrónico</p>
+        <input type="email" placeholder="ejemplo@correo.com" id="email" name="email" required>
+
+        <button type="submit" class="btn-ingresar">RECUPERAR CONTRASEÑA</button>
+
+        <button type="button" onclick="window.location.href='{{ url_for('iniciar_sesion') }}'">Volver al login</button>
+
+    </form>
+
+{% endblock %}
+
