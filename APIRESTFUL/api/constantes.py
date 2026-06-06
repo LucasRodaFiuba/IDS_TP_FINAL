@@ -20,3 +20,8 @@ HORARIOS_PARA_RESERVAR = ["18:00","19:00","20:00","21:00","22:00","23:00"]
 #Errores tipo code
 ERROR_CODE_INVALID_MIN_VALUE   = 'invalid.min.value'
 ERROR_CODE_INVALID_MAX_VALUE   = 'invalid.max.value'
+
+#Para validar las restricciones y categorias
+RESTRICCIONES_VALIDAS = {'vegetariano', 'vegano', 'sin tacc', 'sin lactosa', 'ninguno'}
+CATEGORIAS_VALIDAS    = {'bebida', 'entrada', 'postre', 'plato_principal'}
+ 
