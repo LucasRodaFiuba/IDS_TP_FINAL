@@ -4,6 +4,7 @@ import mysql.connector
 from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
+from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
 from services.reservas import enviar_reserva
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service 
 from services.auth import (
@@ -221,111 +222,68 @@ def cancelar_reserva(id_reserva):
     return redirect(url_for("pagina_mis_reservas"))
 
 
-def get_db_connection():
-    try:
-        connection = mysql.connector.connect(
-            host='localhost',
-            database='restaurante_db',
-            user='nacho',
-            password='1234'
-        )
-        if connection.is_connected():
-            return connection
-    except Error as e:
-        print(f"Error al conectar con la base de datos: {e}")
-        return None
-
 @app.route('/admin/menu', methods=['POST'])
 def agregar_objeto():
-    conn = get_db_connection()
-    cursor = conn.cursor()
+    nombre = request.form.get('nombre', '').strip()
+    precio = request.form.get('precio', '').strip()
+    descripcion = request.form.get('descripcion', '').strip()
+    restriccion = request.form.get('restriccion', 'ninguno').strip()
+    categoria = request.form.get('categoria', '').strip()
+    imagen = request.form.get('imagen', '').strip()
 
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    vegetariano = request.form.get('vegetariano', False)
-    vegano = request.form.get('vegano', False)
-    sin_tacc = request.form.get('sin_tacc', False)
-    sin_lactosa = request.form.get('sin_lactosa', False)
-    categoria = request.form['categoria']
-    # Procesar imagen
-    imagen_url = None
-
-    # Si subieron archivo
-    imagen = request.files.get('imagen')
-    if imagen and imagen.filename != '':
-        filename = secure_filename(imagen.filename)
-        imagen.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        imagen_url = f"/static/img/{filename}"
-
-    # Si pegaron URL
-    if not imagen_url:  # solo si no se subió archivo
-        imagen_url = request.form.get('imagen_url')
-    cursor.execute("""
-        INSERT INTO menu (nombre, descripcion, precio, vegetariano, vegano, sin_tacc, sin_lactosa, categoria, imagen_url)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (nombre, descripcion, precio, vegetariano, vegano, sin_tacc, sin_lactosa, categoria, imagen_url))
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-
+    if not nombre or not precio or not descripcion or not categoria:
+         return render_template('admin.html', error='Los campos son obligatorios')
+    imagen = None
+    archivo = request.files.get('imagen')
+    if archivo and archivo.filename != '':
+        filename = secure_filename(archivo.filename)
+        archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        imagen = f"/static/img/{filename}"
+    else:
+        imagen = request.form.get('imagen', '').strip() 
+    resultado = crear_plato(nombre, float(precio), descripcion, restriccion, categoria, imagen) 
     return redirect(url_for('pagina_menu'))
-
 @app.route('/menu')
 def pagina_menu():
-    conn = get_db_connection()
-    if conn is None:
-        return "Error: no se pudo conectar a la base de datos", 500
+    data = obtener_menu()
+    platos = data.get('platos', [])
+    return render_template('menu.html', platos=platos)
 
-    cursor = conn.cursor(dictionary=True)  # mysql.connector soporta dictionary=True
-
-    cursor.execute("SELECT * FROM menu")
-    platos = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return render_template("menu.html", platos=platos)
-
-@app.route('/admin/menu/entradas', methods=['POST'])
-def agregar_entrada():
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    ingredientes = request.form['ingredientes']
-
-@app.route('/admin/menu/plato', methods=['POST'])
-def agregar_plato():
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    ingredientes = request.form['ingredientes']
-
-@app.route('/admin/menu/postre', methods=['POST'])
-def agregar_postre():
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    ingredientes = request.form['ingredientes']
-
-@app.route('/admin/menu/bebida', methods=['POST'])
-def agregar_bebida():
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    ingredientes = request.form['ingredientes']
     
-@app.route('/admin/menu/modificar', methods=['UPDATE'])
+@app.route('/admin/menu/modificar', methods=['POST'])
 def modificar_objeto():
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    precio = request.form['precio']
-    ingredientes = request.form['ingredientes']
+    id =request.form.get('id', '').strip()
+    nombre = request.form.get('nombre', '').strip()
+    precio = request.form.get('precio', '')
+    descripcion = request.form.get('descripcion', '').strip()
+    restriccion = request.form.get('restriccion', 'ninguno').strip()
+    categoria = request.form.get('categoria', '').strip()
+    imagen = request.form.get('imagen', '').strip()
+    
+    response = actualizar_plato(id, nombre, float(precio), descripcion, restriccion, categoria, imagen)
+    if response is None:
+        return render_template('admin.html', error='No se pudo conectar con el servidor')
 
-@app.route('/admin/menu/eliminar', methods=['DELETE'])
+    if response.status_code == 204:
+        return redirect(url_for('pagina_menu'))
+
+
+    else:
+        return render_template('admin.html', error= 'no se pudoconectar')
+
+@app.route('/admin/menu/eliminar', methods=['POST'])
 def eliminar_objeto():
-    nombre = request.form['nombre']
+    nombre = request.form.get('nombre')
+    response = eliminar_plato(nombre)  
+
+    if response is None:
+        return redirect(url_for('pagina_menu'))  
+    
+    if response.status_code == 204:
+        return redirect(url_for('pagina_menu'))  
+    
+    elif response.status_code == 404:
+        return redirect(url_for('pagina_menu'))
 
 @app.route('/admin/reservas/agregar', methods=['POST'])
 def agregar_reserva():

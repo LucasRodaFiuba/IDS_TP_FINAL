@@ -12,66 +12,67 @@
 
     {% block title %}Le Maison Gourmet{% endblock %}
 
-    {% block content %}
-
+    {% block content %} 
+        <h2>RESTRICCIONES</h2>
            <div id="entradas">
-                <h2 id="titulo-entradas">Entradas</h2>          
-                <div id="contenedor-entradas">
+                <h2 class="titulo-entradas">Entradas</h2>          
+                <div class="contenedor-entradas">
                     {% for plato in platos if plato.categoria == 'entrada' %}
-                    <div id="entrada-carta">
-                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
-                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
-                        <p id="entrada-precio">${{ plato.precio }}</p>
-                        {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                    <div class="entrada-carta">
+                        <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p class="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p class="entrada-precio">${{ plato.precio }}</p>
+                        <p class="entrada-restriccion">${{ plato.restriccion}}</p>
+                        {% if plato.imagen %}
+                            <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
                     </div>
                     {% endfor %}
                 </div>
             </div>
         
-            <div id="entradas">
-                <h2 id="titulo-entradas">Platos principales</h2>          
-                <div id="contenedor-entradas">
+            <div id="platos_principales">
+                <h2 class="titulo-entradas">Platos principales</h2>          
+                <div class="contenedor-entradas">
                     {% for plato in platos if plato.categoria == 'plato_principal' %}
-                    <div id="entrada-carta">
-                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
-                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
-                        <p id="entrada-precio">${{ plato.precio }}</p>
-                        {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                    <div class="entrada-carta">
+                        <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p class="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p class="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen %}
+                            <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
                     </div>
                     {% endfor %}
                 </div>
             </div>  
 
-            <div id="entradas">
-                <h2 id="titulo-entradas">Postres</h2>          
-                <div id="contenedor-entradas">
+            <div id="postres">
+                <h2 class="titulo-entradas">Postres</h2>          
+                <div class="contenedor-entradas">
                     {% for plato in platos if plato.categoria == 'postre' %}
-                    <div id="entrada-carta">
-                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
-                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
-                        <p id="entrada-precio">${{ plato.precio }}</p>
-                        {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                    <div class="entrada-carta">
+                        <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p class="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p class="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen %}
+                            <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
                     </div>
                     {% endfor %}
                 </div>
             </div>
 
-            <div id="entradas">
-                <h2 id="titulo-entradas">Bebidas</h2>                       
-                <div id="contenedor-entradas">
+            <div id="bebidas">
+                <h2 class="titulo-entradas">Bebidas</h2>                       
+                <div class="contenedor-entradas">
                     {% for plato in platos if plato.categoria == 'bebida' %}
-                    <div id="entrada-carta">
-                        <h5 id="entrada-titulo">{{ plato.nombre }}</h5>
-                        <p id="entrada-descripcion">{{ plato.descripcion }}</p>
-                        <p id="entrada-precio">${{ plato.precio }}</p>
-                        {% if plato.imagen_url %}
-                            <img src="{{ plato.imagen_url }}" alt="{{ plato.nombre }}" id="entrada-imagen">
+                    <div class="entrada-carta">
+                        <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
+                        <p class="entrada-descripcion">{{ plato.descripcion }}</p>
+                        <p class="entrada-precio">${{ plato.precio }}</p>
+                        {% if plato.imagen %}
+                            <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
                     </div>
                     {% endfor %}

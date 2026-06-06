@@ -22,8 +22,40 @@
     animation: entradaSuave 0.5s ease-out forwards;
 }
 
-
-#titulo-entradas {
+#platos_principales {
+    max-width: 900px; 
+    margin: 60px auto;
+    padding: 40px;
+    background: #0d0d0d;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    animation: entradaSuave 0.5s ease-out forwards;
+}
+#postres {
+    max-width: 900px; 
+    margin: 60px auto;
+    padding: 40px;
+    background: #0d0d0d;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    animation: entradaSuave 0.5s ease-out forwards;
+}
+#bebidas {
+    max-width: 900px; 
+    margin: 60px auto;
+    padding: 40px;
+    background: #0d0d0d;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    animation: entradaSuave 0.5s ease-out forwards;
+}
+.titulo-entradas {
     color: #c9a646;                         
     font-family: 'Cinzel', serif;
     font-size: 30px;
@@ -35,7 +67,7 @@
 }
 
 
-#contenedor-entradas {
+.contenedor-entradas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
@@ -43,7 +75,7 @@
 }
 
 
-#entrada-carta {
+.entrada-carta {
     background-color: #121212;
     border: 1px dashed #333333;
     border-radius: 8px;
@@ -54,7 +86,7 @@
     transition: all 0.3s ease;
 }
 
-#entrada-carta:hover {
+.entrada-carta:hover {
     background-color: #1a1a1a;
     border-color: #907a1a;
     transform: translateY(-5px); 
@@ -62,7 +94,7 @@
 }
 
 
-#entrada-titulo {
+.entrada-titulo {
     color: #c9a646;
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
@@ -71,7 +103,7 @@
     letter-spacing: 1px;
 }
 
-#entrada-descripcion {
+.entrada-descripcion {
     color: #a6a0a0;
     font-size: 1.1rem;
     margin-bottom: 15px;
@@ -79,7 +111,7 @@
     flex-grow: 1; 
 }
 
-#entrada-precio {
+.entrada-precio {
     color: #ffffff;
     font-size: 1.3rem;
     font-weight: bold;
@@ -87,8 +119,8 @@
     font-family: 'Cinzel', serif;
 }
 
-
-#entrada-imagen {
+    
+.entrada-imagen {
     width: 100%;
     height: 180px;
     object-fit: cover; 
@@ -97,6 +129,6 @@
     transition: all 0.3s ease;
 }
 
-#entrada-carta:hover #entrada-imagen {
+.entrada-carta:hover #entrada-imagen {
     border-color: #c9a646; 
 }

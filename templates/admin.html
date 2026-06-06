@@ -19,59 +19,55 @@
         <p>Esta pagina le permite a los administradores gestionar el contenido del sitio, tanto el apartado de reservas, servicios, usuarios y modificar el menú de Le Maison Gourmet.</p>
     </div>
 
-    <div id="Modificar_menu">
-        <h2>Modificar Menú</h2>
+  <div id="Modificar_menu">
+    <h2>Modificar Menú</h2>
+    <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
+        <p>Agregar Plato</p>
+        <input type="text" name="nombre" placeholder="Nombre">
+        <input type="text" name="descripcion" placeholder="Descripción">
+        <input type="text" name="precio" placeholder="Precio">
 
-        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
-            <p>Agregar Entrada</p>
-            <input type="text" name="nombre" placeholder="Nombre de la entrada">
-            <input type="text" name="descripcion" placeholder="Descripción de la entrada">
-            <input type="text" name="precio" placeholder="Precio de la entrada">
-            <input type="hidden" name="categoria" value="entrada">
-            <input type="file" name="imagen" accept="image/*">
-            <button type="submit">Agregar</button>
-        </form>
+        <select name="categoria">
+            <option value="entrada">Entrada</option>
+            <option value="plato_principal">Plato Principal</option>
+            <option value="postre">Postre</option>
+            <option value="bebida">Bebida</option>
+        </select>
+        <select name="restriccion">
+            <option value="vegano">vegano</option>
+            <option value="veguetariano">veguetariano</option>
+            <option value="sin_tacc">sin tacc</option>
+            <option value="sin_lactosa">sin lactosa</option>
+            <option value="ninguna">ninguna</option>
+        </select>
 
-        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
-            <p>Agregar Plato Principal</p>
-            <input type="text" name="nombre" placeholder="Nombre del plato">
-            <input type="text" name="descripcion" placeholder="Descripción del plato">
-            <input type="text" name="precio" placeholder="Precio del plato">
-            <input type="hidden" name="categoria" value="plato_principal">
-            <input type="file" name="imagen" accept="image/*">
-            <button type="submit">Agregar</button>
-        </form>
-
-        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
-            <p>Agregar Postre</p>
-            <input type="text" name="nombre" placeholder="Nombre del postre">
-            <input type="text" name="descripcion" placeholder="Descripción del postre">
-            <input type="text" name="precio" placeholder="Precio del postre">
-            <input type="hidden" name="categoria" value="postre">
-            <input type="file" name="imagen" accept="image/*">
-            <button type="submit">Agregar</button>
-        </form>
-
-        <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
-            <p>Agregar Bebida</p>
-            <input type="text" name="nombre" placeholder="Nombre de la bebida">
-            <input type="text" name="descripcion" placeholder="Descripción de la bebida">
-            <input type="text" name="precio" placeholder="Precio de la bebida">
-            <input type="hidden" name="categoria" value="bebida">
-            <input type="file" name="imagen" accept="image/*">
-            <button type="submit">Agregar</button>
-        </form>
-    </div>
-
+        <input type="file" name="imagen" accept="image/*">
+        <button type="submit">Agregar</button>
+    </form>
+</div>
     <div id="Formularios">
         <form action="{{ url_for('modificar_objeto') }}" method="post" id="Formulario_modificar">
             <h2>Modifica cualquier objeto del menú</h2>
             <p>Los espacios en blanco se quedarán con el último valor guardado, solo ingresar los campos que desea actualizar.</p>
             <p>El nombre del objeto es obligatorio para poder identificarlo.</p>
+            <input type="number" name="id" placeholder="ID del plato (obligatorio)">
             <input type="text" name="nombre" placeholder="Nombre del objeto a modificar">
             <input type="text" name="descripcion" placeholder="Nueva descripción del objeto">
-            <input type="text" name="precio" placeholder="Nuevo precio del objeto">
-            <input type="text" name="ingredientes" placeholder="Nuevos ingredientes del objeto">
+            <input type="text" name="precio" placeholder="Nuevo precio del objeto" min="0" step="any">
+            <select name="categoria">
+                <option value="entrada">Entrada</option>
+                <option value="plato_principal">Plato Principal</option>
+                <option value="postre">Postre</option>
+                <option value="bebida">Bebida</option>
+            </select>
+            <select name="restriccion">
+                <option value="vegano">vegano</option>
+                <option value="veguetariano">veguetariano</option>
+                <option value="sin_tacc">sin tacc</option>
+                <option value="sin_lactosa">sin lactosa</option>
+                <option value="ninguna">ninguna</option>
+            </select>
+            <input type="file" name="imagen" accept="image/*">
             <button>Confirmar cambios</button>
         </form>
     </div>
