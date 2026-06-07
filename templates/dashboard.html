@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
 
 <div id="Filtros_Dashboard">
-    <form action="{{ url_for('paginda_dashboard') }}" method="GET">
+    <form action="{{ url_for('pagina_dashboard') }}" method="GET">
         <label>Desde: <input type="date" name="fecha_inicio" value="{{ f_inicio }}"></label>
         <label>Hasta: <input type="date" name="fecha_fin" value="{{ f_fin }}"></label>
         <button type="submit" class="btn-filtrar">Actualizar</button>
