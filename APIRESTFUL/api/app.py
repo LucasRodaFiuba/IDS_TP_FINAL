@@ -9,6 +9,7 @@ from .routes.auth import auth_bp
 from .routes.usuarios import usuarios_bp
 from .routes.menu import menu_bp
 from .routes.dashboard import dashboard_bp
+from .routes.resenas import resenas_bp
 
 
 
@@ -24,6 +25,7 @@ def registrar_rutas(app):
     app.register_blueprint(usuarios_bp, url_prefix=BASE_URL)
     app.register_blueprint(menu_bp, url_prefix=BASE_URL)
     app.register_blueprint(dashboard_bp, url_prefix=BASE_URL)
+    app.register_blueprint(resenas_bp, url_prefix=BASE_URL)
 
 
 app = Flask(__name__)

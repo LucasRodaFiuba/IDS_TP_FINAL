@@ -1,5 +1,5 @@
 BASE_URL = '/'
-DB_URL = "mysql+pymysql://appuser:1234@localhost/restaurante_db"
+DB_URL = "mysql+pymysql://miguel:1234@localhost/restaurante_db"
 # Formato de fecha esperado por la API
 FORMATO_FECHA = '%Y-%m-%d'
 
