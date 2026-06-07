@@ -7,7 +7,7 @@ from api.db_funciones import obtener_servicios_extra, actualizar_servicio_extra,
 servicios_extra_bp= Blueprint("servicios_extra",__name__)
 
 
-@servicios_extra_bp.route("/")
+@servicios_extra_bp.route("/servicios_extra")
 def obtener_servicios():
     servicios= obtener_servicios_extra()
 
@@ -15,7 +15,7 @@ def obtener_servicios():
     
 
 
-@servicios_extra_bp.route("/<int:id_servicio>", methods=['GET'])
+@servicios_extra_bp.route("/servicios_extra/<int:id_servicio>", methods=['GET'])
 def obtener_servicio_id(id_servicio):
     servicio= obtener_servicio_por_id(id_servicio)
 
@@ -28,7 +28,7 @@ def obtener_servicio_id(id_servicio):
 
 
 
-@servicios_extra_bp.route("/", methods=['POST'])
+@servicios_extra_bp.route("/servicios_extra", methods=['POST'])
 def agregar_servicio():
     data= request.json
 
@@ -49,7 +49,7 @@ def agregar_servicio():
 
 
 
-@servicios_extra_bp.route("/<int:id_servicio>", methods=['PATCH'])
+@servicios_extra_bp.route("/servicios_extra/<int:id_servicio>", methods=['PATCH'])
 def actualizar_servicio(id_servicio):
 
     data= request.json
@@ -75,7 +75,7 @@ def actualizar_servicio(id_servicio):
 
 
 
-@servicios_extra_bp.route("/<int:id_servicio>",  methods=['DELETE'])
+@servicios_extra_bp.route("/servicios_extra/<int:id_servicio>",  methods=['DELETE'])
 def eliminar_servicio(id_servicio):
     delete_servicio= eliminar_servicio_extra(id_servicio)
 
