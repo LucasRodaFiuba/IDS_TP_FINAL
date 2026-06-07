@@ -1,0 +1,8 @@
+Flask
+PyJWT
+qrcode
+Pillow
+PyMySQL
+mysql-connector-python
+sqlalchemy
+bcrypt
