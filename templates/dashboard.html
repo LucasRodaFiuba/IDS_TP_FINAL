@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
+{% endblock %}
 
 {% block title %}Panel de Control - Le Maison Gourmet{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style_dashboard.css') }}">
 
 <div id="Filtros_Dashboard">
     <form action="{{ url_for('pagina_dashboard') }}" method="GET">

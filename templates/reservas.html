@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservas - Le Maison Gourmet</title>
+{% extends "base.html" %}
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_reservas.css') }}">
-</head>
-<body>
-    {% extends "base.html" %}
-
-    {% block title %}Le Maison Gourmet{% endblock %}
+{% endblock %}
+{% block title %}Le Maison Gourmet{% endblock %}
 
     {% block content %}
     <div id="Contenedor_Reserva">
@@ -128,7 +121,7 @@
                 </div>
                 <div class="botones-grupo">
                     <button type="button" class="btn-volver" onclick="cambiarPaso(5, 4)">Atrás</button>
-                    <button type="submit" id='boton-confirmar' class="btn-reserva">CONFIRMAR RESERVA</button>
+                    <button type="submit" class="btn-reserva">CONFIRMAR RESERVA</button>
                 </div>
             </div>
 
@@ -137,7 +130,5 @@
     </div>
 
 <script src="{{ url_for('static', filename='js/script_reservas.js') }}"></script>
-    {% endblock %}
 
-</body>
-</html>
+{% endblock %}

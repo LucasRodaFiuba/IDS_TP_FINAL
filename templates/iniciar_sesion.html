@@ -1,45 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
-    <title>Document</title>
-</head>
-<body>
-    {% extends "base.html" %}
+{% endblock %}
 
-    {% block title %}Le Maison Gourmet{% endblock %}
+{% block title %}Iniciar Sesión{% endblock %}
 
-    {% block content %}
+{% block content %}
+<div id="Iniciar_sesion">
+    <h1>Iniciar Sesión</h1>
 
-    <form id="Iniciar_sesion" method="POST" action="{{ url_for('iniciar_sesion') }}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-        <h1>Iniciar Sesión</h1>
+    <form method="POST" action="{{ url_for('iniciar_sesion') }}">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" name="password" placeholder="••••••••" required>
 
-        <p>Correo electrónico</p>
-        <input type="email" placeholder="ejemplo@correo.com" id="email" name="email" required>
-
-        <p>Contraseña</p>
-        <input type="password" placeholder="••••••••" id="contrasena" name="password" required>
-
-        <button type="submit" class="btn-ingresar">INICIAR SESIÓN</button>
-
-        <button type="button" onclick="window.location.href='{{ url_for('registro') }}'">Registrate aquí</button>
-
-        <button type="button" onclick="window.location.href='{{ url_for('recuperar_contrasena') }}'">Recuperar contraseña</button>
-
+        <button type="submit" class="btn-reserva">INICIAR SESIÓN</button>
     </form>
 
-    {% endblock %}
-
-</body>
-</html>
+    <button type="button" class="btn-reserva" onclick="window.location.href='{{ url_for('registro') }}'">REGÍSTRATE AQUÍ</button>
+    <button type="button" class="btn-reserva" onclick="window.location.href='{{ url_for('recuperar_contrasena') }}'">RECUPERAR CONTRASEÑA</button>
+</div>
+{% endblock %}

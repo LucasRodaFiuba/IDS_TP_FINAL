@@ -1,0 +1,30 @@
+.error-404 {
+    text-align: center;
+    padding: 50px;
+}
+
+.error-404 h1 {
+    font-size: 100px;
+    color: rgb(255, 255, 255);
+    margin: 0;
+}
+
+.error-404 h2 {
+    font-size: 30px;
+    margin: 10px 0;
+    color: white;
+}
+
+.error-404 p {
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: goldenrod;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border-radius: 5px;
+}

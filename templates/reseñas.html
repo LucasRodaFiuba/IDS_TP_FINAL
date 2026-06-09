@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reseñas</title>
+{% extends "base.html" %}
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
-</head>
-<body>
+{% endblock %}
+{% block title %}Reseñas{% endblock %}
 
+{% block content %}
 <section class="seccion-resenas">
     <div class="resena">
         <h2>Miguel Angel</h2>
@@ -85,5 +82,4 @@
         <span>★★★★</span>
     </div>
 </section>
-</body>
-</html>
+{% endblock %}

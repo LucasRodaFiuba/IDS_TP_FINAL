@@ -1,7 +1,13 @@
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
-    margin-top: 15px;
-    background-image: url(../img/fondo.jpg);
+    background-image: url("../img/fondo.jpg");
+}
+
+main {
+    flex: 1;
 }
 
 header {
@@ -152,7 +158,6 @@ header {
     color: white;
 }
 
-
 #Reserva1 h2{
     color: #a6a0a0;
     font-family: 'Cormorant Garamond', serif;
@@ -193,7 +198,8 @@ header {
 
     width: 100%;
     padding: 18px 60px;
-    margin-top: 80px;
+    margin-top: auto;
+    margin-bottom: 0;
 
     border-top: 1px solid #b08d2f;
     background: rgba(0, 0, 0, 0.85);

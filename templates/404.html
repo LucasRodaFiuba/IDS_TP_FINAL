@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_404.css') }}">
+{% endblock %}
+{% block content %}
+{% block title %}Página no encontrada{% endblock %}
+<div class="error-404">
+    <h1>404</h1>
+    <h2>Página no encontrada</h2>
+    <p>La dirección que ingresaste no existe o fue movida.</p>
+    <a href="{{ url_for('pagina_dashboard') }}" class="btn-volver">Volver al inicio</a>
+</div>
+{% endblock %}
