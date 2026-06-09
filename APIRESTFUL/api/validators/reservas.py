@@ -10,6 +10,7 @@ from ..utils import (
     validar_minimo,
     validar_que_sea_lista
 )
+from datetime import datetime, date
 
 def validar_id(id) -> int:
     """Valida que el id recibido sea un entero positivo."""
@@ -114,10 +115,17 @@ def validar_body_nueva_reserva(body: dict) -> dict:
     except ValueError as e:
         errores.extend(e.args[0]['errors'])
 
-    #valido fecha
+    #valido fecha (aseguro que no sea una fecha del pasado)
     try:
         fecha_str = validar_string_no_vacio(body.get('fecha'), 'fecha')
-        validar_formato_fecha_o_horario(fecha_str, FORMATO_FECHA, 'fecha')
+        fecha_dt = validar_formato_fecha_o_horario(fecha_str, FORMATO_FECHA, 'fecha')
+        if fecha_dt.date() < date.today():
+            errores.append({
+                "code": "fecha.invalida",
+                "message": "Fecha inválida",
+                "description": "No podés reservar en una fecha pasada",
+                "field": "fecha"
+            })
         fecha = fecha_str
     except ValueError as e:
         errores.extend(e.args[0]['errors'])
