@@ -22,6 +22,6 @@ ERROR_CODE_INVALID_MIN_VALUE   = 'invalid.min.value'
 ERROR_CODE_INVALID_MAX_VALUE   = 'invalid.max.value'
 
 #Para validar las restricciones y categorias
-RESTRICCIONES_VALIDAS = {'vegetariano', 'vegano', 'sin tacc', 'sin lactosa', 'ninguno'}
+RESTRICCIONES_VALIDAS = {'ninguno','sin lactosa', 'vegetariano', 'vegano', 'sin tacc'}
 CATEGORIAS_VALIDAS    = {'bebida', 'entrada', 'postre', 'plato_principal'}
  

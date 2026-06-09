@@ -35,10 +35,10 @@
         </select>
         <select name="restriccion">
             <option value="vegano">vegano</option>
-            <option value="veguetariano">veguetariano</option>
-            <option value="sin_tacc">sin tacc</option>
-            <option value="sin_lactosa">sin lactosa</option>
-            <option value="ninguna">ninguna</option>
+            <option value="vegetariano">vegetariano</option>
+            <option value="sin tacc">sin tacc</option>
+            <option value="sin lactosa">sin lactosa</option>
+            <option value="ninguno">ninguno</option>
         </select>
 
         <input type="file" name="imagen" accept="image/*">
@@ -46,7 +46,7 @@
     </form>
 </div>
     <div id="Formularios">
-        <form action="{{ url_for('modificar_objeto') }}" method="post" id="Formulario_modificar">
+        <form action="{{ url_for('modificar_objeto') }}" method="post" id="Formulario_modificar" enctype="multipart/form-data">
             <h2>Modifica cualquier objeto del menú</h2>
             <p>Los espacios en blanco se quedarán con el último valor guardado, solo ingresar los campos que desea actualizar.</p>
             <p>El nombre del objeto es obligatorio para poder identificarlo.</p>
@@ -62,10 +62,10 @@
             </select>
             <select name="restriccion">
                 <option value="vegano">vegano</option>
-                <option value="veguetariano">veguetariano</option>
-                <option value="sin_tacc">sin tacc</option>
-                <option value="sin_lactosa">sin lactosa</option>
-                <option value="ninguna">ninguna</option>
+                <option value="vegetariano">vegetariano</option>
+                <option value="sin tacc">sin tacc</option>
+                <option value="sin lactosa">sin lactosa</option>
+                <option value="ninguno">ninguno</option>
             </select>
             <input type="file" name="imagen" accept="image/*">
             <button>Confirmar cambios</button>

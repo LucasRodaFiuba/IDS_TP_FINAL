@@ -254,15 +254,20 @@ def pagina_menu():
     
 @app.route('/admin/menu/modificar', methods=['POST'])
 def modificar_objeto():
-    id =request.form.get('id', '').strip()
-    nombre = request.form.get('nombre', '').strip()
-    precio = request.form.get('precio', '')
-    descripcion = request.form.get('descripcion', '').strip()
-    restriccion = request.form.get('restriccion', 'ninguno').strip()
-    categoria = request.form.get('categoria', '').strip()
-    imagen = request.form.get('imagen', '').strip()
-    
-    response = actualizar_plato(id, nombre, float(precio), descripcion, restriccion, categoria, imagen)
+    id =request.form.get('id')
+    nombre = request.form.get('nombre')
+    precio = request.form.get('precio') or None
+    descripcion = request.form.get('descripcion')
+    restriccion = request.form.get('restriccion')
+    categoria = request.form.get('categoria')
+    archivo = request.files.get('imagen')
+    imagen_url = None
+    if archivo and archivo.filename != '':
+        nombre_archivo = archivo.filename
+        archivo.save(f'static/img/{nombre_archivo}')
+        imagen_url = f'/static/img/{nombre_archivo}'
+
+    response = actualizar_plato(id, nombre, precio, descripcion, restriccion, categoria, imagen_url)
     if response is None:
         return render_template('admin.html', error='No se pudo conectar con el servidor')
 
@@ -270,8 +275,9 @@ def modificar_objeto():
         return redirect(url_for('pagina_menu'))
 
 
-    else:
+    else:   
         return render_template('admin.html', error= 'no se pudoconectar')
+
 
 @app.route('/admin/menu/eliminar', methods=['POST'])
 def eliminar_objeto():
