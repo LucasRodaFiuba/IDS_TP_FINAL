@@ -14,12 +14,14 @@ from services.auth import (
     registrar_usuario_api,
     solicitar_recuperacion_password_api,
 )
-
+from routes.servicios_extra import servicios_extra_bp
 app = Flask(__name__)
 # Carpeta donde se guardan las imágenes
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img')
 
 app.secret_key = "dev-secret-key-123"
+
+app.register_blueprint(servicios_extra_bp)
 
 @app.route("/")
 def home():

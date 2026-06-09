@@ -142,5 +142,5 @@ CREATE TABLE reserva_servicios (
     id_servicio INT,
 
     FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
-    FOREIGN KEY (id_servicio) REFERENCES servicios_extra(id)
+    FOREIGN KEY (id_servicio) REFERENCES servicios_extra(id_servicio)
 );
