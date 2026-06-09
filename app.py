@@ -43,8 +43,8 @@ def pagina_reservas():
         resultado = enviar_reserva(data)
 
         if resultado.get("ok"):
-            flash("Reserva creada", "success")
-            return redirect(url_for("pagina_reservas"))
+            flash("¡Reserva confirmada! Nos vemos pronto en Le Maison Gourmet.", "success")
+            return redirect(url_for("pagina_mis_reservas"))
         
         #Manejo caso en el que tira 404 (no se puede reservar si el usuario no está)
         errores = resultado.get("errores", [])
