@@ -55,7 +55,7 @@ CREATE TABLE reservas (
     ) DEFAULT 'pendiente',
 
     codigo_qr VARCHAR(255),
-    fecha_cancelacion DATETIME NULL
+    fecha_cancelacion DATETIME NULL,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_usuario)

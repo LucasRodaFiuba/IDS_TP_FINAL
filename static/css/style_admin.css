@@ -205,3 +205,10 @@ button:hover {
 button:active {
     transform: translateY(0);
 }
+
+#dashboard {
+    max-width: 400px;
+    margin: 0 auto 40px auto;
+    padding: 20px;
+    text-align: center;
+}

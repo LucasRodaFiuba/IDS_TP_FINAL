@@ -7,7 +7,7 @@ def get_db_connection():
             host='localhost',
             database='restaurante_db',
             user='root',            # PONGAN SU USUARIO DE SQL ACA (puede estar predeterminado como "root")
-            password=''    # PONGAN SU CONTRASEÑA DE SQL ACA
+            password='212212'    # PONGAN SU CONTRASEÑA DE SQL ACA
         )
         return connection
     except Error as e:
