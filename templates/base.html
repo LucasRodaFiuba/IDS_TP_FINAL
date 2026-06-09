@@ -23,7 +23,7 @@
 
             <ul id="Botones">
 				<li><a href="{{ url_for('pagina_menu') }}">Menu</a></li>
-				<li><a href="{{ url_for('pagina_nosotros') }}">Conocenos</a></li>
+				<li><a href="{{ url_for('servicios_extra.pagina_nosotros') }}">Conocenos</a></li>
 				<li><a href="{{ url_for('pagina_reservas') }}">Reservas</a></li>
                 <li><a href="{{ url_for('pagina_mis_reservas')}}">Mis reservas</a></li>
 				{% if session.get('usuario') %}

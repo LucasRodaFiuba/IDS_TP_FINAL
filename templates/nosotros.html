@@ -26,6 +26,24 @@
         <p>Trabajamos con productores locales, seleccionando carnes, verduras y vinos de la mejor calidad, porque sabemos que detrás de cada sabor hay un pedazo de identidad argentina. Nuestro compromiso es ofrecer un menú que celebre lo auténtico, lo cercano y lo que nos une alrededor de la mesa.</p>
     </div>
 
+    
+
+<section class="servicios-extra">
+
+    <h2>✦ Servicios Extra ✦</h2>
+{% for servicio in servicios %}
+    <div class="servicio">
+        <p>ID: {{ servicio["id_servicio"] }}</p>   
+        <h3>{{servicio["nombre"]}}</h3>
+        <p>{{servicio["descripcion"]}}</p>
+    </div>
+{%endfor%}
+</section>
+
+
+
+
+
 <section class="seccion-resenas">
     <div class="resena">
         <h2>Miguel Angel</h2>

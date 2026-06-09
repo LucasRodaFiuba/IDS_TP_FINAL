@@ -55,6 +55,7 @@ CREATE TABLE reservas (
     ) DEFAULT 'pendiente',
 
     codigo_qr VARCHAR(255),
+    fecha_cancelacion DATETIME NULL,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_usuario)
@@ -142,5 +143,5 @@ CREATE TABLE reserva_servicios (
     id_servicio INT,
 
     FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
-    FOREIGN KEY (id_servicio) REFERENCES servicios_extra(id)
+    FOREIGN KEY (id_servicio) REFERENCES servicios_extra(id_servicio)
 );
