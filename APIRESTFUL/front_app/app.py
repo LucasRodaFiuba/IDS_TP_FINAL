@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for,flash, session
+import requests
+from services.resenas import obtener_resenas, enviar_resena
 #from services.reservas import obtener_reservas, enviar_reserva
 import mysql.connector
 from mysql.connector import Error
@@ -14,6 +16,7 @@ from services.auth import (
     solicitar_recuperacion_password_api,
 )
 from services.dashboard import obtener_estadisticas
+
 
 app = Flask(__name__)
 # Carpeta donde se guardan las imágenes
@@ -393,6 +396,39 @@ def pagina_dashboard():
 def pagina_404():
     return render_template('404.html'), 404
 
+@app.route('/resenas', methods=['GET', 'POST'])
+def pagina_resenas():
+    if request.method == 'POST':
+        usuario = session.get('usuario')
+        token = session.get('token')
+
+        if not usuario or not token:
+            flash('Tenés que iniciar sesión para dejar una reseña.', 'error')
+            return redirect(url_for('iniciar_sesion'))
+
+        resultado = enviar_resena(
+            id_usuario=usuario['id'],
+            id_reserva=None,
+            puntuacion=int(request.form.get('puntuacion')),
+            comentario=request.form.get('comentario'),
+            token=token
+        )
+
+        if resultado.get('ok'):
+            flash('¡Reseña enviada!', 'success')
+        else:
+            for e in resultado.get('errores', []):
+                flash(e, 'error')
+
+        return redirect(url_for('pagina_resenas'))
+
+    # GET
+    resultado = obtener_resenas()
+    if resultado.get('ok'):
+        return render_template('reseñas.html', resenas=resultado['response'])
+    for e in resultado.get('errores', []):
+        flash(e, 'error')
+    return render_template('reseñas.html', resenas=[])
 
 if __name__ == "__main__":
     app.run(debug=True, host='127.0.0.1', port = 5001)

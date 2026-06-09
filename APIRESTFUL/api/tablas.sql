@@ -85,7 +85,7 @@ CREATE TABLE resenas (
     id_resena INT AUTO_INCREMENT PRIMARY KEY,
 
     id_usuario INT NOT NULL,
-    id_reserva INT NOT NULL,
+    id_reserva INT NULL,
 
     puntuacion INT NOT NULL CHECK (puntuacion BETWEEN 1 AND 5),
 
@@ -145,3 +145,22 @@ CREATE TABLE reserva_servicios (
     FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
     FOREIGN KEY (id_servicio) REFERENCES servicios_extra(id)
 );
+-- =========================
+-- DATOS DE PRUEBA
+-- =========================
+
+INSERT INTO mesas (capacidad, ubicacion, disponible) VALUES
+(4, 'Salón principal', TRUE),
+(2, 'Terraza', TRUE);
+
+INSERT INTO usuarios (nombre, apellido, email, password, telefono, id_rol) VALUES
+('Carlos', 'Pérez', 'carlos@mail.com', '1234', '1122334455', 2),
+('Ana', 'Gómez', 'ana@mail.com', '1234', '1199887766', 2);
+
+INSERT INTO reservas (id_usuario, numero_mesa, fecha_reserva, hora_reserva, cantidad_personas, estado) VALUES
+(1, 1, '2025-01-10', '20:00:00', 2, 'finalizada'),
+(2, 2, '2025-01-11', '21:00:00', 3, 'finalizada');
+
+INSERT INTO resenas (id_usuario, id_reserva, puntuacion, comentario) VALUES
+(1, 1, 5, 'Excelente comida y atención, volvería sin dudarlo.'),
+(2, 2, 4, 'Muy buena experiencia, el ambiente es hermoso.');
