@@ -194,23 +194,6 @@ def actualizar_servicios_reserva(id_reserva, servicios_extras):
 #--------------------------------------------------------------------------
 # Queries para cancelar reservas (especialmente)
 #--------------------------------------------------------------------------
-def tiene_muchas_cancelaciones(id_usuario):
-    """
-    Permite sabe si el usuario cancelo más de 3 veces en el mes.
-    """
-    query = """
-        SELECT COUNT(*) as cantidad
-        FROM reservas
-        WHERE id_usuario = :id_usuario
-        AND estado = 'cancelada'
-        AND MONTH(fecha_cancelacion) = MONTH(CURDATE())
-        AND YEAR(fecha_cancelacion) = YEAR(CURDATE());
-    """
-    cantidad_cancelaciones = ejecutar_consulta(query,{'id_usuario':id_usuario})
-
-    #devuelve True o False acorde a si tiene mas de 3 cancelaciones en el mes.
-    return cantidad_cancelaciones[0]['cantidad'] >= 3
-
 def cancelar_reserva(id_reserva):
     query = """
         UPDATE reservas
@@ -254,7 +237,42 @@ def actualizar_estado_reserva(token,nuevo_estado):
         "estado": nuevo_estado,
         "codigo_qr": token
     })
-    
+
+#--------------------------------------------------------------------------
+# Queries relacionadas con restricciones a la hora de reservar
+#--------------------------------------------------------------------------
+def tiene_muchas_cancelaciones(id_usuario):
+    """
+    Permite sabe si el usuario cancelo más de 3 veces en el mes.
+    """
+    query = """
+        SELECT COUNT(*) as cantidad
+        FROM reservas
+        WHERE id_usuario = :id_usuario
+        AND estado = 'cancelada'
+        AND MONTH(fecha_cancelacion) = MONTH(CURDATE())
+        AND YEAR(fecha_cancelacion) = YEAR(CURDATE());
+    """
+    cantidad_cancelaciones = ejecutar_consulta(query,{'id_usuario':id_usuario})
+
+    #devuelve True o False acorde a si tiene mas de 3 cancelaciones en el mes.
+    return cantidad_cancelaciones[0]['cantidad'] >= 3
+
+def ya_tiene_reserva_en_dia(id_usuario,fecha_reserva):
+    query = """
+        SELECT COUNT(*) as cantidad
+        FROM reservas
+        WHERE id_usuario = :id_usuario
+        AND fecha_reserva = :fecha_reserva
+        AND estado != 'cancelada'
+    """
+    resultado = ejecutar_consulta(query, {
+        "id_usuario": id_usuario,
+        "fecha_reserva": fecha_reserva
+    })
+
+    return resultado[0]["cantidad"] > 0
+
 # <=========================> CUENTAS DE USUARIO <============================>
 
 def obtener_rol_por_nombre(nombre_rol):

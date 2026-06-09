@@ -79,7 +79,7 @@ def crear_reserva(body):
     #4. Obtengo el id del usuario
     id_usuario = db_funciones.obtener_usuario_por_email(datos['email'])
 
-    #Muestro mensaje de error sino existe usuario
+    #Casos bordes
     if not id_usuario:
         raise ValueError(construir_error_api(
             code="usuario.no.existe",
@@ -87,13 +87,21 @@ def crear_reserva(body):
             description="El email no está registrado en la base de datos"
         ), 404)
 
-    #Verifico si el usuario puede reservar (si tiene >= 3 cancelaciones en el mes,no)
     if db_funciones.tiene_muchas_cancelaciones(id_usuario):
         raise ValueError(construir_error_api(
             code="usuario.alcanzo.limite.cancelaciones",
             message="El usuario no puede reservar mas por este mes",
             description="El usuario llego al tope de reservas en el mes debido a alcanzar el tope de cancelaciones."
         ),403)
+
+    fecha_reserva=datos["fecha"]
+    print(fecha_reserva)
+    if db_funciones.ya_tiene_reserva_en_dia(id_usuario,fecha_reserva):
+        raise ValueError(construir_error_api(
+            code="usuario.alcanzo.limite.reservas.por.dia",
+            message="El usuario no puede reservar en ese mismo dia",
+            description="Ya tiene reserva ese mismo dia"
+        ),409)
 
     # 5. generar token QR
     token = str(uuid.uuid4())
