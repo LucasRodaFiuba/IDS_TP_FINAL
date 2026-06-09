@@ -146,6 +146,34 @@
         </div>
     </div>
 
+
+
+
+    <div id="Formularios">
+        <h2>Gestionar Servicios</h2>
+
+        <div id="Agregar_servicio">
+            <form action="{{ url_for('servicios_extra.agregar_servicio') }}" method="post">
+                <p>Agregar servicio</p>
+                <input type="text" name="nombre" placeholder="Nombre del servicio">
+                <input type="text" name="descripcion" placeholder="Descripción del servicio">
+                <button>Confirmar</button>
+            </form>
+        </div>
+
+        <div id="Eliminar_servicio">
+            <form action="{{ url_for('servicios_extra.eliminar_servicio') }}" method="post">
+                <p>Eliminar servicio</p>
+                <input type="text" name="id_servicio" placeholder="ID del servicio a eliminar">
+                <button>Confirmar</button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
     <script src="../js/script.js"></script>
 
     {% endblock %}
