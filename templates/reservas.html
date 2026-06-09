@@ -128,7 +128,7 @@
                 </div>
                 <div class="botones-grupo">
                     <button type="button" class="btn-volver" onclick="cambiarPaso(5, 4)">Atrás</button>
-                    <button type="submit" class="btn-reserva">CONFIRMAR RESERVA</button>
+                    <button type="submit" id='boton-confirmar' class="btn-reserva">CONFIRMAR RESERVA</button>
                 </div>
             </div>
 
@@ -137,7 +137,7 @@
     </div>
 
 <script src="{{ url_for('static', filename='js/script_reservas.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/script_confirmar_reserva.js')}}"></script>
     {% endblock %}
 
 </body>

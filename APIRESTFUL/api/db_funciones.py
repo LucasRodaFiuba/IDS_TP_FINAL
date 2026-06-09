@@ -192,12 +192,30 @@ def actualizar_servicios_reserva(id_reserva, servicios_extras):
         )
 
 #--------------------------------------------------------------------------
-# Queries para modificar reservas (especialmente)
+# Queries para cancelar reservas (especialmente)
 #--------------------------------------------------------------------------
+def tiene_muchas_cancelaciones(id_usuario):
+    """
+    Permite sabe si el usuario cancelo más de 3 veces en el mes.
+    """
+    query = """
+        SELECT COUNT(*) as cantidad
+        FROM reservas
+        WHERE id_usuario = :id_usuario
+        AND estado = 'cancelada'
+        AND MONTH(fecha_cancelacion) = MONTH(CURDATE())
+        AND YEAR(fecha_cancelacion) = YEAR(CURDATE());
+    """
+    cantidad_cancelaciones = ejecutar_consulta(query,{'id_usuario':id_usuario})
+
+    #devuelve True o False acorde a si tiene mas de 3 cancelaciones en el mes.
+    return cantidad_cancelaciones[0]['cantidad'] >= 3
+
 def cancelar_reserva(id_reserva):
     query = """
         UPDATE reservas
-        SET estado = 'cancelada'
+        SET estado = 'cancelada',
+        fecha_cancelacion = NOW()
         WHERE id_reserva = :id_reserva
     """
 

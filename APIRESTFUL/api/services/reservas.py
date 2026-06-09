@@ -87,6 +87,14 @@ def crear_reserva(body):
             description="El email no está registrado en la base de datos"
         ), 404)
 
+    #Verifico si el usuario puede reservar (si tiene >= 3 cancelaciones en el mes,no)
+    if db_funciones.tiene_muchas_cancelaciones(id_usuario):
+        raise ValueError(construir_error_api(
+            code="usuario.alcanzo.limite.cancelaciones",
+            message="El usuario no puede reservar mas por este mes",
+            description="El usuario llego al tope de reservas en el mes debido a alcanzar el tope de cancelaciones."
+        ),403)
+
     # 5. generar token QR
     token = str(uuid.uuid4())
 
