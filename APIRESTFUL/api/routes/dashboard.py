@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from api.validators import validar_parametros_dashboard
-from api.services import DashboardService
+from api.validators.dashboard import validar_parametros_dashboard
+from api.services.dashboard import obtener_metricas_dashboard
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -14,8 +14,8 @@ def get_dashboard():
         return jsonify(error), 400
         
     try:
-        # 2. Obtener los resultados desde el servicio lógico
-        respuesta = DashboardService.obtener_metricas(filtros)
+        # 2. Obtener los resultados llamando directamente a la función
+        respuesta = obtener_metricas_dashboard(filtros)
         return jsonify(respuesta), 200
         
     except Exception as e:
