@@ -80,9 +80,13 @@
         <div id="Agregar_reserva">
             <form action="{{ url_for('agregar_reserva') }}" method="post">
                 <p>Agregar Reservas</p>
-                <input type="text" name="cliente" placeholder="Nombre del cliente">
-                <input type="datetime" name="fecha" placeholder="Fecha y hora de la reserva">
-                <input type="text" name="personas" placeholder="Cantidad de personas">
+                <input type="text" name="nombre_cliente" placeholder="Nombre del cliente">
+                <input type="date" name="fecha_reserva" placeholder="Fecha y hora de la reserva">
+                <input type="email" name="correo_electronico" placeholder="Correo electrónico">
+                <input type="text" name="telefono-cliente" placeholder="Número de teléfono">
+                <input type="text" name="horario_reserva" placeholder="Hora de la reserva">
+                <input type="number" name="cantidad_personas" placeholder="Cantidad de personas">
+                <input type="text" name="servicios_extras" placeholder="Servicios extras">
                 <button>Confirmar</button>
             </form>
         </div>
@@ -145,7 +149,7 @@
         <h2>Gestionar Servicios</h2>
 
         <div id="Agregar_servicio">
-            <form action="{{ url_for('agregar_servicio') }}" method="post">
+            <form method="post">
                 <p>Agregar servicio</p>
                 <input type="text" name="nombre" placeholder="Nombre del servicio">
                 <input type="text" name="descripcion" placeholder="Descripción del servicio">
@@ -154,7 +158,7 @@
         </div>
 
         <div id="Eliminar_servicio">
-            <form action="{{ url_for('eliminar_servicio') }}" method="post">
+            <form method="post">
                 <p>Eliminar servicio</p>
                 <input type="text" name="id_servicio" placeholder="ID del servicio a eliminar">
                 <button>Confirmar</button>
@@ -166,9 +170,12 @@
     <div id="dashboard">
         <a href="{{ url_for('pagina_dashboard') }}"><button>Estadisticas</button></a>
     </div>
+
     <div id="dashboard">
-        <a href="{{ url_for('pagina_404') }}"><button>PRUEBA ERROR 404</button></a>
+        <a href="{{ url_for('pagina_usuarios') }}"><button>USUARIOS</button></a>
     </div>
+
+    
     <script src="../js/script.js"></script>
 
 {% endblock %}

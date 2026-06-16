@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_menu.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway:wght@400&display=swap" rel="stylesheet">
+{% endblock %}
+{% block title %}USUARIOS{% endblock %}
+
+{% block content %} 
+
+
+
+           <div id="entradas">
+                <h2 class="titulo-entradas">USUARIOS</h2>          
+                <div class="contenedor-entradas">
+                    {% for usuario in usuarios if usuario.rol == 'cliente' %}
+                    <div class="entrada-carta">
+                        <h5 class="entrada-titulo">{{ usuario.nombre }}</h5>
+                        <p class="entrada-descripcion">{{ usuario.cant_reservas }}</p>
+                        <p class="entrada-precio">${{ usuario.plato_pedido }}</p>
+                        <p class="entrada-restriccion">${{ usuario.canceladas }}</p>
+                        <button class="btn-eliminar">Eliminar Usuario</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            
+{% endblock %}

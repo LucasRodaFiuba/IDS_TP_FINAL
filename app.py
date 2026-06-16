@@ -5,8 +5,8 @@ from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
-from services.reservas import enviar_reserva
-from services.mis_reservas import obtener_reservas,cancelar_reserva_service 
+from services.reservas import crear_reserva_admin, enviar_reserva
+from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 from services.auth import (
     eliminar_usuario_api,
     iniciar_sesion_api,
@@ -28,6 +28,10 @@ app.register_blueprint(servicios_extra_bp)
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route('/admin/usuarios')
+def pagina_usuarios():
+    return render_template('usuarios.html')
 
 @app.route('/nosotros')
 def pagina_nosotros():
@@ -297,37 +301,56 @@ def eliminar_objeto():
 
 @app.route('/admin/reservas/agregar', methods=['POST'])
 def agregar_reserva():
-    nombre_cliente = request.form['nombre_cliente']
-    fecha_hora = request.form['fecha_hora']
-    cantidad_personas = request.form['cantidad_personas']
+
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        #Hago posible que servicios extras tenga como valor una lista.
+        data['servicios_extras'] = request.form.getlist('servicios_extras')
+
+        response = crear_reserva_admin(data)
+
+        if response.get("ok"):
+            flash("¡Reserva confirmada! Nos vemos pronto en Le Maison Gourmet.", "success")
+            return redirect(url_for("pagina_admin"))
+
+
+
+    if response is None:
+        return redirect(url_for('pagina_admin'))  
+    
+    if response.status_code == 204:
+        return redirect(url_for('pagina_admin'))  
+    
+    elif response.status_code == 404:
+        return redirect(url_for('pagina_admin'))
 
 @app.route('/admin/reservas/modificar', methods=['UPDATE'])
 def modificar_reserva():
-    nombre_cliente = request.form['nombre_cliente']
-    fecha_hora_reserva = request.form['fecha_hora_reserva']
-    nueva_fecha_hora = request.form['nueva_fecha_hora']
+    nombre_cliente = request.form.get('nombre_cliente')
+    fecha_hora_reserva = request.form.get('fecha_hora_reserva')
+    nueva_fecha_hora = request.form.get('nueva_fecha_hora')
 
 @app.route('/admin/reservas/eliminar', methods=['DELETE'])
 def eliminar_reserva():
-    nombre_cliente = request.form['nombre_cliente']
-    fecha_hora = request.form['fecha_hora']
+    nombre_cliente = request.form.get('nombre_cliente')
+    fecha_hora = request.form.get('fecha_hora')
 
 @app.route('/admin/usuarios/agregar', methods=['POST'])
 def agregar_usuario():
-    nombre_usuario = request.form['nombre_usuario']
-    correo_electronico = request.form['correo_electronico']
-    contrase単a = request.form['contrase単a']
+    nombre_usuario = request.form.get('nombre_usuario')
+    correo_electronico = request.form.get('correo_electronico')
+    contrasena = request.form.get('contrasena')
 
 @app.route('/admin/usuarios/modificar', methods=['UPDATE'])
 def modificar_usuario():
-    nombre_usuario = request.form['nombre_usuario']
-    nuevo_nombre_usuario = request.form['nuevo_nombre_usuario']
-    nuevo_correo_electronico = request.form['nuevo_correo_electronico']
-    nueva_contrase単a = request.form['nueva_contrase単a']
+    nombre_usuario = request.form.get('nombre_usuario')
+    nuevo_nombre_usuario = request.form.get('nuevo_nombre_usuario')
+    nuevo_correo_electronico = request.form.get('nuevo_correo_electronico')
+    nueva_contrasena = request.form.get('nueva_contrasena')
 
 @app.route('/admin/usuarios/eliminar', methods=['DELETE'])
 def eliminar_usuario():
-    nombre_usuario = request.form['nombre_usuario']
+    nombre_usuario = request.form.get('nombre_usuario')
 
 @app.route('/admin/dashboard')
 def pagina_dashboard():
