@@ -20,6 +20,10 @@ def obtener_menu():
 
     return menu
 
+
+
+
+
 def crear_plato(nombre: str, precio: float, descripcion: str, restriccion: str, categoria: str, imagen: str):
     try:
         response = requests.post(

@@ -16,14 +16,60 @@
                     <div class="entrada-carta">
                         <h5 class="entrada-titulo">{{ usuario.nombre }}</h5>
                         <p class="entrada-descripcion">{{ usuario.cant_reservas }}</p>
+                        <p class="entrada-descripcion">{{ usuario.reservas }}</p>
                         <p class="entrada-precio">${{ usuario.plato_pedido }}</p>
                         <p class="entrada-restriccion">${{ usuario.canceladas }}</p>
                         <button class="btn-eliminar">Eliminar Usuario</button>
+                        <button class="btn-modificar">Modificar Rol</button>
                     </div>
                     {% endfor %}
                 </div>
             </div>
 
 
-            
+            <div id="Formularios">
+                <h2>Gestionar Usuarios</h2>
+
+                            <div id="Agregar_usuario">
+                                <form action="{{ url_for('agregar_usuario') }}" method="post">
+                                    <p>Agregar usuario</p>
+                                    <input type="text" name="usuario" placeholder="Nombre de usuario">
+                                    <input type="email" name="correo" placeholder="Correo electrónico">
+                                    <input type="password" name="password" placeholder="Contraseña">
+                                    <button>Confirmar</button>
+                                </form>
+                            </div>
+
+                            <div id="Modificar_usuario">
+                                <form action="{{ url_for('modificar_usuario') }}" method="post">
+                                    <p>Modificar usuario</p>
+                                    <input type="text" name="usuario_actual" placeholder="Nombre del usuario a modificar">
+                                    <input type="text" name="usuario_nuevo" placeholder="Nuevo nombre de usuario">
+                                    <input type="email" name="correo_nuevo" placeholder="Nuevo correo electrónico">
+                                    <input type="password" name="password_nuevo" placeholder="Nueva contraseña">
+                                    <button>Confirmar cambios</button>
+                                </form>
+                            </div>
+
+                            <div id="Eliminar_usuario">
+                                <form action="{{ url_for('eliminar_usuario') }}" method="post">
+                                    <p>Eliminar usuario</p>
+                                    <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
+                                    <button>Confirmar</button>
+                                </form>
+                            </div>
+            </div>
+
+
+            #MOSTRAR INFO DEL USUARIO
+            #MODIFICAR ROL DEL USUARIO
+            #ELIMINAR USUARIO
+            #Reseñas falta filtro por plato (OPCIONAL)
+            #Baja de reseñas
+
+
+
+            #TODO EL ABM DE RESEÑAS (NO SE SI LO HACE MAIKEL)
+
+
 {% endblock %}

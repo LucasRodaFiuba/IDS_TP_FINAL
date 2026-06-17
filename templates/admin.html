@@ -109,41 +109,17 @@
                 <button>Confirmar</button>
             </form>
         </div>
-    </div>
 
-    <div id="Formularios">
-        <h2>Gestionar Usuarios</h2>
-
-        <div id="Agregar_usuario">
-            <form action="{{ url_for('agregar_usuario') }}" method="post">
-                <p>Agregar usuario</p>
-                <input type="text" name="usuario" placeholder="Nombre de usuario">
-                <input type="email" name="correo" placeholder="Correo electrónico">
-                <input type="password" name="password" placeholder="Contraseña">
-                <button>Confirmar</button>
-            </form>
-        </div>
-
-        <div id="Modificar_usuario">
-            <form action="{{ url_for('modificar_usuario') }}" method="post">
-                <p>Modificar usuario</p>
-                <input type="text" name="usuario_actual" placeholder="Nombre del usuario a modificar">
-                <input type="text" name="usuario_nuevo" placeholder="Nuevo nombre de usuario">
-                <input type="email" name="correo_nuevo" placeholder="Nuevo correo electrónico">
-                <input type="password" name="password_nuevo" placeholder="Nueva contraseña">
+        <div id="modificar_reserva">
+            <form action="{{ url_for('modificar_reserva') }}" method="post">
+                <p>Modificar Reservas</p>
+                <input type="text" name="cliente" placeholder="Nombre del cliente">
+                <input type="datetime" name="fecha_actual" placeholder="Fecha y hora de la reserva a modificar">
+                <input type="datetime" name="fecha_nueva" placeholder="Nueva fecha y hora de la reserva">
                 <button>Confirmar cambios</button>
             </form>
         </div>
-
-        <div id="Eliminar_usuario">
-            <form action="{{ url_for('eliminar_usuario') }}" method="post">
-                <p>Eliminar usuario</p>
-                <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
-                <button>Confirmar</button>
-            </form>
-        </div>
     </div>
-
 
     <div id="Formularios">
         <h2>Gestionar Servicios</h2>
@@ -174,9 +150,6 @@
     <div id="dashboard">
         <a href="{{ url_for('pagina_usuarios') }}"><button>USUARIOS</button></a>
     </div>
-
-    
-    <script src="../js/script.js"></script>
 
 {% endblock %}
 

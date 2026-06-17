@@ -7,6 +7,7 @@ import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
 from services.reservas import crear_reserva_admin, enviar_reserva
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service
+from services.usuarios import obtener_usuarios
 from services.auth import (
     eliminar_usuario_api,
     iniciar_sesion_api,
@@ -31,7 +32,11 @@ def home():
 
 @app.route('/admin/usuarios')
 def pagina_usuarios():
-    return render_template('usuarios.html')
+    data = obtener_usuarios()
+    usuarios = data.get('usuarios', [])
+    return render_template('usuarios.html', usuarios=usuarios)
+
+
 
 @app.route('/nosotros')
 def pagina_nosotros():
@@ -251,6 +256,8 @@ def agregar_objeto():
         imagen = request.form.get('imagen', '').strip() 
     resultado = crear_plato(nombre, float(precio), descripcion, restriccion, categoria, imagen) 
     return redirect(url_for('pagina_menu'))
+
+
 @app.route('/menu')
 def pagina_menu():
     data = obtener_menu()
