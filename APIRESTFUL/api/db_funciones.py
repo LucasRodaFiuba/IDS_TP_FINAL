@@ -275,6 +275,23 @@ def ya_tiene_reserva_en_dia(id_usuario,fecha_reserva):
 
 # <=========================> CUENTAS DE USUARIO <============================>
 
+def obtener_usuarios():
+    query = """
+    SELECT
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.email,
+        u.telefono,
+        u.fecha_registro,
+        r.nombre AS rol
+    FROM usuarios u
+    INNER JOIN roles r ON r.id_rol = u.id_rol
+    ORDER BY u.fecha_registro DESC
+    """
+    return ejecutar_consulta(query)
+
+
 def obtener_rol_por_nombre(nombre_rol):
     query = """
     SELECT id_rol, nombre
