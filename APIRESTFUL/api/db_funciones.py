@@ -405,3 +405,8 @@ def insertar_resena(
         'puntuacion': puntuacion,
         'comentario': comentario
     })
+def eliminar_resena(id_resena):
+    query = """
+        DELETE FROM resenas WHERE id_resena = :id_resena
+    """
+    return ejecutar_insert(query, {'id_resena': id_resena})

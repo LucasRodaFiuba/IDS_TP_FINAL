@@ -41,3 +41,16 @@ def enviar_resena(id_usuario, id_reserva, puntuacion, comentario, token):
 
     except Exception as e:
         return {'ok': False, 'errores': [str(e)]}
+    
+def eliminar_resena(id_resena, token):
+    try:
+        response = requests.delete(
+            f'{API_BASE_URL}/resenas/{id_resena}',
+            headers={'Authorization': f'Bearer {token}'},
+            timeout=10
+        )
+        if response.status_code == 200:
+            return {'ok': True}
+        return {'ok': False, 'errores': [f'Error {response.status_code}']}
+    except Exception as e:
+        return {'ok': False, 'errores': [str(e)]}

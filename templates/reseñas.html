@@ -1,53 +1,63 @@
 {% extends "base.html" %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
 {% endblock %}
 {% block title %}Reseñas{% endblock %}
-
 {% block content %}
-{% if session.get('usuario') %}
-<div class="formulario-resena">
-    <h3>Dejá tu reseña</h3>
-    <form method="POST" action="/resenas">
 
-        <label>Puntuación</label>
-        <select name="puntuacion" required>
-            <option value="">Seleccioná</option>
-            <option value="5">★★★★★</option>
-            <option value="4">★★★★</option>
-            <option value="3">★★★</option>
-            <option value="2">★★</option>
-            <option value="1">★</option>
-        </select>
+<div class="resenas-page">
 
-        <label>Comentario</label>
-        <textarea name="comentario" placeholder="Tu comentario..." required></textarea>
-
-        <button type="submit">Enviar reseña</button>
-    </form>
-</div>
-{% else %}
-<p><a href="/iniciar_sesion">Iniciá sesión</a> para dejar una reseña.</p>
-{% endif %}
-
-<section class="seccion-resenas">
-
-    {% if resenas %}
-        {% for r in resenas %}
-        <div class="resena">
-            <h2>{{ r.nombre }} {{ r.apellido }}</h2>
-            <p>{{ r.comentario }}</p>
-            <span>
-                {% for i in range(r.puntuacion) %}★{% endfor %}
-                {% for i in range(5 - r.puntuacion) %}☆{% endfor %}
-            </span>
-            <small>{{ r.fecha_resena }}</small>
-        </div>
-        {% endfor %}
+    {% if session.get('usuario') %}
+    <div class="formulario-resena">
+        <h3>Dejá tu reseña</h3>
+        <form method="POST" action="/resenas">
+            <div class="estrellas-input">
+                <label>Puntuación</label>
+                <select name="puntuacion" required>
+                    <option value="">Seleccioná</option>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3">★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+            </div>
+            <div class="comentario-input">
+                <label>Comentario</label>
+                <textarea name="comentario" placeholder="Contanos tu experiencia..." required></textarea>
+            </div>
+            <button type="submit" class="btn-enviar">Enviar reseña</button>
+        </form>
+    </div>
     {% else %}
-        <p>No hay reseñas todavía.</p>
+    <div class="login-aviso">
+        <p><a href="/iniciar_sesion">Iniciá sesión</a> para dejar una reseña.</p>
+    </div>
     {% endif %}
 
-</section>
+    <section class="seccion-resenas">
+        {% if resenas %}
+            {% for r in resenas %}
+            <div class="resena">
+                <div class="resena-header">
+                    <h2>{{ r.nombre }} {{ r.apellido }}</h2>
+                    <span class="estrellas">
+                        {% for i in range(r.puntuacion) %}★{% endfor %}{% for i in range(5 - r.puntuacion) %}☆{% endfor %}
+                    </span>
+                </div>
+                <p class="resena-comentario">{{ r.comentario }}</p>
+                <small class="resena-fecha">{{ r.fecha_resena }}</small>
+                {% if session.get('usuario') and session.get('usuario').get('rol') == 'admin' %}
+                <form method="POST" action="/resenas/eliminar/{{ r.id_resena }}" class="form-eliminar">
+                    <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar esta reseña?')">✕ Eliminar</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="sin-resenas">No hay reseñas todavía. ¡Sé el primero!</p>
+        {% endif %}
+    </section>
 
+</div>
 {% endblock %}

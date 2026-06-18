@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for,flash, session
 import requests
-from services.resenas import obtener_resenas, enviar_resena
+from services.resenas import obtener_resenas, enviar_resena, eliminar_resena
 #from services.reservas import obtener_reservas, enviar_reserva
 import mysql.connector
 from mysql.connector import Error
@@ -429,6 +429,25 @@ def pagina_resenas():
     for e in resultado.get('errores', []):
         flash(e, 'error')
     return render_template('reseñas.html', resenas=[])
+
+@app.route('/resenas/eliminar/<int:id_resena>', methods=['POST'])
+def eliminar_resena_view(id_resena):
+    usuario = session.get('usuario')
+    token = session.get('token')
+
+    if not usuario or usuario.get('rol') != 'admin':
+        flash('No tenés permisos para esto.', 'error')
+        return redirect(url_for('pagina_resenas'))
+
+    resultado = eliminar_resena(id_resena, token)
+
+    if resultado.get('ok'):
+        flash('Reseña eliminada.', 'success')
+    else:
+        for e in resultado.get('errores', []):
+            flash(e, 'error')
+
+    return redirect(url_for('pagina_resenas'))
 
 if __name__ == "__main__":
     app.run(debug=True, host='127.0.0.1', port = 5001)

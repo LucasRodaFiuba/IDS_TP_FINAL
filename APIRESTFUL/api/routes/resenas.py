@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
-from api.db_funciones import obtener_resenas, insertar_resena
-
+from api.db_funciones import obtener_resenas, insertar_resena, eliminar_resena
 resenas_bp = Blueprint("resenas", __name__)
 
 @resenas_bp.route("/resenas", methods=["GET"])
@@ -18,3 +17,9 @@ def post_resena():
         data['comentario']
     )
     return jsonify({"mensaje": "Reseña creada"}), 201
+
+
+@resenas_bp.route("/resenas/<int:id_resena>", methods=["DELETE"])
+def delete_resena(id_resena):
+    eliminar_resena(id_resena)
+    return jsonify({"mensaje": "Reseña eliminada"}), 200
