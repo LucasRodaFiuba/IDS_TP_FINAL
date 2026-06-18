@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify, request
-
 from api.services.auth import requiere_auth
 from api.services.usuarios import (
     eliminar_usuario_por_id,
     obtener_perfil_usuario,
     puede_operar_sobre_usuario,
+    obtener_usuarios,
+    
 )
 from api.utils import (
     construir_error_api,
@@ -79,3 +80,18 @@ def delete_usuario(id_usuario):
         )), 500
 
     return '', 204
+
+
+@usuarios_bp.route ('/admin/usuarios', methods=['GET'])
+def admin_get_usuarios():
+
+    try:
+        usuarios = obtener_usuarios()
+    except Exception as e:
+        return jsonify(construir_error_api(
+            code='internal.server.error',
+            message=str(e),
+            description='Ocurrio un error inesperado al obtener la lista de usuarios'
+        )), 500
+
+    return jsonify(usuarios), 200

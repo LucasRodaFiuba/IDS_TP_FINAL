@@ -1,5 +1,4 @@
 from sqlalchemy.exc import IntegrityError
-
 from api import db_funciones
 from api.utils import construir_error_api
 
@@ -77,3 +76,8 @@ def eliminar_usuario_por_id(id_usuario):
             message='No se puede eliminar el usuario',
             description='El usuario tiene datos relacionados, por ejemplo reservas o resenas. Para borrado real hace falta definir una politica de baja logica o cascada.'
         ), 400)
+
+def obtener_usuarios():
+    lista_usuarios = db_funciones.obtener_usuarios()
+    datos = [construir_usuario_dto(usuario) for usuario in lista_usuarios]
+    return {"usuarios": datos}

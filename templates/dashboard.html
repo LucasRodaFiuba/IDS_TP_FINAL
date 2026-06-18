@@ -47,7 +47,7 @@
     </div>
 
     <div class="seccion-tabla">
-        <h3>Reservas del Período</h3>
+        <h3>Últimas Reservas del Período</h3>
         <div class="tabla-responsiva">
             <table class="tabla-gourmet">
                 <thead>
@@ -64,12 +64,13 @@
                     <tr>
                         <td>
                             <strong>{{ reserva.nombre_cliente }}</strong>
+                            
                         </td>
                         <td>{{ reserva.fecha }}</td>
                         <td>{{ reserva.hora }} hs</td>
                         <td>{{ reserva.comensales }} Cubiertos</td>
                         <td>
-                            <span class="badge estado-{{ reserva.estado }}">{{ reserva.estado | capitalize }}</span>
+                            <span class="badge estado-{{ reserva.estado }}">{{ reserva.estado }}</span>
                         </td>
                     </tr>
                     {% endfor %}

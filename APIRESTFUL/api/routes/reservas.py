@@ -5,6 +5,7 @@ from ..services.reservas import (
     crear_reserva,
     cambiar_reserva,
     cancelar_reserva_service,
+    crear_reserva_admin,
     validar_reserva_service,
     obtener_reservas_segun_email
 )
@@ -175,3 +176,28 @@ def obtener_reservas(email):
         }), 500
 
     return jsonify(resultado), 200
+
+
+@reservas_bp.route('/admin/reservas' , methods = ['POST'])
+def agregar_reservar_admin():
+    #obtengo el body completado por el usuario.
+    body = request.get_json(silent=True)
+
+    try:
+        reserva = crear_reserva_admin(body)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        #Para cualquier error inesperado del servidor.
+        return jsonify({
+            'errors': [
+                {
+                    'code': 'internal.server.error',
+                    'message': str(e),
+                    'description': 'Ocurrio un error inesperado, estoy en routes'
+                }
+            ]
+        }), 500
+
+    return jsonify(reserva), 201

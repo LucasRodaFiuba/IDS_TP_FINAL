@@ -192,12 +192,13 @@ def actualizar_servicios_reserva(id_reserva, servicios_extras):
         )
 
 #--------------------------------------------------------------------------
-# Queries para modificar reservas (especialmente)
+# Queries para cancelar reservas (especialmente)
 #--------------------------------------------------------------------------
 def cancelar_reserva(id_reserva):
     query = """
         UPDATE reservas
-        SET estado = 'cancelada'
+        SET estado = 'cancelada',
+        fecha_cancelacion = NOW()
         WHERE id_reserva = :id_reserva
     """
 
@@ -236,8 +237,60 @@ def actualizar_estado_reserva(token,nuevo_estado):
         "estado": nuevo_estado,
         "codigo_qr": token
     })
-    
+
+#--------------------------------------------------------------------------
+# Queries relacionadas con restricciones a la hora de reservar
+#--------------------------------------------------------------------------
+def tiene_muchas_cancelaciones(id_usuario):
+    """
+    Permite sabe si el usuario cancelo más de 3 veces en el mes.
+    """
+    query = """
+        SELECT COUNT(*) as cantidad
+        FROM reservas
+        WHERE id_usuario = :id_usuario
+        AND estado = 'cancelada'
+        AND MONTH(fecha_cancelacion) = MONTH(CURDATE())
+        AND YEAR(fecha_cancelacion) = YEAR(CURDATE());
+    """
+    cantidad_cancelaciones = ejecutar_consulta(query,{'id_usuario':id_usuario})
+
+    #devuelve True o False acorde a si tiene mas de 3 cancelaciones en el mes.
+    return cantidad_cancelaciones[0]['cantidad'] >= 3
+
+def ya_tiene_reserva_en_dia(id_usuario,fecha_reserva):
+    query = """
+        SELECT COUNT(*) as cantidad
+        FROM reservas
+        WHERE id_usuario = :id_usuario
+        AND fecha_reserva = :fecha_reserva
+        AND estado != 'cancelada'
+    """
+    resultado = ejecutar_consulta(query, {
+        "id_usuario": id_usuario,
+        "fecha_reserva": fecha_reserva
+    })
+
+    return resultado[0]["cantidad"] > 0
+
 # <=========================> CUENTAS DE USUARIO <============================>
+
+def obtener_usuarios():
+    query = """
+    SELECT
+        u.id_usuario,
+        u.nombre,
+        u.apellido,
+        u.email,
+        u.telefono,
+        u.fecha_registro,
+        r.nombre AS rol
+    FROM usuarios u
+    INNER JOIN roles r ON r.id_rol = u.id_rol
+    ORDER BY u.fecha_registro DESC
+    """
+    return ejecutar_consulta(query)
+
 
 def obtener_rol_por_nombre(nombre_rol):
     query = """
@@ -410,3 +463,72 @@ def eliminar_resena(id_resena):
         DELETE FROM resenas WHERE id_resena = :id_resena
     """
     return ejecutar_insert(query, {'id_resena': id_resena})
+
+def obtener_servicios_extra():
+    query= """SELECT * FROM servicios_extra"""
+
+    resultado= ejecutar_consulta(query)
+
+    return resultado
+
+
+
+def agregar_servicio_extra(nombre,descripcion):
+    query= """INSERT INTO servicios_extra (nombre,descripcion)
+              VALUES (:nombre,:descripcion)"""
+    
+    datos= {
+        "nombre": nombre,
+        "descripcion":descripcion
+    }
+
+    resultado= ejecutar_insert(query,datos)
+
+    return resultado
+
+
+def obtener_servicio_por_id(id_servicio):
+    query= """SELECT * FROM servicios_extra WHERE id_servicio= :id_servicio"""
+
+    datos = {
+        "id_servicio": id_servicio
+    }
+
+    resultado= ejecutar_consulta(query,datos)
+
+
+    if not resultado:
+        return None
+
+    return resultado[0]
+
+
+
+def actualizar_servicio_extra(id_servicio,nombre,descripcion):
+    query= """UPDATE servicios_extra
+              SET nombre= :nombre, descripcion= :descripcion
+              WHERE id_servicio= :id_servicio"""
+    
+    datos={
+        "id_servicio":id_servicio,
+        "nombre":nombre,
+        "descripcion":descripcion
+
+    }
+
+    resultado= ejecutar_mutacion(query,datos)
+
+    return resultado
+
+  
+
+def eliminar_servicio_extra(id_servicio):
+    query= """DELETE FROM servicios_extra WHERE id_servicio = :id_servicio"""
+
+    datos={
+        "id_servicio": id_servicio
+    }
+
+    resultado= ejecutar_mutacion(query,datos)
+    
+    return resultado

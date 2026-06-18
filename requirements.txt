@@ -6,3 +6,4 @@ PyMySQL
 mysql-connector-python
 sqlalchemy
 bcrypt
+requests

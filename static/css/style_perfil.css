@@ -1,38 +1,74 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
 #Iniciar_sesion {
-        text-align: center;
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #0000009e;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+#Iniciar_sesion h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: #c9a646;
+}
+
+#Iniciar_sesion h2 {
+    font-size: 1.6rem;
+    margin: 30px 0 15px;
+    color: #c9a646;
 }
 
 #Iniciar_sesion p {
-        margin: 18px 0;
-        line-height: 1.4;
-}
-
-#Iniciar_sesion h1,
-#Iniciar_sesion h2 {
-        text-align: center;
-        line-height: 1.2;
+    margin: 10px 0;
+    line-height: 1.5;
+    font-size: 1rem;
+    color: #797979;
 }
 
 #Iniciar_sesion .acciones-perfil {
-        margin-top: 32px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 22px;
-}
-
-#Iniciar_sesion .acciones-perfil form {
-        margin: 0;
-        display: flex;
-        justify-content: center;
+    margin-top: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
 }
 
 #Iniciar_sesion .btn-perfil {
-        width: auto;
-        min-width: 150px;
-        max-width: 190px;
-        padding: 10px 16px;
-        line-height: 1.25;
-        text-align: center;
-        white-space: normal;
+    background: #907a1a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 200px;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+#Iniciar_sesion .btn-perfil:hover {
+    background: #907a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#Iniciar_sesion .btn-perfil:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#Iniciar_sesion .acciones-perfil form {
+    margin: 0;
+    display: flex;
+    justify-content: center;
 }

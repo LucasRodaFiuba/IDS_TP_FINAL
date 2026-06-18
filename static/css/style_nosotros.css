@@ -34,3 +34,50 @@ p {
 }
 
 
+
+.servicios-extra{
+    max-width: 1000px;
+    margin: 120px auto;
+    padding: 60px;
+    background-color: #00000089;
+    border-radius: 8px;
+}
+
+.servicios-extra h2{
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #f0d78c;
+    text-align: center;
+    letter-spacing: 10px;
+    margin-bottom: 80px;
+}
+
+.servicio{
+    width: 60%;
+    margin-bottom: 70px;
+}
+
+.servicio:nth-child(even){
+    margin-left: auto;
+    text-align: right;
+}
+
+.servicio:nth-child(odd){
+    text-align: left;
+}
+
+.servicio h3{
+    font-family: 'Cinzel', serif;
+    color: #c9a646;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.servicio p{
+    color: #d2d2d2;
+    font-family: 'Merriweather', serif;
+    line-height: 1.9;
+}
+
+

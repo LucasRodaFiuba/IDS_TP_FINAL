@@ -19,14 +19,19 @@
     <div>
         <h2 id="Nuestromenu">Nuestro Menu</h2>
         <div id="Menu">
-            <a href="{{ url_for('pagina_menu') }}">
+            <a href="{{ url_for('pagina_menu') }}#entradas">
                 <img src="{{ url_for('static', filename='img/entrada.jpg') }}" alt="Entradas">
                 <p>Entradas</p>
             </a>
-            
-            <a href="{{ url_for('pagina_menu') }}"><img src="{{ url_for('static', filename='img/platoprinc.jpg') }}" alt="Platos Principales"><p>Platos Principales</p></a>
-            
-            <a href="{{ url_for('pagina_menu') }}"><img src="{{ url_for('static', filename='img/postre.jpg') }}" alt="Postres"><p>Postres</p></a>
+            <a href="{{ url_for('pagina_menu') }}#platos_principales">
+                <img src="{{ url_for('static', filename='img/platoprinc.jpg') }}" alt="Platos Principales">
+                <p>Platos Principales</p>
+            </a>
+
+            <a href="{{ url_for('pagina_menu') }}#postres">
+                <img src="{{ url_for('static', filename='img/postre.jpg') }}" alt="Postres">
+                <p>Postres</p>
+            </a>
             
         </div>
     </div>

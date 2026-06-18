@@ -29,6 +29,7 @@
                 <li><a href="{{ url_for('pagina_admin') }}">Administración</a></li>
 				{% if session.get('usuario') %}
 					<li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+                    <li><a href="{{ url_for('pagina_mis_reservas') }}">Mis Reservas</a></li>
 				{% else %}
 					<li><a href="{{ url_for('iniciar_sesion') }}">Iniciar Sesión</a></li>
 				{% endif %}

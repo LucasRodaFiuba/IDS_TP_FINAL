@@ -60,6 +60,36 @@ form {
     text-align: left;
     transition: all 0.3s ease;
 }
+form select {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 15px;
+    background-color: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-family: 'Cormorant Garamond', serif;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    appearance: none;
+    cursor: pointer;
+}
+
+form select:focus {
+    background-color: #222222;
+    box-shadow: 0 0 0 2px #c9a646;
+}
+
+form select option {
+    background-color: #1a1a1a;
+    color: #e7e6ec;
+}
+
+select:required:invalid {
+    color: #555555;
+}
 
 form:hover {
     border-color: #907a1a;
@@ -77,6 +107,7 @@ form p {
 
 
 input[type="text"],
+input[type="number"],
 input[type="email"],
 input[type="password"],
 input[type="datetime"] {
@@ -94,6 +125,7 @@ input[type="datetime"] {
 }
 
 input[type="text"]::placeholder,
+input[type="number"]::placeholder,
 input[type="email"]::placeholder,
 input[type="password"]::placeholder,
 input[type="datetime"]::placeholder {
@@ -101,6 +133,7 @@ input[type="datetime"]::placeholder {
 }
 
 input[type="text"]:focus,
+input[type="number"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="datetime"]:focus {

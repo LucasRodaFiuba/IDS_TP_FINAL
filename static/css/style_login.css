@@ -1,5 +1,6 @@
 #Iniciar_sesion {
-    max-width: 550px;
+    width: 90%;
+    max-width: 500px;
     margin: 120px auto 60px auto;
     padding: 40px;
     background: #0d0d0ddd;
@@ -8,6 +9,7 @@
     font-family: 'Cormorant Garamond', serif;
     text-align: center;
     color: #a6a0a0;
+    height: auto;
 }
 
 #Iniciar_sesion button {

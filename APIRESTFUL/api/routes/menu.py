@@ -1,12 +1,11 @@
 from flask import Blueprint, request, jsonify
 from api.db import get_db_connection
 from api.utils import construir_error_api
+from ..constantes import RESTRICCIONES_VALIDAS, CATEGORIAS_VALIDAS
  
 menu_bp = Blueprint('menu', __name__)
  
-RESTRICCIONES_VALIDAS = {'vegetariano', 'vegano', 'sin tacc', 'sin lactosa', 'ninguno'}
-CATEGORIAS_VALIDAS    = {'bebida', 'entrada', 'postre', 'plato_principal'}
- 
+
 @menu_bp.route('/menu', methods=['GET'])
 def obtener_menu():
     try:
@@ -39,10 +38,10 @@ def obtener_menu():
         cursor = connection.cursor(dictionary=True)
  
         if restriccion != 'ninguno':
-            query = f"SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion FROM menu WHERE restriccion = %s LIMIT %s OFFSET %s"
+            query = f"SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion, imagen FROM menu WHERE restriccion = %s LIMIT %s OFFSET %s"
             cursor.execute(query, (restriccion, limit, offset))
         else:
-            query = "SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion FROM menu LIMIT %s OFFSET %s"
+            query = "SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion, imagen FROM menu LIMIT %s OFFSET %s"
             cursor.execute(query, (limit, offset))
      
         platos = cursor.fetchall()
@@ -59,7 +58,9 @@ def obtener_menu():
             "descripcion": p["descripcion"],
             "precio": p["precio"],
             "restriccion":p["restriccion"],
-            "categoria":p["categoria"]
+            "categoria":p["categoria"],
+            "imagen":p["imagen"]
+            
         }
         for p in platos
         ]
@@ -72,7 +73,7 @@ def obtener_menu():
             description=str(e)
         )), 500
          
-@menu_bp.route('/menu/plato', methods=['POST'])
+@menu_bp.route('/admin/plato', methods=['POST'])
 def crear_plato():
     try:
         data = request.get_json()
@@ -106,7 +107,8 @@ def crear_plato():
                 message='Parámetros invalidos.',
                 description=f"La restriccion'{restriccion}' es invalida, las restricciones validas: {', '.join(RESTRICCIONES_VALIDAS)}"
             )), 400
- 
+        imagen= data.get('imagen', None)
+        
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
  
@@ -121,9 +123,9 @@ def crear_plato():
             )), 400
  
         cursor.execute("""
-            INSERT INTO menu (nombre, descripcion, precio, restriccion, categoria)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (data['nombre'], data['descripcion'], float(data['precio']), restriccion , categoria))
+            INSERT INTO menu (nombre, descripcion, precio, restriccion, categoria, imagen)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (data['nombre'], data['descripcion'], float(data['precio']), restriccion , categoria, imagen))
  
         connection.commit()
         cursor.close()
@@ -137,105 +139,12 @@ def crear_plato():
             message='Se produjo un error inesperado en el servidor',
             description=str(e)
         )), 500
-
-@menu_bp.route('/menu/plato/<int:id>', methods=['GET'])
-def obtener_plato_por_id(id):
-    try:
-        connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-
-        cursor.execute("SELECT * FROM menu WHERE id_plato = %s", (id,))
-        plato = cursor.fetchone()
-
-        cursor.close()
-        connection.close()
-
-        if not plato:
-            return jsonify(construir_error_api(
-                code='not.found',
-                message='No fue encontrada en nuestra base de datos',
-                description=f'No existe ningún plato con id {id}'
-            )), 404
-
-        return jsonify(plato), 200
-
-    except Exception as e:
-        return jsonify(construir_error_api(
-            code='internal.server.error',
-            message='Se produjo un error inesperado en el servidor',
-            description=str(e)
-        )), 500
-
-
-@menu_bp.route('/menu/plato/<int:id>', methods=['PUT'])
-def actualizar_plato(id):
+@menu_bp.route('/admin/plato/actualizar', methods=['PATCH'])
+def actualizar_parcialmente_plato():
     try:
         data = request.get_json()
-
-        if not data.get('nombre') or not data.get('descripcion') or not data.get('precio'):
-            return jsonify(construir_error_api(
-                code='invalid.request',
-                message='Parámetros inválidos',
-                description='Los campos nombre, descripcion y precio son obligatorios'
-            )), 400
-
-        if float(data['precio']) <= 0:
-            return jsonify(construir_error_api(
-                code='invalid.precio',
-                message='Parámetros inválidos',
-                description="El campo 'precio' debe ser mayor a 0"
-            )), 400
-            
-        categoria = data.get('categoria', None)
-        if not categoria or categoria not in CATEGORIAS_VALIDAS:
-            return jsonify(construir_error_api(
-                code='invalid.categoria',
-                message='Parámetros inválidos',
-                description=f"El categoria '{restriccion}' es obligatorio, ejemplos de categorias : {', '.join(CATEGORIAS_VALIDAS)}"
-            )), 400
-            
-        restriccion = data.get('restriccion', 'ninguno')
-        if restriccion not in RESTRICCIONES_VALIDAS:
-            return jsonify(construir_error_api(
-                code='invalid.restriction',
-                message='Parámetros invalidos.',
-                description=f"La restriccion'{restriccion}' es invalida, las restricciones validas: {', '.join(RESTRICCIONES_VALIDAS)}"
-            )), 400
-
-        connection = get_db_connection()
-        cursor = connection.cursor()
-
-        cursor.execute("SELECT id_plato FROM menu WHERE id_plato = %s", (id,))
-        if not cursor.fetchone():
-            cursor.close()
-            connection.close()
-            return jsonify(construir_error_api(
-                code='not.found',
-                message='No fue encontrada en nuestra base de datos',
-                description=f'No existe ningún plato con id {id}'
-            )), 404
-
-        query = "UPDATE menu SET nombre = %s, descripcion = %s, precio = %s, restriccion = %s, categoria = %s WHERE id_plato = %s"
-        cursor.execute(query, (data['nombre'], data['descripcion'], float(data['precio']), restriccion, categoria, id))
-
-        connection.commit()
-        cursor.close()
-        connection.close()
-
-        return '', 204
-
-    except Exception as e:
-        return jsonify(construir_error_api(
-            code='internal.server.error',
-            message='Se produjo un error inesperado en el servidor',
-            description=str(e)
-        )), 500
-
-@menu_bp.route('/menu/plato/<int:id>', methods=['PATCH'])
-def actualizar_parcialmente_plato(id):
-    try:
-        data = request.get_json()
-
+        id = data.get('id')
+        
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
 
@@ -250,21 +159,19 @@ def actualizar_parcialmente_plato(id):
                 message='No fue encontrada en nuestra de base de datos',
                 description=f'No existe ningún plato con id {id}'
             )), 404
-
-        nombre      = data.get('nombre',      plato['nombre'])
-        descripcion = data.get('descripcion', plato['descripcion'])
-        precio      = float(data.get('precio', plato['precio']))
-        restriccion = data.get('restriccion', plato['restriccion'])
-        categoria = data.get('categoria', plato['categoria'])
-    
-
+        nombre      = data.get('nombre')      or plato['nombre']
+        descripcion = data.get('descripcion') or plato['descripcion']
+        nuevo_precio = data.get('precio')
+        precio = float(nuevo_precio) if nuevo_precio else plato['precio']
+        restriccion = data.get('restriccion') or plato['restriccion']
+        categoria   = data.get('categoria')   or plato['categoria']
+        imagen = data.get('imagen') or plato['imagen']
         if precio <= 0:
             return jsonify(construir_error_api(
                 code='invalid.precio',
                 message='Parámetros inválidos.',
                 description="El campo 'precio' debe ser mayor a 0"
             )), 400
-    
         if categoria not in CATEGORIAS_VALIDAS:
             return jsonify(construir_error_api(
                 code='invalid.categoria',
@@ -279,8 +186,8 @@ def actualizar_parcialmente_plato(id):
                     message='Parámetros inválidos.',
                     description=f"La restriccion'{restriccion}' es invalida, las restricciones validas: {', '.join(RESTRICCIONES_VALIDAS)}"
                 )), 400
-        query = "UPDATE menu SET nombre = %s, descripcion = %s, precio = %s, restriccion = %s, categoria = %s WHERE id_plato = %s"
-        cursor.execute(query, (nombre, descripcion, precio, restriccion, categoria, id))
+        query = "UPDATE menu SET nombre = %s, descripcion = %s, precio = %s, restriccion = %s, categoria = %s,  imagen = %s WHERE id_plato = %s"
+        cursor.execute(query, (nombre, descripcion, precio, restriccion, categoria, imagen, id))
 
         connection.commit()
         cursor.close()
@@ -289,29 +196,40 @@ def actualizar_parcialmente_plato(id):
         return '', 204
 
     except Exception as e:
+        print(f"ERROR DETALLADO: {e}")
         return jsonify(construir_error_api(
             code='internal.server.error',
             message='Se produjo un error inesperado en el servidor',
             description=str(e)
         )), 500
+   
 
-@menu_bp.route('/menu/plato/<int:id>', methods=['DELETE'])
-def eliminar_plato(id):
+@menu_bp.route('/menu/plato/eliminar', methods=['DELETE'])
+def eliminar_plato():
+    nombre = request.json.get('nombre') 
+
+    if not nombre:
+        return jsonify(construir_error_api(
+            code='bad.request',
+            message='El nombre es obligatorio',
+            description='Debe enviar el nombre del plato'
+        )), 400
     try:
+        
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT id_plato FROM menu WHERE id_plato = %s", (id,))
+        cursor.execute("SELECT nombre FROM menu WHERE nombre = %s", (nombre,))
         if not cursor.fetchone():
             cursor.close()
             connection.close()
             return jsonify(construir_error_api(
                 code='not.found',
                 message='No fue encontrada en nuestra de base de datos',
-                description=f'No existe ningún plato con id {id}'
+                description=f'No existe ningún plato con ese nombre {nombre}'
             )), 404
 
-        cursor.execute("DELETE FROM menu WHERE id_plato = %s", (id,))
+        cursor.execute("DELETE FROM menu WHERE nombre = %s", (nombre,))
         connection.commit()
 
         cursor.close()
@@ -325,38 +243,3 @@ def eliminar_plato(id):
             message='Se produjo un error inesperado en el servidor',
             description=str(e)
         )), 500
-
-@menu_bp.route('/menu/categoria/<string:categoria>', methods=['GET'])
-def obtener_menu_por_categoria(categoria):
-    try:
-        if categoria not in CATEGORIAS_VALIDAS:
-            return jsonify(construir_error_api(
-                code='invalid.categoria',
-                message='categoría invalida',
-                description=f"La categoría '{categoria}' no existe, ejemplos de categorias: {', '.join(CATEGORIAS_VALIDAS)}"
-            )), 404
-
-        connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
-
-        cursor.execute(
-            "SELECT id_plato AS id, nombre, descripcion, precio, restriccion, categoria FROM menu WHERE categoria = %s",
-            (categoria,)
-        )
-        platos = cursor.fetchall()
-
-        cursor.close()
-        connection.close()
-
-        if not platos:
-            return '', 204
-
-        return jsonify({"platos": platos}), 200
-
-    except Exception as e:
-        return jsonify(construir_error_api(
-            code='internal.server.error',
-            message='Se produjo un error inesperado en el servidor',
-            description=str(e)
-        )), 500
- 

@@ -55,6 +55,7 @@ CREATE TABLE reservas (
     ) DEFAULT 'pendiente',
 
     codigo_qr VARCHAR(255),
+    fecha_cancelacion DATETIME NULL,
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (id_usuario)
@@ -115,28 +116,27 @@ CREATE TABLE logs (
     REFERENCES usuarios(id_usuario)
 );
 CREATE TABLE servicios_extra (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_servicio INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(250),
-    descripcion VARCHAR(250),
-    disponible BOOLEAN
+    descripcion VARCHAR(250)
 );
 
-INSERT INTO servicios_extra (nombre,descripcion,disponible) VALUES
+INSERT INTO servicios_extra (nombre,descripcion) VALUES
 ('Rampa de acceso para sillas de ruedas','Facilitamos el acceso a todas las personas con una rampa especialmente 
 diseñada para garantizar comodidad, seguridad y autonomía. 
-Cada detalle está pensado para que todos puedan disfrutar de la experiencia sin barreras.',TRUE),
+Cada detalle está pensado para que todos puedan disfrutar de la experiencia sin barreras.'),
 ('Menu vegano','Una selección de platos frescos y equilibrados, elaborados con ingredientes de origen vegetal. 
-Combinamos sabor, creatividad y nutrición para ofrecer opciones deliciosas sin productos animales.',FALSE),
+Combinamos sabor, creatividad y nutrición para ofrecer opciones deliciosas sin productos animales.'),
 ('Mejor amigo','Tu mascota también es parte de la familia. Contamos con un espacio pensado para que pueda acompañarte cómodamente mientras disfrutás de tu comida,
- con ambiente seguro y amigable.',FALSE),
+ con ambiente seguro y amigable.'),
 ('Wifi','Disfrutá de conexión gratuita a internet en todo el local. 
-Ya sea para trabajar, estudiar o compartir tu experiencia, te mantenemos siempre conectado.',TRUE),
+Ya sea para trabajar, estudiar o compartir tu experiencia, te mantenemos siempre conectado.'),
 ('Un año mas','Convertimos tu cumpleaños en una experiencia única. Decoración especial, atención personalizada y la posibilidad de 
-sorprender a esa persona especial con un momento inolvidable en Le Maison Gourmet.',TRUE),
+sorprender a esa persona especial con un momento inolvidable en Le Maison Gourmet.'),
 ('Niños','Un área pensada para los más pequeños, donde pueden divertirse de forma segura mientras los 
-adultos disfrutan con tranquilidad. Un ambiente familiar, cómodo y supervisado.',TRUE),
+adultos disfrutan con tranquilidad. Un ambiente familiar, cómodo y supervisado.'),
 ('Terraza','Un espacio al aire libre rodeado de un ambiente cálido y relajado. Ideal para disfrutar de una comida tranquila, 
-buena compañía y aire fresco en cualquier momento del día.',TRUE);
+buena compañía y aire fresco en cualquier momento del día.');
 
 CREATE TABLE reserva_servicios (
     id_reserva INT,
