@@ -380,7 +380,7 @@ def obtener_usuario_auth_por_email(email):
     return None
 
 
-def insertar_usuario(nombre, apellido, email, password_hash, telefono, id_rol):
+def insertar_usuario_auth(nombre, apellido, email, password_hash, telefono, id_rol):
     query = """
     INSERT INTO usuarios
         (nombre, apellido, email, password, telefono, id_rol)
