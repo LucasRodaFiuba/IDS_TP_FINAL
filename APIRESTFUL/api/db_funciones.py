@@ -291,6 +291,23 @@ def obtener_usuarios():
     """
     return ejecutar_consulta(query)
 
+def insertar_usuario(nombre, apellido, email, telefono, id_rol, password_hash=None):
+    query = """
+    INSERT INTO usuarios (nombre, apellido, email, telefono, id_rol, password)
+    VALUES (:nombre, :apellido, :email, :telefono, :id_rol, :password)
+    """
+    datos = {
+        'nombre': nombre,
+        'apellido': apellido,
+        'email': email,
+        'telefono': telefono,
+        'id_rol': id_rol,
+        'password': password_hash
+    }
+
+    return ejecutar_insert(query, datos
+    )
+    
 
 def obtener_rol_por_nombre(nombre_rol):
     query = """
@@ -363,7 +380,7 @@ def obtener_usuario_auth_por_email(email):
     return None
 
 
-def insertar_usuario_auth(nombre, apellido, email, password_hash, telefono, id_rol):
+def insertar_usuario(nombre, apellido, email, password_hash, telefono, id_rol):
     query = """
     INSERT INTO usuarios
         (nombre, apellido, email, password, telefono, id_rol)
@@ -378,6 +395,7 @@ def insertar_usuario_auth(nombre, apellido, email, password_hash, telefono, id_r
         'telefono': telefono,
         'id_rol': id_rol,
     })
+
 
 
 def obtener_reservas_de_usuario(id_usuario):

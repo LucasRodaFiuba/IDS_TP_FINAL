@@ -5,6 +5,7 @@ from api.services.usuarios import (
     obtener_perfil_usuario,
     puede_operar_sobre_usuario,
     obtener_usuarios,
+    agregar_usuario,
     
 )
 from api.utils import (
@@ -21,6 +22,30 @@ def _validar_id_usuario(id_usuario):
     id_validado = validar_entero(id_usuario, 'id')
     return validar_minimo(id_validado, 1, 'id')
 
+@usuarios_bp.route('/usuarios', methods=['POST'])
+def crear_usuario():
+    data = request.get_json()
+
+    if not data:
+        return jsonify(construir_error_api(
+            code='invalid.request',
+            message='Datos JSON faltantes',
+            description='Se esperaba un cuerpo JSON con los datos del usuario'
+        )), 400
+
+    try:
+        nuevo_usuario = agregar_usuario(data)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        return jsonify(construir_error_api(
+            code='internal.server.error',
+            message=str(e),
+            description='Ocurrio un error inesperado al crear el usuario'
+        )), 500
+
+    return jsonify(nuevo_usuario), 201
 
 @usuarios_bp.route('/usuarios/<id_usuario>', methods=['GET'])
 @requiere_auth()

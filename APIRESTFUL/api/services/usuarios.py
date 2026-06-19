@@ -81,3 +81,25 @@ def obtener_usuarios():
     lista_usuarios = db_funciones.obtener_usuarios()
     datos = [construir_usuario_dto(usuario) for usuario in lista_usuarios]
     return {"usuarios": datos}
+
+
+def agregar_usuario(datos_usuario):
+    try:
+        roles = {'cliente': 2, 'admin': 1}
+        id_rol = roles.get(datos_usuario.get('rol', 'cliente'), 1)
+
+        nuevo_usuario = db_funciones.insertar_usuario(
+            nombre=datos_usuario['nombre'],
+            apellido=datos_usuario['apellido'],
+            email=datos_usuario['email'],
+            telefono=datos_usuario.get('telefono'),
+            password_hash=datos_usuario['password'],  
+            id_rol=id_rol
+        )
+        return construir_usuario_dto(nuevo_usuario)
+    except IntegrityError:
+        raise ValueError(construir_error_api(
+            code='usuario.email.duplicate',
+            message='El email ya está registrado',
+            description=f"Ya existe un usuario con el email '{datos_usuario['email']}'"
+        ), 400)
