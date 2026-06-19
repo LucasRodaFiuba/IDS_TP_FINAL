@@ -17,6 +17,9 @@ from services.auth import (
 from routes.servicios_extra import servicios_extra_bp
 from services.dashboard import obtener_estadisticas
 from services.usuarios import obtener_usuarios
+from datetime import datetime
+from constants import MESES
+
 app = Flask(__name__)
 # Carpeta donde se guardan las imágenes
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img')
@@ -216,6 +219,13 @@ def pagina_mis_reservas():
     
     if resultado.get("ok"):
         flash("Reservas obtenidas", "success")
+        reservas = resultado['response']
+
+        for reserva in reservas:
+            fecha = datetime.strptime(reserva['fecha_reserva'], "%Y-%m-%d")
+            reserva['mes_abreviado'] = MESES[fecha.month - 1]
+            reserva['dia'] = fecha.day
+
         return render_template("mis_reservas.html",reservas=resultado['response'])
         
     errores = resultado.get("errores", [])

@@ -122,11 +122,11 @@ def crear_reserva(body):
         "token": token
     })
 
-    # 8. Enviar email con QR + link cancelar
+    # 8. Enviar email con QR
     enviar_mail(
     destinatario=datos["email"],
     asunto="Tu reserva",
-    cuerpo="Tu reserva fue confirmada. Adjuntamos el QR.",
+    cuerpo="Reserva realizada. Adjuntamos el QR.",
     archivo_adjunto=qr_path
     )
 
@@ -208,9 +208,9 @@ def validar_reserva_service(token):
 
     if reserva["estado"] != "pendiente":
         raise ValueError(construir_error_api(
-            code="reserva.invalida",
-            message="invlaido",
-            description="El email no está registrado en la base de datos"))
+            code="reserva.ya.procesada",
+            message="invalido",
+            description="No se puede confirmar una reserva que ya lo está o que fue cancelada"))
 
     #Actualizo el estado en confirmada
     db_funciones.actualizar_estado_reserva(token, "confirmada")
