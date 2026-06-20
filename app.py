@@ -378,3 +378,6 @@ def eliminar_reserva_admin():
                 flash(error, "error")
 
         return redirect(url_for('pagina_admin'))
+    
+if __name__ == "__main__":
+       app.run(debug=True,port = 5001)
