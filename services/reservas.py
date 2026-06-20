@@ -85,3 +85,28 @@ def crear_reserva_admin(datos):
         print(response.status_code)
         print(response.text)
         return {'errores': [str(e)]}
+    
+
+def eliminar_reserva(datos):
+    email = datos.get('email') 
+    fecha_reserva = datos.get('fecha_reserva')
+    hora_reserva = datos.get('hora_reserva') 
+
+    try:
+        response = requests.delete(
+            f'{API_BASE_URL}/admin/reservas', 
+            json={'email': email, 'fecha_reserva': fecha_reserva, 'hora_reserva': hora_reserva}, timeout=10)
+
+        if response.status_code == 204:
+            return {'ok': True}
+        else:
+            return {
+                'ok': False,
+                'errores': [f"Error API {response.status_code}: {response.text}"]
+            }
+
+    except requests.exceptions.ConnectionError:
+        logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
+        return {'errores': ['No se pudo conectar con el servidor.']}
+    except Exception as e:
+        return {'errores': [str(e)]}

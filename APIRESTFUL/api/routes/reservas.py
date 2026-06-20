@@ -7,7 +7,9 @@ from ..services.reservas import (
     cancelar_reserva_service,
     crear_reserva_admin,
     validar_reserva_service,
-    obtener_reservas_segun_email
+    obtener_reservas_segun_email,
+    eliminar_reserva
+
 )
 from ..validators.reservas import validar_id
 
@@ -201,3 +203,26 @@ def agregar_reservar_admin():
         }), 500
 
     return jsonify(reserva), 201
+
+
+@reservas_bp.route('/admin/reservas', methods = ['DELETE'])
+def eliminar_reserva_admin():
+    body = request.get_json(silent=True)
+
+    if not body:
+        return jsonify({"errors": [{"message": "Faltan datos"}]}), 400
+
+    email = body.get('email')
+    fecha_reserva = body.get('fecha_reserva')
+    hora_reserva = body.get('hora_reserva')
+
+    try:
+        # Se las pasamos a la base de datos
+        eliminar_reserva(email, fecha_reserva, hora_reserva)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        return jsonify({'errors': [{'code': 'internal.server.error', 'message': str(e)}]}), 500
+
+    return "", 204

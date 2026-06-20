@@ -1,3 +1,4 @@
+import email
 import logging
 from ..utils import construir_error_api
 from ..validators.reservas import validar_body_nueva_reserva,validar_parametros
@@ -42,8 +43,7 @@ def consultar_disponibilidad(fecha,comensales):
         'turnos_disponibles': turnos_disponibles
     }
 
-
-    
+ 
 #agregar_reserva la voy a utilizar en routes en crear_reserva.
 def crear_reserva(body):
     """
@@ -319,3 +319,17 @@ def crear_reserva_admin(body):
     "codigo_qr": token,
     "id_reserva" : id_reserva
     }
+
+
+def eliminar_reserva(email, fecha_reserva, hora_reserva):
+    reserva = db_funciones.obtener_reservas_email_fecha_hora(email, fecha_reserva, hora_reserva)
+    if not reserva:
+        raise ValueError(construir_error_api(
+            code="reserva.no.existe",
+            message="Reserva no encontrada",
+            description="No se encontró una reserva con ese email, fecha y hora"
+        ), 404)
+    db_funciones.eliminar_reserva(email, fecha_reserva, hora_reserva)
+    
+    
+

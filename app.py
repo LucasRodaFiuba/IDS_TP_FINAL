@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for,flash, session
-#from services.reservas import obtener_reservas, enviar_reserva
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
-from services.reservas import crear_reserva_admin, enviar_reserva
+from services.reservas import crear_reserva_admin, enviar_reserva, eliminar_reserva
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 from services.auth import (
     eliminar_usuario_api,
@@ -336,33 +335,6 @@ def agregar_reserva():
     elif response.status_code == 404:
         return redirect(url_for('pagina_admin'))
 
-@app.route('/admin/reservas/modificar', methods=['UPDATE'])
-def modificar_reserva():
-    nombre_cliente = request.form.get('nombre_cliente')
-    fecha_hora_reserva = request.form.get('fecha_hora_reserva')
-    nueva_fecha_hora = request.form.get('nueva_fecha_hora')
-
-@app.route('/admin/reservas/eliminar', methods=['DELETE'])
-def eliminar_reserva():
-    nombre_cliente = request.form.get('nombre_cliente')
-    fecha_hora = request.form.get('fecha_hora')
-
-@app.route('/admin/usuarios/agregar', methods=['POST'])
-def agregar_usuario():
-    nombre_usuario = request.form.get('nombre_usuario')
-    correo_electronico = request.form.get('correo_electronico')
-    contrasena = request.form.get('contrasena')
-
-@app.route('/admin/usuarios/modificar', methods=['UPDATE'])
-def modificar_usuario():
-    nombre_usuario = request.form.get('nombre_usuario')
-    nuevo_nombre_usuario = request.form.get('nuevo_nombre_usuario')
-    nuevo_correo_electronico = request.form.get('nuevo_correo_electronico')
-    nueva_contrasena = request.form.get('nueva_contrasena')
-
-@app.route('/admin/usuarios/eliminar', methods=['DELETE'])
-def eliminar_usuario():
-    nombre_usuario = request.form.get('nombre_usuario')
 
 @app.route('/admin/dashboard')
 def pagina_dashboard():
@@ -389,5 +361,20 @@ def pagina_dashboard():
         flash(error, "error")
 
     return render_template('dashboard.html', data=None, f_inicio=fecha_inicio, f_fin=fecha_fin)
-if __name__ == "__main__":
-    app.run(debug=True,port = 5001)
+
+
+@app.route('/admin/reservas/eliminar', methods=['POST'])
+def eliminar_reserva_admin():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+
+        response = eliminar_reserva(data)
+
+        if response.get("ok"):
+            flash("Reserva eliminada con éxito.", "success")
+        else:
+            errores = response.get("errores", ["Error desconocido al eliminar."])
+            for error in errores:
+                flash(error, "error")
+
+        return redirect(url_for('pagina_admin'))
