@@ -37,6 +37,35 @@ def pagina_usuarios():
     usuarios = data.get('usuarios', [])
     return render_template('usuarios.html', usuarios=usuarios)
 
+@app.route('/admin/agregar_usuario', methods=['POST'])
+def agregar_usuario():
+    return redirect(url_for('pagina_usuarios'))
+
+@app.route('/admin/modificar_usuario', methods=['POST'])
+def modificar_usuario():
+    return redirect(url_for('pagina_usuarios'))
+
+@app.route('/admin/usuarios/eliminar/<int:id_usuario>', methods=['POST'])
+def eliminar_usuario(id_usuario):
+    usuario = session.get('usuario')
+    token = session.get('token')
+
+    if not usuario or usuario.get('rol') != 'admin':
+        flash('No tenés permisos para esto.', 'error')
+        return redirect(url_for('pagina_principal'))
+
+    resultado = eliminar_usuario_api(id_usuario, token)
+
+    if resultado.get('ok'):
+        flash('Usuario eliminado.', 'success')
+    else:
+        for e in resultado.get('errores', []):
+            flash(e, 'error')
+    usuario = session.get('usuario')
+    token = session.get('token')
+    return redirect(url_for('pagina_usuarios'))
+
+
 @app.route('/nosotros')
 def pagina_nosotros():
     return render_template('nosotros.html')

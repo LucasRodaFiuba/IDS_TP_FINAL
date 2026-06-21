@@ -16,7 +16,7 @@
     <h2>Gestionar Usuarios</h2>
     
                             <div id="Agregar_usuario">
-                                <form action="{{ url_for('agregar_usuario') }}" method="post">
+                                <form action="/admin/usuarios/agregar" method="post">
                                     <p>Agregar usuario</p>
                                     <input type="text" name="usuario" placeholder="Nombre de usuario">
                                     <input type="email" name="correo" placeholder="Correo electrónico">
@@ -26,7 +26,7 @@
                             </div>
                             
                             <div id="Modificar_usuario">
-                                <form action="{{ url_for('modificar_usuario') }}" method="post">
+                                <form action="/admin/usuarios/modificar" method="post">
                                     <p>Modificar usuario</p>
                                     <input type="text" name="usuario_actual" placeholder="Nombre del usuario a modificar">
                                     <input type="text" name="usuario_nuevo" placeholder="Nuevo nombre de usuario">
@@ -37,13 +37,13 @@
                             </div>
                             
                             <div id="Eliminar_usuario">
-                                <form action="{{ url_for('eliminar_usuario') }}" method="post">
+                                <form action="/admin/usuarios/eliminar" method="post">
                                     <p>Eliminar usuario</p>
                                     <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
-                                    <button>Confirmar</button>
+                                    <button>Confirmar eliminación</button>
                                 </form>
                             </div>
-                        </div>
+
                         
                         <div id="entradas">
                              <h2 class="titulo-entradas">USUARIOS</h2>          
@@ -56,7 +56,9 @@
                                      <p class="entrada-precio">${{ usuario.telefono }}</p>
                                      <p class="entrada-restriccion">{{ usuario.fecha_registro }}</p>
                                      <p class="entrada-restriccion">{{ usuario.rol }}</p>
-                                     <button class="btn-eliminar">Eliminar Usuario</button>
+                                     <form method="POST" action="/admin/usuarios/eliminar/{{ usuario.id }}">
+                                        <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar a {{ usuario.nombre }}?')">Eliminar Usuario</button>
+                                     </form>
                                      <button class="btn-modificar">Modificar Rol</button>
                                  </div>
                                  {% endfor %}
