@@ -6,8 +6,8 @@ def get_db_connection():
         connection = mysql.connector.connect(
             host='localhost',
             database='restaurante_db',
-            user='nacho',            # PONGAN SU USUARIO DE SQL ACA (puede estar predeterminado como "root")
-            password='1234'    # PONGAN SU CONTRASEÑA DE SQL ACA
+            user='root',            # PONGAN SU USUARIO DE SQL ACA (puede estar predeterminado como "root")
+            password='212212'    # PONGAN SU CONTRASEÑA DE SQL ACA
         )
         return connection
     except Error as e:

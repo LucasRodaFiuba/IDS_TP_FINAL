@@ -139,7 +139,7 @@ def perfil():
     token = session.get('token')
 
     if not usuario_sesion or not token:
-        flash('Tenes que iniciar sesion primero.', 'error')
+        flash('Tenes que iniciar sesion primero.', 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     usuario_id = usuario_sesion.get('id')
@@ -147,7 +147,7 @@ def perfil():
 
     if not resultado.get('ok'):
         for error in resultado.get('errores', []):
-            flash(error, 'error')
+            flash(error, 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     data = resultado.get('data', {})
@@ -171,7 +171,7 @@ def eliminar_cuenta():
     token = session.get('token')
 
     if not usuario_sesion or not token:
-        flash('Tenes que iniciar sesion primero.', 'error')
+        flash('Tenes que iniciar sesion primero.', 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     resultado = eliminar_usuario_api(usuario_sesion.get('id'), token)
@@ -182,7 +182,7 @@ def eliminar_cuenta():
         return redirect(url_for('home'))
 
     for error in resultado.get('errores', []):
-        flash(error, 'error')
+        flash(error, 'login_error')
 
     return redirect(url_for('perfil'))
 
