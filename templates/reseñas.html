@@ -1,85 +1,62 @@
 {% extends "base.html" %}
 {% block extra_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
 {% endblock %}
 {% block title %}Reseñas{% endblock %}
-
 {% block content %}
-<section class="seccion-resenas">
-    <div class="resena">
-        <h2>Miguel Angel</h2>
 
-        <p>
-            La comida estuvo excelente y la atención muy buena.
-            Volvería sin duda.
-        </p>
+<div class="resenas-page">
 
-        <span>★★★★★</span>
+    {% if session.get('usuario') %}
+    <div class="formulario-resena">
+        <form method="POST" action="/resenas">
+            <div class="estrellas-input">
+                <label>Puntuación</label>
+                <select name="puntuacion" required>
+                    <option value="">Seleccioná</option>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3">★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+            </div>
+            <div class="comentario-input">
+                <label>Comentario</label>
+                <textarea name="comentario" placeholder="Contanos tu experiencia..." required></textarea>
+            </div>
+            <button type="submit" class="btn-enviar">Enviar reseña</button>
+        </form>
     </div>
-
-    <div class="resena">
-        <h2>Lionel Messi</h2>
-
-        <p>
-            La comida estuvo horrible y la atención muy mala.
-        </p>
-
-        <span>★</span>
+    {% else %}
+    <div class="login-aviso">
+        <p><a href="/iniciar_sesion">Iniciá sesión</a> para dejar una reseña.</p>
     </div>
-        <div class="resena">
-        <h2>María Gómez</h2>
-        <p>
-            Muy buena atención y los platos salieron rápido. Me encantó el postre.
-        </p>
-        <span>★★★★★</span>
-    </div>
+    {% endif %}
 
-    <div class="resena">
-        <h2>Carlos Fernández</h2>
-        <p>
-            La comida estuvo rica, aunque la espera fue un poco larga. Igual la experiencia fue buena.
-        </p>
-        <span>★★★★</span>
-    </div>
+    <section class="seccion-resenas">
+        {% if resenas %}
+            {% for r in resenas %}
+            <div class="resena">
+                <div class="resena-header">
+                    <h2>{{ r.nombre }} {{ r.apellido }}</h2>
+                    <span class="estrellas">
+                        {% for i in range(r.puntuacion) %}★{% endfor %}{% for i in range(5 - r.puntuacion) %}☆{% endfor %}
+                    </span>
+                </div>
+                <p class="resena-comentario">{{ r.comentario }}</p>
+                <small class="resena-fecha">{{ r.fecha_resena }}</small>
+                {% if session.get('usuario') and session.get('usuario').get('rol') == 'admin' %}
+                <form method="POST" action="/resenas/eliminar/{{ r.id_resena }}" class="form-eliminar">
+                    <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar esta reseña?')">✕ Eliminar</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="sin-resenas">No hay reseñas todavía. ¡Sé el primero!</p>
+        {% endif %}
+    </section>
 
-    <div class="resena">
-        <h2>Ana Rodríguez</h2>
-        <p>
-            Hermoso lugar. Muy tranquilo y bien ambientado. Ideal para venir en pareja.
-        </p>
-        <span>★★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Diego Maradona</h2>
-        <p>
-            La comida estaba fría y demoraron bastante en atendernos.
-        </p>
-        <span>★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Sofía Martínez</h2>
-        <p>
-            El ambiente es muy lindo, aunque esperaba un poco más del plato principal.
-        </p>
-        <span>★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Juan Pérez</h2>
-        <p>
-            Excelente atención del personal y porciones abundantes. Muy recomendable.
-        </p>
-        <span>★★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Ricardo Fort</h2>
-        <p>
-            Buena presentación de los platos y muy rico todo. Seguro vuelvo.
-        </p>
-        <span>★★★★</span>
-    </div>
-</section>
+</div>
 {% endblock %}

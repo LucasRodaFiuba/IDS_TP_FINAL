@@ -470,6 +470,54 @@ def registrar_log_usuario(id_usuario, accion):
         'id_usuario': id_usuario,
         'accion': accion,
     })
+def obtener_resenas():
+    query = """
+    SELECT
+        r.id_resena,
+        u.nombre,
+        u.apellido,
+        r.puntuacion,
+        r.comentario,
+        r.fecha_resena
+    FROM resenas r
+    INNER JOIN usuarios u
+        ON u.id_usuario = r.id_usuario
+    ORDER BY r.fecha_resena DESC
+    """
+
+    return ejecutar_consulta(query)
+def insertar_resena(
+    id_usuario,
+    id_reserva,
+    puntuacion,
+    comentario
+):
+    query = """
+    INSERT INTO resenas(
+        id_usuario,
+        id_reserva,
+        puntuacion,
+        comentario
+    )
+    VALUES (
+        :id_usuario,
+        :id_reserva,
+        :puntuacion,
+        :comentario
+    )
+    """
+
+    return ejecutar_insert(query, {
+        'id_usuario': id_usuario,
+        'id_reserva': id_reserva,
+        'puntuacion': puntuacion,
+        'comentario': comentario
+    })
+def eliminar_resena(id_resena):
+    query = """
+        DELETE FROM resenas WHERE id_resena = :id_resena
+    """
+    return ejecutar_insert(query, {'id_resena': id_resena})
 
 
 def obtener_servicios_extra():
@@ -537,3 +585,16 @@ def eliminar_servicio_extra(id_servicio):
     resultado= ejecutar_mutacion(query,datos)
     
     return resultado
+
+
+def eliminar_resenas_de_usuario(id_usuario):
+    query = """
+        DELETE FROM resenas WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})
+
+def eliminar_reservas_de_usuario(id_usuario):
+    query = """
+        DELETE FROM reservas WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})

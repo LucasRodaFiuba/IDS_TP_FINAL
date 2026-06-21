@@ -10,7 +10,7 @@
 
         <h1>Mi cuenta</h1>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% with messages = get_flashed_messages(with_categories=true, category_filter=["login_error"]) %}
             {% if messages %}
                 {% for category, message in messages %}
                     <p>{{ message }}</p>

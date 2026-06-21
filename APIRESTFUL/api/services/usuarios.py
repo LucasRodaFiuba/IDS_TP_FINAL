@@ -69,6 +69,9 @@ def eliminar_usuario_por_id(id_usuario):
         ), 404)
 
     try:
+        
+        db_funciones.eliminar_resenas_de_usuario(id_usuario)
+        db_funciones.eliminar_reservas_de_usuario(id_usuario)
         db_funciones.eliminar_usuario_por_id(id_usuario)
     except IntegrityError:
         raise ValueError(construir_error_api(

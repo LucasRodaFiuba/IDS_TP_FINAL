@@ -1,7 +1,68 @@
+/* Página */
+.resenas-page {
+    width: 100%;
+}
+
+/* Formulario */
+.formulario-resena {
+    padding: 60px 40px 30px 40px;
+    background: rgba(0, 0, 0, 0.55);
+    box-sizing: border-box;
+    margin-bottom: 0;
+}
+
+
+
+.estrellas-input, .comentario-input {
+    margin-bottom: 16px;
+}
+
+.formulario-resena label {
+    display: block;
+    color: #9e9e9e;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.formulario-resena select,
+.formulario-resena textarea {
+    width: 100%;
+    background: transparent;
+    border: 3px solid rgba(238, 201, 35, 0.267);
+    color: #ffffff;
+    padding: 8px 0;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.formulario-resena textarea {
+    height: 80px;
+    resize: none;
+}
+
+.formulario-resena select option {
+    background: #1a1a1a;
+}
+
+.btn-enviar {
+    margin-top: 10px;
+    background: transparent;
+    border:1px solid rgb(238, 201, 35);
+    
+    color: rgb(238, 201, 35);
+    padding: 6px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-enviar:hover {
+    color: rgb(255, 220, 60);
+}
+
+/* Reseñas */
 .seccion-resenas {
     width: 100%;
     padding: 60px 40px;
-
     background: rgba(0, 0, 0, 0.55);
     box-sizing: border-box;
 }
@@ -12,20 +73,65 @@
     border-bottom: 1px solid rgba(238, 201, 35, 0.267);
 }
 
-.resena h2 {
-    margin: 0 0 8px 0;
-    font-size: 16px;
+.resena-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
-.resena p {
+.resena-header h2 {
     margin: 0;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.estrellas {
+    font-size: 14px;
+    color: rgb(247, 220, 67);
+}
+
+.resena-comentario {
+    margin: 0 0 10px 0;
     color: #9e9e9e;
     line-height: 1.5;
 }
 
-.resena span {
+.resena-fecha {
     display: block;
-    margin-top: 10px;
-    font-size: 14px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.form-eliminar {
+    margin-top: 8px;
+}
+
+.btn-eliminar {
+    background: transparent;
+    border: none;
+    color: rgba(255, 100, 100, 0.6);
+    padding: 0;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-eliminar:hover {
+    color: #ff6464;
+}
+
+/* Avisos */
+.login-aviso {
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #9e9e9e;
+}
+
+.login-aviso a {
     color: rgb(247, 220, 67);
+}
+
+.sin-resenas {
+    color: rgba(255, 255, 255, 0.4);
+    padding: 20px 0;
 }

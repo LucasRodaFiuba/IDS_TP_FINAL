@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for,flash, session
+import requests
+from services.resenas import obtener_resenas, enviar_resena, eliminar_resena
+#from services.reservas import obtener_reservas, enviar_reserva
 import mysql.connector
 from mysql.connector import Error
 from werkzeug.utils import secure_filename
@@ -36,6 +39,35 @@ def pagina_usuarios():
     data = obtener_usuarios()
     usuarios = data.get('usuarios', [])
     return render_template('usuarios.html', usuarios=usuarios)
+
+@app.route('/admin/agregar_usuario', methods=['POST'])
+def agregar_usuario():
+    return redirect(url_for('pagina_usuarios'))
+
+@app.route('/admin/modificar_usuario', methods=['POST'])
+def modificar_usuario():
+    return redirect(url_for('pagina_usuarios'))
+
+@app.route('/admin/usuarios/eliminar/<int:id_usuario>', methods=['POST'])
+def eliminar_usuario(id_usuario):
+    usuario = session.get('usuario')
+    token = session.get('token')
+
+    if not usuario or usuario.get('rol') != 'admin':
+        flash('No tenés permisos para esto.', 'error')
+        return redirect(url_for('pagina_principal'))
+
+    resultado = eliminar_usuario_api(id_usuario, token)
+
+    if resultado.get('ok'):
+        flash('Usuario eliminado.', 'success')
+    else:
+        for e in resultado.get('errores', []):
+            flash(e, 'error')
+    usuario = session.get('usuario')
+    token = session.get('token')
+    return redirect(url_for('pagina_usuarios'))
+
 
 @app.route('/nosotros')
 def pagina_nosotros():
@@ -139,7 +171,7 @@ def perfil():
     token = session.get('token')
 
     if not usuario_sesion or not token:
-        flash('Tenes que iniciar sesion primero.', 'error')
+        flash('Tenes que iniciar sesion primero.', 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     usuario_id = usuario_sesion.get('id')
@@ -147,7 +179,7 @@ def perfil():
 
     if not resultado.get('ok'):
         for error in resultado.get('errores', []):
-            flash(error, 'error')
+            flash(error, 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     data = resultado.get('data', {})
@@ -171,7 +203,7 @@ def eliminar_cuenta():
     token = session.get('token')
 
     if not usuario_sesion or not token:
-        flash('Tenes que iniciar sesion primero.', 'error')
+        flash('Tenes que iniciar sesion primero.', 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     resultado = eliminar_usuario_api(usuario_sesion.get('id'), token)
@@ -182,7 +214,7 @@ def eliminar_cuenta():
         return redirect(url_for('home'))
 
     for error in resultado.get('errores', []):
-        flash(error, 'error')
+        flash(error, 'login_error')
 
     return redirect(url_for('perfil'))
 
@@ -362,6 +394,60 @@ def pagina_dashboard():
 
     return render_template('dashboard.html', data=None, f_inicio=fecha_inicio, f_fin=fecha_fin)
 
+@app.route('/resenas', methods=['GET', 'POST'])
+def pagina_resenas():
+    if request.method == 'POST':
+        usuario = session.get('usuario')
+        token = session.get('token')
+
+        if not usuario or not token:
+            flash('Tenés que iniciar sesión para dejar una reseña.', 'error')
+            return redirect(url_for('iniciar_sesion'))
+
+        resultado = enviar_resena(
+            id_usuario=usuario['id'],
+            id_reserva=None,
+            puntuacion=int(request.form.get('puntuacion')),
+            comentario=request.form.get('comentario'),
+            token=token
+        )
+
+        if resultado.get('ok'):
+            flash('¡Reseña enviada!', 'success')
+        else:
+            for e in resultado.get('errores', []):
+                flash(e, 'error')
+
+        return redirect(url_for('pagina_resenas'))
+
+    # GET
+    resultado = obtener_resenas()
+    if resultado.get('ok'):
+        return render_template('reseñas.html', resenas=resultado['response'])
+    for e in resultado.get('errores', []):
+        flash(e, 'error')
+    return render_template('reseñas.html', resenas=[])
+
+@app.route('/resenas/eliminar/<int:id_resena>', methods=['POST'])
+def eliminar_resena_view(id_resena):
+    usuario = session.get('usuario')
+    token = session.get('token')
+
+    if not usuario or usuario.get('rol') != 'admin':
+        flash('No tenés permisos para esto.', 'error')
+        return redirect(url_for('pagina_resenas'))
+
+    resultado = eliminar_resena(id_resena, token)
+
+    if resultado.get('ok'):
+        flash('Reseña eliminada.', 'success')
+    else:
+        for e in resultado.get('errores', []):
+            flash(e, 'error')
+
+    return redirect(url_for('pagina_resenas'))
+if __name__ == "__main__":
+    app.run(debug=True,port = 5001)
 
 @app.route('/admin/reservas/eliminar', methods=['POST'])
 def eliminar_reserva_admin():
