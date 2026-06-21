@@ -537,3 +537,16 @@ def eliminar_servicio_extra(id_servicio):
     resultado= ejecutar_mutacion(query,datos)
     
     return resultado
+
+
+def eliminar_resenas_de_usuario(id_usuario):
+    query = """
+        DELETE FROM resenas WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})
+
+def eliminar_reservas_de_usuario(id_usuario):
+    query = """
+        DELETE FROM reservas WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})
