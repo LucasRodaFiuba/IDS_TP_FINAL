@@ -446,8 +446,7 @@ def eliminar_resena_view(id_resena):
             flash(e, 'error')
 
     return redirect(url_for('pagina_resenas'))
-if __name__ == "__main__":
-    app.run(debug=True,port = 5001)
+
 
 @app.route('/admin/reservas/eliminar', methods=['POST'])
 def eliminar_reserva_admin():
