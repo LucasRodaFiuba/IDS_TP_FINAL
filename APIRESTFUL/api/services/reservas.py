@@ -1,3 +1,4 @@
+import email
 import logging
 from ..utils import construir_error_api
 from ..validators.reservas import validar_body_nueva_reserva,validar_parametros
@@ -42,8 +43,7 @@ def consultar_disponibilidad(fecha,comensales):
         'turnos_disponibles': turnos_disponibles
     }
 
-
-    
+ 
 #agregar_reserva la voy a utilizar en routes en crear_reserva.
 def crear_reserva(body):
     """
@@ -122,11 +122,11 @@ def crear_reserva(body):
         "token": token
     })
 
-    # 8. Enviar email con QR + link cancelar
+    # 8. Enviar email con QR
     enviar_mail(
     destinatario=datos["email"],
     asunto="Tu reserva",
-    cuerpo="Tu reserva fue confirmada. Adjuntamos el QR.",
+    cuerpo="Reserva realizada. Adjuntamos el QR.",
     archivo_adjunto=qr_path
     )
 
@@ -208,9 +208,9 @@ def validar_reserva_service(token):
 
     if reserva["estado"] != "pendiente":
         raise ValueError(construir_error_api(
-            code="reserva.invalida",
-            message="invlaido",
-            description="El email no está registrado en la base de datos"))
+            code="reserva.ya.procesada",
+            message="invalido",
+            description="No se puede confirmar una reserva que ya lo está o que fue cancelada"))
 
     #Actualizo el estado en confirmada
     db_funciones.actualizar_estado_reserva(token, "confirmada")
@@ -319,3 +319,17 @@ def crear_reserva_admin(body):
     "codigo_qr": token,
     "id_reserva" : id_reserva
     }
+
+
+def eliminar_reserva(email, fecha_reserva, hora_reserva):
+    reserva = db_funciones.obtener_reservas_email_fecha_hora(email, fecha_reserva, hora_reserva)
+    if not reserva:
+        raise ValueError(construir_error_api(
+            code="reserva.no.existe",
+            message="Reserva no encontrada",
+            description="No se encontró una reserva con ese email, fecha y hora"
+        ), 404)
+    db_funciones.eliminar_reserva(email, fecha_reserva, hora_reserva)
+    
+    
+

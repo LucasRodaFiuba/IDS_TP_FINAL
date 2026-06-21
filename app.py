@@ -7,7 +7,7 @@ from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
-from services.reservas import crear_reserva_admin, enviar_reserva
+from services.reservas import crear_reserva_admin, enviar_reserva, eliminar_reserva
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 from services.auth import (
     eliminar_usuario_api,
@@ -19,6 +19,9 @@ from services.auth import (
 from routes.servicios_extra import servicios_extra_bp
 from services.dashboard import obtener_estadisticas
 from services.usuarios import obtener_usuarios
+from datetime import datetime
+from constants import MESES
+
 app = Flask(__name__)
 # Carpeta donde se guardan las imágenes
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'img')
@@ -36,6 +39,35 @@ def pagina_usuarios():
     data = obtener_usuarios()
     usuarios = data.get('usuarios', [])
     return render_template('usuarios.html', usuarios=usuarios)
+
+@app.route('/admin/agregar_usuario', methods=['POST'])
+def agregar_usuario():
+    return redirect(url_for('pagina_usuarios'))
+
+@app.route('/admin/modificar_usuario', methods=['POST'])
+def modificar_usuario():
+    return redirect(url_for('pagina_usuarios'))
+
+@app.route('/admin/usuarios/eliminar/<int:id_usuario>', methods=['POST'])
+def eliminar_usuario(id_usuario):
+    usuario = session.get('usuario')
+    token = session.get('token')
+
+    if not usuario or usuario.get('rol') != 'admin':
+        flash('No tenés permisos para esto.', 'error')
+        return redirect(url_for('pagina_principal'))
+
+    resultado = eliminar_usuario_api(id_usuario, token)
+
+    if resultado.get('ok'):
+        flash('Usuario eliminado.', 'success')
+    else:
+        for e in resultado.get('errores', []):
+            flash(e, 'error')
+    usuario = session.get('usuario')
+    token = session.get('token')
+    return redirect(url_for('pagina_usuarios'))
+
 
 @app.route('/nosotros')
 def pagina_nosotros():
@@ -139,7 +171,7 @@ def perfil():
     token = session.get('token')
 
     if not usuario_sesion or not token:
-        flash('Tenes que iniciar sesion primero.', 'error')
+        flash('Tenes que iniciar sesion primero.', 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     usuario_id = usuario_sesion.get('id')
@@ -147,7 +179,7 @@ def perfil():
 
     if not resultado.get('ok'):
         for error in resultado.get('errores', []):
-            flash(error, 'error')
+            flash(error, 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     data = resultado.get('data', {})
@@ -171,7 +203,7 @@ def eliminar_cuenta():
     token = session.get('token')
 
     if not usuario_sesion or not token:
-        flash('Tenes que iniciar sesion primero.', 'error')
+        flash('Tenes que iniciar sesion primero.', 'login_error')
         return redirect(url_for('iniciar_sesion'))
 
     resultado = eliminar_usuario_api(usuario_sesion.get('id'), token)
@@ -182,7 +214,7 @@ def eliminar_cuenta():
         return redirect(url_for('home'))
 
     for error in resultado.get('errores', []):
-        flash(error, 'error')
+        flash(error, 'login_error')
 
     return redirect(url_for('perfil'))
 
@@ -218,6 +250,13 @@ def pagina_mis_reservas():
     
     if resultado.get("ok"):
         flash("Reservas obtenidas", "success")
+        reservas = resultado['response']
+
+        for reserva in reservas:
+            fecha = datetime.strptime(reserva['fecha_reserva'], "%Y-%m-%d")
+            reserva['mes_abreviado'] = MESES[fecha.month - 1]
+            reserva['dia'] = fecha.day
+
         return render_template("mis_reservas.html",reservas=resultado['response'])
         
     errores = resultado.get("errores", [])
@@ -328,33 +367,6 @@ def agregar_reserva():
     elif response.status_code == 404:
         return redirect(url_for('pagina_admin'))
 
-@app.route('/admin/reservas/modificar', methods=['UPDATE'])
-def modificar_reserva():
-    nombre_cliente = request.form.get('nombre_cliente')
-    fecha_hora_reserva = request.form.get('fecha_hora_reserva')
-    nueva_fecha_hora = request.form.get('nueva_fecha_hora')
-
-@app.route('/admin/reservas/eliminar', methods=['DELETE'])
-def eliminar_reserva():
-    nombre_cliente = request.form.get('nombre_cliente')
-    fecha_hora = request.form.get('fecha_hora')
-
-@app.route('/admin/usuarios/agregar', methods=['POST'])
-def agregar_usuario():
-    nombre_usuario = request.form.get('nombre_usuario')
-    correo_electronico = request.form.get('correo_electronico')
-    contrasena = request.form.get('contrasena')
-
-@app.route('/admin/usuarios/modificar', methods=['UPDATE'])
-def modificar_usuario():
-    nombre_usuario = request.form.get('nombre_usuario')
-    nuevo_nombre_usuario = request.form.get('nuevo_nombre_usuario')
-    nuevo_correo_electronico = request.form.get('nuevo_correo_electronico')
-    nueva_contrasena = request.form.get('nueva_contrasena')
-
-@app.route('/admin/usuarios/eliminar', methods=['DELETE'])
-def eliminar_usuario():
-    nombre_usuario = request.form.get('nombre_usuario')
 
 @app.route('/admin/dashboard')
 def pagina_dashboard():
@@ -436,3 +448,22 @@ def eliminar_resena_view(id_resena):
     return redirect(url_for('pagina_resenas'))
 if __name__ == "__main__":
     app.run(debug=True,port = 5001)
+
+@app.route('/admin/reservas/eliminar', methods=['POST'])
+def eliminar_reserva_admin():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+
+        response = eliminar_reserva(data)
+
+        if response.get("ok"):
+            flash("Reserva eliminada con éxito.", "success")
+        else:
+            errores = response.get("errores", ["Error desconocido al eliminar."])
+            for error in errores:
+                flash(error, "error")
+
+        return redirect(url_for('pagina_admin'))
+    
+if __name__ == "__main__":
+       app.run(debug=True,port = 5001)

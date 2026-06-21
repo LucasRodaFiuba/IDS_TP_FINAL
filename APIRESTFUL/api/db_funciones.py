@@ -291,6 +291,23 @@ def obtener_usuarios():
     """
     return ejecutar_consulta(query)
 
+def insertar_usuario(nombre, apellido, email, telefono, id_rol, password_hash=None):
+    query = """
+    INSERT INTO usuarios (nombre, apellido, email, telefono, id_rol, password)
+    VALUES (:nombre, :apellido, :email, :telefono, :id_rol, :password)
+    """
+    datos = {
+        'nombre': nombre,
+        'apellido': apellido,
+        'email': email,
+        'telefono': telefono,
+        'id_rol': id_rol,
+        'password': password_hash
+    }
+
+    return ejecutar_insert(query, datos
+    )
+    
 
 def obtener_rol_por_nombre(nombre_rol):
     query = """
@@ -380,6 +397,44 @@ def insertar_usuario_auth(nombre, apellido, email, password_hash, telefono, id_r
     })
 
 
+def eliminar_reserva(email, fecha_reserva, hora_reserva):
+    query = """
+    DELETE FROM reservas
+    WHERE id_usuario = (SELECT id_usuario FROM usuarios WHERE email = :email) 
+      AND fecha_reserva = :fecha_reserva 
+      AND hora_reserva = :hora_reserva
+    """
+
+    return ejecutar_mutacion(query, {
+        'email': email,
+        'fecha_reserva': fecha_reserva,
+        'hora_reserva': hora_reserva
+    })
+
+
+def obtener_reservas_email_fecha_hora(email, fecha_reserva, hora_reserva):
+    query = """
+    SELECT
+        r.id_reserva,
+        r.numero_mesa,
+        r.fecha_reserva,
+        r.hora_reserva,
+        r.cantidad_personas,
+        r.estado,
+        r.codigo_qr,
+        r.fecha_creacion
+    FROM reservas r
+    INNER JOIN usuarios u ON u.id_usuario = r.id_usuario
+    WHERE u.email = :email AND r.fecha_reserva = :fecha_reserva AND r.hora_reserva = :hora_reserva
+    ORDER BY r.fecha_reserva DESC, r.hora_reserva DESC
+    """
+    return ejecutar_consulta(query, {
+        'email': email,
+        'fecha_reserva': fecha_reserva,
+        'hora_reserva': hora_reserva
+    })
+
+
 def obtener_reservas_de_usuario(id_usuario):
     query = """
     SELECT
@@ -464,13 +519,13 @@ def eliminar_resena(id_resena):
     """
     return ejecutar_insert(query, {'id_resena': id_resena})
 
+
 def obtener_servicios_extra():
     query= """SELECT * FROM servicios_extra"""
 
     resultado= ejecutar_consulta(query)
 
     return resultado
-
 
 
 def agregar_servicio_extra(nombre,descripcion):
@@ -503,7 +558,6 @@ def obtener_servicio_por_id(id_servicio):
     return resultado[0]
 
 
-
 def actualizar_servicio_extra(id_servicio,nombre,descripcion):
     query= """UPDATE servicios_extra
               SET nombre= :nombre, descripcion= :descripcion
@@ -521,7 +575,6 @@ def actualizar_servicio_extra(id_servicio,nombre,descripcion):
     return resultado
 
   
-
 def eliminar_servicio_extra(id_servicio):
     query= """DELETE FROM servicios_extra WHERE id_servicio = :id_servicio"""
 
@@ -532,3 +585,16 @@ def eliminar_servicio_extra(id_servicio):
     resultado= ejecutar_mutacion(query,datos)
     
     return resultado
+
+
+def eliminar_resenas_de_usuario(id_usuario):
+    query = """
+        DELETE FROM resenas WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})
+
+def eliminar_reservas_de_usuario(id_usuario):
+    query = """
+        DELETE FROM reservas WHERE id_usuario = :id_usuario
+    """
+    return ejecutar_mutacion(query, {'id_usuario': id_usuario})

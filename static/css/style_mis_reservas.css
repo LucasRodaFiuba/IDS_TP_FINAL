@@ -1,202 +1,228 @@
 *{
     box-sizing:border-box;
 }
-
+#contenedor-presentacion{
+    background-color:#161616;
+    border:10px solid #16161647;
+    border-bottom:2px solid #907a1a;
+    margin:20px;
+    padding:10px;
+    opacity:0.9;
+}
 #titulo-principal{
     color:white;
-    margin:10px;
-    padding:5px;
-    font-size:40px;
-}
-
-.mensaje-login{
-    background-color: white;
-    padding:5px;
-    margin:10px;
-}
-
-.mensaje-login p {
-    font-size: 20px;
-}
-
-#boton-login{
-    font-size:20px;
-    background-color:white;
-    border-radius: 20px;
 }
 
 /*ESTADO : El usuario está logeado, pero no tiene reservas*/
-#usuario-sin-reservas{
+#contenedor-usuario-sin-reservas{
+    background-color:#161616;
+    margin: 0 auto;
+    max-width:900px;
+    border-radius:20px;
+    border: 1px solid #42403dc4;
+    box-shadow: 0 8px 30px black;
+    padding: 16px 20px;
+
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction:column;
+}
+
+#titulo-sin-reservas{
     color:white;
     margin:10px;
+    padding:10px;
+}
+
+#mensaje-descriptivo-sin-reservas{
+    color:white;
+    font-size:20px;
+}
+
+#btn-redirigir-para-reservar{
+    background-color:#907a1a;
+    border-radius:20px;
     padding:10px;
 }
 
 #link-reservar{
+    text-decoration:none;
     color:white;
-    margin:10px;
-    padding:10px;
+    font-size:15px;
 }
 /*ESTADO: El usuario está logeado*/
 #mensaje-introductorio-historial{
     color:white;
-    background-color:black;
-    margin:5px;
     padding:10px;
     font-size:20px;
-    border: 1px solid rgba(0, 0, 0, 0.111);
-}
-.contenedor-reservas{
-    padding:10px;
-    margin:10px;
-    gap:20px;
 }
 
+.contenedor-reservas {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 
-.card-reserva {
-    display: grid;
-    grid-template-columns: auto 1fr 180px;
+/*CARD-RESERVA DISEÑO GENERAL*/
+.card-reserva{
+    background: #161616;
+    border: 0.5px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 24px 20px;
+    display: flex;
     align-items: center;
-    gap: 20px;
-    background-color: black;
-    overflow:hidden;
-    margin:30px;
-    padding:20px;
+    gap: 16px;
+    transition: transform 0.2s ease;
 }
 
-.info-reserva {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
-    width: 100%;
-    background-color:black;
-
-    min-width: 0;
-    width: 100%;
-    margin:20px;
-    padding:5px;
+.card-reserva:hover{
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-.info-reserva > div {
-    font-size:16px;
-    background: black;
-    padding: 12px;
-    text-align: center;
-    box-sizing: border-box;
-    margin:5px;
-    min-width:0;
-
+/*CARD-RESERVA DISEÑO PARTICULAR*/
+.card-reserva.pendiente{
+    border-left:5px solid #ae7f28;
 }
 
-.info-reserva p {
-    margin: 2px;
-    font-size: clamp(5px, 1.5vw, 25px);
+.card-reserva.confirmada{
+    border-left:5px solid #1f4b34;
 }
 
+.card-reserva.cancelada{
+    border-left:5px solid grey;
+    opacity:0.6;
+}
 
-.estado-reserva {
-    width: 160px;
-    background-color:black;
+/*FECHA BOX*/
+.reserva-fecha-box{
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mes{
+    font-size:15px;
+    text-transform: uppercase;
+}
+
+.dia{
+    font-size:23px;
+    color:white;
+    font-weight: 500;
+}
+/* LAS BOX DE FECHAS VARIAN POR EL ESTADO(DISEÑOS PARTICULARES)*/
+/*PENDIENTE*/
+.reserva-fecha-box.pendiente{
+    background:#3a2a0e;
+}
+.reserva-fecha-box.pendiente .mes{ 
+    color:#e8b94f;
+}
+/*CONFIRMADA*/
+.reserva-fecha-box.confirmada{
+    background:#122a1d;
+}
+.reserva-fecha-box.confirmada .mes { 
+    color:#5dcaa5;
+}
+
+/*CANCELADA*/
+.reserva-fecha-box.cancelada{
+    background-color:#232321;
+}
+.reserva-fecha-box.cancelada .mes { 
+    color:#b4b2a9;
+}
+
+/*DIV QUE CONTIENE LOS DATOS*/
+.reserva-datos{ 
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+
+}
+
+.reserva-datos label {
+    display: block;
+    font-size: 15px;
+    color: #6e6a63;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+}
+
+.reserva-datos span {
+    font-size: 19px;
+    color: #f5f0e6;
+    font-weight: 500;
+}
+
+.reserva-datos i {
+    font-size: 13px;
+    color: #a89a6e;
+    margin-right: 4px;
+}
+
+/*Para la parte de estado + boton*/
+.reserva-acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+    padding:5px;
+}
+
+/*DISTINTOS ESTILOS DEPENDIENDO DE QUE ESTADO SEA*/
+.badge-pendiente {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: #e8b94f;
+    background:#3a2a0e;
+}
+
+.badge-confirmada{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: #5dcaa5;
+    background:#122a1d;
+}
+
+.badge-cancelada{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: #b4b2a9;
+    background:#232321;
     margin:5px;
 }
 
-#imagen-calendario{
-    width: clamp(40px, 6vw, 80px);
-    height: clamp(40px, 6vw, 80px);
-    border-radius: 50%;
-    object-fit: cover;
-}
 
-.hora{
-    padding:10px;
-    background-color:black;
-    color:white;
-    border-right: 1px solid white;
-}
 
-.fecha{
-    padding:10px;
-    background-color:black;
-    display:flex;
-    flex-direction: column;
-    color:white;
-    border-right: 1px solid white;
-
-}
-
-.cantidad-personas{
-    padding:10px;
-    background-color:black;
-    color:white;
-
-}
-
-.mesa{
-    padding:10px;
-    background-color:black;
-    color:white;
-}
-
-#boton-cancelar-reserva{
-    /*FLEX*/
-    display: flex;
-    align-items: center;
-    gap: 5px;
-
-    /*OTRO*/
-    background-color:transparent;
-    border: 1px solid black;
-    color:black;
-    background-color:white;
-    border-radius:8px;
-    padding:7px;
-    font-size: clamp(5px, 1.5vw, 25px);
-    font-weight:bold;
-}
-
-#boton-cancelar-reserva:hover{
-    background-color: red;
-    color:white;
-}
-
-#boton-cancelar-reserva{
-    cursor:pointer;
-}
-
-#imagen_eliminar{
-    width:30px;
-    height:30px;
-    color:white;
-}
-
-.confirmada{
-    background-color:rgb(86, 225, 86);
-    padding:5px;
-    color:white;
-    font-size: clamp(5px, 1.5vw, 25px);
-
-}
-
-.cancelada{
-    background-color: rgb(212, 65, 65);
-    padding:5px;
-    color:white;
-    font-size: clamp(5px, 1.5vw, 25px);
-
-}
-
-.pendiente{
-    background: orange;
-    padding: 5px;
-    color: white;
-    font-size: clamp(5px, 1.5vw, 25px);
-
-}
-
-#usuarios-sin-reservas{
-    color:white;
+.btn-cancelar {
+    background: transparent;
+    border: 0.5px solid #5a2a2a;
+    color: #d97a7a;
+    font-size: 15px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin:5px;
 }
