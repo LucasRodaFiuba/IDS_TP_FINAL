@@ -541,23 +541,6 @@ def agregar_servicio_extra(nombre,descripcion):
 
     return resultado
 
-
-def obtener_servicio_por_id(id_servicio):
-    query= """SELECT * FROM servicios_extra WHERE id_servicio= :id_servicio"""
-
-    datos = {
-        "id_servicio": id_servicio
-    }
-
-    resultado= ejecutar_consulta(query,datos)
-
-
-    if not resultado:
-        return None
-
-    return resultado[0]
-
-
 def actualizar_servicio_extra(id_servicio,nombre,descripcion):
     query= """UPDATE servicios_extra
               SET nombre= :nombre, descripcion= :descripcion
