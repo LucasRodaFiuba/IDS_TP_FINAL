@@ -18,7 +18,7 @@ from services.auth import (
 )
 from routes.servicios_extra import servicios_extra_bp
 from services.dashboard import obtener_estadisticas
-from services.usuarios import obtener_usuarios,actualizar_rol_usuario
+from services.usuarios import obtener_usuarios,actualizar_rol_usuario, crear_usuario
 from datetime import datetime
 from constants import MESES
 
@@ -34,14 +34,27 @@ app.register_blueprint(servicios_extra_bp)
 def home():
     return render_template("index.html")
 
+
 @app.route('/admin/usuarios')
 def pagina_usuarios():
     data = obtener_usuarios()
     usuarios = data.get('usuarios', [])
     return render_template('usuarios.html', usuarios=usuarios)
 
+
 @app.route('/admin/agregar_usuario', methods=['POST'])
 def agregar_usuario():
+    nombre = request.form.get('usuario')
+    apellido = request.form.get('apellido')
+    email = request.form.get('correo')
+    password = request.form.get('password_hash')
+    telefono = request.form.get('telefono')
+    rol = request.form.get('id_rol')
+    crear_usuario(nombre, apellido, email, password, telefono, rol)
+    if not nombre or not email or not password or not rol:
+        flash('Todos los campos son obligatorios.', 'error')
+    else:
+        flash('Usuario agregado correctamente.', 'success')
     return redirect(url_for('pagina_usuarios'))
 
 @app.route('/admin/modificar_usuario', methods=['POST'])
@@ -55,7 +68,7 @@ def eliminar_usuario(id_usuario):
 
     if not usuario or usuario.get('rol') != 'admin':
         flash('No tenés permisos para esto.', 'error')
-        return redirect(url_for('pagina_principal'))
+        return redirect(url_for('pagina_usuarios'))
 
     resultado = eliminar_usuario_api(id_usuario, token)
 
@@ -294,6 +307,8 @@ def agregar_objeto():
         imagen = request.form.get('imagen', '').strip() 
     resultado = crear_plato(nombre, float(precio), descripcion, restriccion, categoria, imagen) 
     return redirect(url_for('pagina_menu'))
+
+
 @app.route('/menu')
 def pagina_menu():
     data = obtener_menu()

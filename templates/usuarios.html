@@ -8,19 +8,21 @@
 
 {% block content %} 
 
-
-
-
-
-<div id="Formularios">
-    <h2>Gestionar Usuarios</h2>
+                    <div id="Formularios">
+                        <h2>Gestionar Usuarios</h2>
     
                             <div id="Agregar_usuario">
-                                <form action="/admin/usuarios/agregar" method="post">
+                                <form action="{{url_for('agregar_usuario')}}" method="post">
                                     <p>Agregar usuario</p>
                                     <input type="text" name="usuario" placeholder="Nombre de usuario">
+                                    <input type="text" name="apellido" placeholder="Apellido">
                                     <input type="email" name="correo" placeholder="Correo electrónico">
-                                    <input type="password" name="password" placeholder="Contraseña">
+                                    <input type="password" name="password_hash" placeholder="Contraseña">
+                                    <select name="id_rol">
+                                            <option value="1">Admin</option>
+                                            <option value="2">Usuario</option>
+                                    </select>
+                                    <input type="text" name="telefono" placeholder="Teléfono">
                                     <button>Confirmar</button>
                                 </form>
                             </div>
