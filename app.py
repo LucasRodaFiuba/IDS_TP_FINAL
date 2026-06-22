@@ -18,7 +18,7 @@ from services.auth import (
 )
 from routes.servicios_extra import servicios_extra_bp
 from services.dashboard import obtener_estadisticas
-from services.usuarios import obtener_usuarios,actualizar_rol_usuario, crear_usuario
+from services.usuarios import obtener_usuarios,actualizar_rol_usuario, crear_usuario, actualizar_usuario
 from datetime import datetime
 from constants import MESES
 
@@ -57,8 +57,27 @@ def agregar_usuario():
         flash('Usuario agregado correctamente.', 'success')
     return redirect(url_for('pagina_usuarios'))
 
-@app.route('/admin/modificar_usuario', methods=['POST'])
+@app.route('/admin/usuarios/modificar', methods=['POST'])
 def modificar_usuario():
+    id_usuario = request.form.get('id')
+    nombre = request.form.get('nombre')
+    apellido = request.form.get('apellido')
+    email = request.form.get('email')
+    telefono = request.form.get('telefono')
+
+    resultado = actualizar_usuario(
+        int(id_usuario),
+        nombre,
+        apellido,
+        email,
+        telefono
+    )
+
+    if resultado:
+        flash('Usuario actualizado correctamente', 'success')
+    else:
+        flash('No se pudo actualizar el usuario', 'error')
+
     return redirect(url_for('pagina_usuarios'))
 
 @app.route('/admin/usuarios/eliminar/<int:id_usuario>', methods=['POST'])

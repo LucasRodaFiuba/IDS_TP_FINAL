@@ -485,6 +485,26 @@ def actualizar_rol(id_usuario, id_rol):
 
     ejecutar_mutacion(query, datos)
 
+def actualizar_usuario(id_usuario, nombre, apellido, email, telefono):
+    query = """
+        UPDATE usuarios
+        SET nombre = :nombre,
+            apellido = :apellido,
+            email = :email,
+            telefono = :telefono
+        WHERE id_usuario = :id_usuario
+    """
+
+    datos = {
+        "id_usuario": id_usuario,
+        "nombre": nombre,
+        "apellido": apellido,
+        "email": email,
+        "telefono": telefono
+    }
+
+    ejecutar_mutacion(query, datos)
+
 def obtener_resenas():
     query = """
     SELECT

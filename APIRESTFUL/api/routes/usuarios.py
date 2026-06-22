@@ -7,6 +7,7 @@ from api.services.usuarios import (
     obtener_usuarios,
     agregar_usuario,
     cambiar_rol,
+    actualizar_usuario,
 )
 from api.utils import (
     construir_error_api,
@@ -142,3 +143,33 @@ def cambiar_rol_usuario(id_usuario):
     
 
     return{'mensaje': 'Rol actualizado'}, 200
+
+@usuarios_bp.route ('/admin/usuarios/actualizar/<int:id_usuario>', methods=['PUT'])
+def modificar_usuario(id_usuario):
+    try:
+        id_validado = _validar_id_usuario(id_usuario)
+    except ValueError as e:
+        return jsonify(e.args[0]), 400
+    
+    datos = request.get_json()
+
+    try:
+        actualizar_usuario(
+            id_validado,
+            datos['nombre'],
+            datos['apellido'],
+            datos['email'],
+            datos['telefono']
+        )
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        return jsonify(construir_error_api(
+            code='internal.server.error',
+            message=str(e),
+            description='Ocurrio un error inesperado al eliminar el usuario'
+        )), 500
+    
+
+    return{'mensaje': 'Usuario actualizado'}, 200

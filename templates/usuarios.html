@@ -28,12 +28,13 @@
                             </div>
                             
                             <div id="Modificar_usuario">
-                                <form action="/admin/usuarios/modificar" method="post">
+                                <form action="{{ url_for('modificar_usuario') }}" method="post">
                                     <p>Modificar usuario</p>
-                                    <input type="text" name="usuario_actual" placeholder="Nombre del usuario a modificar">
-                                    <input type="text" name="usuario_nuevo" placeholder="Nuevo nombre de usuario">
-                                    <input type="email" name="correo_nuevo" placeholder="Nuevo correo electrónico">
-                                    <input type="password" name="password_nuevo" placeholder="Nueva contraseña">
+                                    <input type="number" name="id" placeholder="ID del usuario">
+                                    <input type="text" name="nombre" placeholder="Nuevo nombre">
+                                     <input type="text" name="apellido" placeholder="Nuevo apellido">
+                                    <input type="email" name="email" placeholder="Nuevo correo">
+                                    <input type="text" name="telefono" placeholder="Nuevo teléfono">
                                     <button>Confirmar cambios</button>
                                 </form>
                             </div>
@@ -54,6 +55,7 @@
                                  <div class="entrada-carta">
                                      <h5 class="entrada-titulo">{{ usuario.nombre }}</h5>
                                      <p class="entrada-descripcion">{{ usuario.apellido }}</p>
+                                     <p class="entrada-descripcion">{{ usuario.id }}</p>
                                      <p class="entrada-descripcion">{{ usuario.email }}</p>
                                      <p class="entrada-precio">${{ usuario.telefono }}</p>
                                      <p class="entrada-restriccion">{{ usuario.fecha_registro }}</p>

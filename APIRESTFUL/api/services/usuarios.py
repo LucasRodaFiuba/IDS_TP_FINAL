@@ -124,3 +124,14 @@ def cambiar_rol(id_usuario):
         nuevo_rol = 1
 
     db_funciones.actualizar_rol(id_usuario, nuevo_rol)
+
+def actualizar_usuario(id_usuario, nombre, apellido, email, telefono):
+    usuario = db_funciones.obtener_usuario_publico_por_id(id_usuario)
+
+    if not usuario:
+        raise ValueError(construir_error_api(
+            code='usuario.not.found',
+            message='Usuario no encontrado',
+            description=f"No existe un usuario con id '{id_usuario}'"
+        ), 404)
+    db_funciones.actualizar_usuario(id_usuario, nombre, apellido, email, telefono)
