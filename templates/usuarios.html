@@ -59,22 +59,15 @@
                                      <form method="POST" action="/admin/usuarios/eliminar/{{ usuario.id }}">
                                         <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar a {{ usuario.nombre }}?')">Eliminar Usuario</button>
                                      </form>
-                                     <button class="btn-modificar">Modificar Rol</button>
+                                     <form action="{{ url_for('actualizar_rol') }}" method="POST">
+                                        <input type="hidden" name="id_usuario" value="{{ usuario.id }}">
+                                        <button type="submit" class="btn-modificar">
+                                            Modificar Rol
+                                        </button>
+                                    </form>
                                  </div>
                                  {% endfor %}
                              </div>
                          </div>
-
-
-            #MOSTRAR INFO DEL USUARIO
-            #MODIFICAR ROL DEL USUARIO
-            #ELIMINAR USUARIO
-            #Reseñas falta filtro por plato (OPCIONAL)
-            #Baja de reseñas
-
-
-
-            #TODO EL ABM DE RESEÑAS (NO SE SI LO HACE MAIKEL)
-
 
 {% endblock %}

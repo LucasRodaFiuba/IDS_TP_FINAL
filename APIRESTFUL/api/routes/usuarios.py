@@ -6,7 +6,7 @@ from api.services.usuarios import (
     puede_operar_sobre_usuario,
     obtener_usuarios,
     agregar_usuario,
-    
+    cambiar_rol,
 )
 from api.utils import (
     construir_error_api,
@@ -120,3 +120,25 @@ def admin_get_usuarios():
         )), 500
 
     return jsonify(usuarios), 200
+
+@usuarios_bp.route ('/admin/usuarios/actualizar_rol/<int:id_usuario>', methods=['PUT'])
+def cambiar_rol_usuario(id_usuario):
+    try:
+        id_validado = _validar_id_usuario(id_usuario)
+    except ValueError as e:
+        return jsonify(e.args[0]), 400
+
+    try:
+        cambiar_rol(id_validado)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        return jsonify(construir_error_api(
+            code='internal.server.error',
+            message=str(e),
+            description='Ocurrio un error inesperado al cambiar rol del usuario'
+        )), 500
+    
+
+    return{'mensaje': 'Rol actualizado'}, 200

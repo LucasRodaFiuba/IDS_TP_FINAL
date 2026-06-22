@@ -470,6 +470,21 @@ def registrar_log_usuario(id_usuario, accion):
         'id_usuario': id_usuario,
         'accion': accion,
     })
+
+def actualizar_rol(id_usuario, id_rol):
+    query = """
+        UPDATE usuarios
+        SET id_rol = :id_rol
+        WHERE id_usuario = :id_usuario
+    """
+
+    datos = {
+        "id_usuario": id_usuario,
+        "id_rol": id_rol
+    }
+
+    ejecutar_mutacion(query, datos)
+
 def obtener_resenas():
     query = """
     SELECT

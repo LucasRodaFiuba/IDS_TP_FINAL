@@ -18,7 +18,7 @@ from services.auth import (
 )
 from routes.servicios_extra import servicios_extra_bp
 from services.dashboard import obtener_estadisticas
-from services.usuarios import obtener_usuarios
+from services.usuarios import obtener_usuarios,actualizar_rol_usuario
 from datetime import datetime
 from constants import MESES
 
@@ -463,6 +463,19 @@ def eliminar_reserva_admin():
                 flash(error, "error")
 
         return redirect(url_for('pagina_admin'))
+    
+@app.route('/admin/usuarios/actualizar_rol', methods=['POST'])
+def actualizar_rol():
+    id_usuario = request.form.get('id_usuario')
+
+    resultado = actualizar_rol_usuario(int(id_usuario))
+
+    if resultado:
+        flash('Rol actualizado correctamente', 'success')
+    else:
+        flash('No se pudo actualizar el rol', 'error')
+
+    return redirect(url_for('pagina_usuarios'))
     
 if __name__ == "__main__":
        app.run(debug=True,port = 5001)
