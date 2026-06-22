@@ -110,3 +110,20 @@ def eliminar_reserva(datos):
         return {'errores': ['No se pudo conectar con el servidor.']}
     except Exception as e:
         return {'errores': [str(e)]}
+    
+def obtener_disponibilidad(fecha, comensales):
+    try:
+        response = requests.get(f'{API_BASE_URL}/reservas/disponibilidad', params={'fecha': fecha, 'comensales': comensales}, timeout=10)
+
+        if response.status_code == 200:
+            return {'ok': True, 'data': response.json()}
+        else:
+            return {
+                'ok': False,
+                'errores': [f"Error API {response.status_code}: {response.text}"]
+            }
+    except requests.exceptions.ConnectionError:
+        logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
+        return {'ok': False, 'errores': ['No se pudo conectar con el servidor de la API.']}
+    except Exception as e:
+        return {'ok': False, 'errores': [str(e)]}

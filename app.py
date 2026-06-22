@@ -7,7 +7,7 @@ from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
-from services.reservas import crear_reserva_admin, enviar_reserva, eliminar_reserva
+from services.reservas import crear_reserva_admin, enviar_reserva, eliminar_reserva, obtener_disponibilidad
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 from services.auth import (
     eliminar_usuario_api,
@@ -109,36 +109,34 @@ def pagina_nosotros():
 def pagina_reservas():
     if request.method == 'POST':
         data = request.form.to_dict()
-        #Hago posible que servicios extras tenga como valor una lista.
         data['servicios_extras'] = request.form.getlist('servicios_extras')
-
         resultado = enviar_reserva(data)
 
-        if resultado.get("ok"):
-            flash("¡Reserva confirmada! Nos vemos pronto en Le Maison Gourmet.", "success")
-            return redirect(url_for("pagina_mis_reservas"))
+        if resultado.get('ok'):
+            flash("¡Tu reserva en Le Maison Gourmet ha sido confirmada con éxito!", "success")
+            return redirect(url_for('pagina_mis_reservas'))
+        else:
+            errores = resultado.get('errores', ['Error desconocido al procesar la reserva.'])
+            for e in errores:
+                flash(f"Hubo un problema: {e}", "error")
+            return redirect(url_for('pagina_reservas'))
+    
+
+    fecha_seleccionada = request.args.get('fecha')
+    comensales = request.args.get('comensales')
+    
+    horarios_disponibles = []
+    
+    if fecha_seleccionada:
+        resultado = obtener_disponibilidad(fecha=fecha_seleccionada, comensales=comensales)
         
-        #Manejo caso en el que tira 404 (no se puede reservar si el usuario no está)
-        errores = resultado.get("errores", [])
-        # 5. Busco específicamente el error de usuario no registrado
-        # any(...) recorre todos los errores y chequea si alguno contiene ese código
-        if any("usuario.no.existe" in str(e) for e in errores):
+        if resultado.get('ok'):
+            horarios_disponibles = resultado['data'].get('turnos_disponibles', [])
+        else:
+            for e in resultado.get('errores', []):
+                flash(f"No se pudieron cargar los horarios: {e}", "error")
 
-            # muestro mensaje al usuario en pantalla
-            flash("Tenés que iniciar sesión primero", "error")
-
-            # redirijo al login y termino la ejecución
-            return redirect(url_for("iniciar_sesion"))
-
-        # 6. Si no era ese error específico, muestro todos los errores generales
-        for e in errores:
-            flash(e, "error")
-
-        # 7. Vuelvo a la página de reservas con los errores mostrados
-        return redirect(url_for("pagina_reservas"))
-
-    # 8. Si es GET, simplemente muestro la página
-    return render_template("reservas.html")
+    return render_template("reservas.html", horarios=horarios_disponibles, comensales_seleccionados=comensales, fecha_seleccionada=fecha_seleccionada)
 
 @app.route('/clientes')
 def pagina_clientes():
