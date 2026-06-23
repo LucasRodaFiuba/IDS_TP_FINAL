@@ -115,8 +115,8 @@
         <div id="Agregar_servicio">
             <form action="{{ url_for('servicios_extra.agregar_servicio') }}" method="post">
                 <p>Agregar servicio</p>
-                <input type="text" name="nombre" placeholder="Nombre del servicio">
-                <input type="text" name="descripcion" placeholder="Descripción del servicio">
+                <input type="text" name="nombre" placeholder="Nombre del servicio" required>
+                <input type="text" name="descripcion" placeholder="Descripción del servicio" required>
                 <button>Confirmar</button>
             </form>
         </div>
@@ -124,9 +124,9 @@
         <div id="Actualizar_servicio">
             <form action="{{ url_for('servicios_extra.actualizar_servicio') }}" method="post">
                 <p>Actualizar servicio</p>
-                <input type="number" name="id_servicio" placeholder="Id del servicio a modificar">
-                <input type="text" name="nuevo_nombre" placeholder="Nuevo nombre del servicio">
-                <input type="text" name="nueva_descripcion" placeholder="Nueva descripción del servicio">
+                <input type="number" name="id_servicio" placeholder="Id del servicio a modificar" required>
+                <input type="text" name="nuevo_nombre" placeholder="Nuevo nombre del servicio" required>
+                <input type="text" name="nueva_descripcion" placeholder="Nueva descripción del servicio" required>
                 <button>Confirmar</button>
             </form>
         </div>
@@ -134,7 +134,7 @@
         <div id="Eliminar_servicio">
             <form action="{{ url_for('servicios_extra.eliminar_servicio') }}" method="post">
                 <p>Eliminar servicio</p>
-                <input type="number" name="id_servicio" placeholder="ID del servicio a eliminar">
+                <input type="number" name="id_servicio" placeholder="ID del servicio a eliminar" required>
                 <button>Confirmar</button>
             </form>
         </div>
