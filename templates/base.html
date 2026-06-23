@@ -25,10 +25,12 @@
             <ul id="Botones">
                 <li><a href="{{ url_for('pagina_menu') }}">Menu</a></li>
                 <li><a href="{{ url_for('pagina_nosotros') }}">Conocenos</a></li>
-                {% if session.get('admin') %}
+
+                {% if session.get('usuario') and session['usuario'].get('rol') == 'admin' %}
                     <li><a href="{{ url_for('pagina_admin') }}">Administración</a></li>
                 {% endif %}
-                {% if session.get('usuario') or session.get('admin') %}
+
+                {% if session.get('usuario') %}
                     <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
                     <li><a href="{{ url_for('pagina_mis_reservas') }}">Mis Reservas</a></li>
                     <li><a href="{{ url_for('pagina_reservas') }}">Reserva</a></li>
@@ -54,7 +56,7 @@
         </main>
         <footer id="footer">
                 <div id="footer-left">
-                    <a href="{{ url_for('pagina_admin') }}">
+                    <a>
                         <p>© 2026 Le Maison Gourmet - Todos los derechos reservados<p>
                     </a>
                     

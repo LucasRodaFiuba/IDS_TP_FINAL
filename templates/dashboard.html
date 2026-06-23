@@ -64,7 +64,6 @@
                     <tr>
                         <td>
                             <strong>{{ reserva.nombre_cliente }}</strong>
-                            
                         </td>
                         <td>{{ reserva.fecha }}</td>
                         <td>{{ reserva.hora }} hs</td>
@@ -77,7 +76,23 @@
                 </tbody>
             </table>
         </div>
-    </div>
+
+        <div class="paginacion-container">
+            {% if page > 1 %}
+                <a href="{{ url_for('pagina_dashboard', fecha_inicio=f_inicio, fecha_fin=f_fin, page=page-1) }}" class="btn-pagi">« Anterior</a>
+            {% else %}
+                <span class="btn-pagi disabled">« Anterior</span>
+            {% endif %}
+
+            <span class="pagi-info">Página <strong>{{ page }}</strong> de {{ total_paginas }}</span>
+
+            {% if page < total_paginas %}
+                <a href="{{ url_for('pagina_dashboard', fecha_inicio=f_inicio, fecha_fin=f_fin, page=page+1) }}" class="btn-pagi">Siguiente »</a>
+            {% else %}
+                <span class="btn-pagi disabled">Siguiente »</span>
+            {% endif %}
+        </div>
+        </div>
 </div>
 {% else %}
 {% endif %}

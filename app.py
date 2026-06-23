@@ -113,7 +113,7 @@ def pagina_reservas():
         resultado = enviar_reserva(data)
 
         if resultado.get('ok'):
-            flash("¡Tu reserva en Le Maison Gourmet ha sido confirmada con éxito!", "success")
+            flash("¡Tu reserva en Le Maison Gourmet ha sido registrada con éxito!", "success")
             return redirect(url_for('pagina_mis_reservas'))
         else:
             errores = resultado.get('errores', ['Error desconocido al procesar la reserva.'])
@@ -404,27 +404,23 @@ def agregar_reserva():
 def pagina_dashboard():
     fecha_inicio = request.args.get('fecha_inicio', '2026-05-01')
     fecha_fin = request.args.get('fecha_fin', '2026-05-31')
+    page = request.args.get('page', 1, type=int)  
 
-    filtros = {
-        "fecha_inicio": fecha_inicio,
-        "fecha_fin": fecha_fin
-    }
+    filtros = {"fecha_inicio": fecha_inicio, "fecha_fin": fecha_fin, "page": page, "per_page": 10}
 
     resultado = obtener_estadisticas(filtros)
 
     if resultado.get("ok"):
         datos_reales = resultado.get("data", {})
-        return render_template(
-            'dashboard.html', 
-            data=datos_reales, 
-            f_inicio=fecha_inicio, 
-            f_fin=fecha_fin
-        )
+        
+        total_paginas = datos_reales.get("total_paginas", 1)
+        
+        return render_template('dashboard.html', data=datos_reales, f_inicio=fecha_inicio, f_fin=fecha_fin,page=page, total_paginas=total_paginas)
     
     for error in resultado.get("errores", []):
         flash(error, "error")
 
-    return render_template('dashboard.html', data=None, f_inicio=fecha_inicio, f_fin=fecha_fin)
+    return render_template('dashboard.html', data=None, f_inicio=fecha_inicio, f_fin=fecha_fin, page=1, total_paginas=1)
 
 @app.route('/resenas', methods=['GET', 'POST'])
 def pagina_resenas():
