@@ -129,8 +129,7 @@ Cada detalle está pensado para que todos puedan disfrutar de la experiencia sin
 Combinamos sabor, creatividad y nutrición para ofrecer opciones deliciosas sin productos animales.'),
 ('Mejor amigo','Tu mascota también es parte de la familia. Contamos con un espacio pensado para que pueda acompañarte cómodamente mientras disfrutás de tu comida,
  con ambiente seguro y amigable.'),
-('Wifi','Disfrutá de conexión gratuita a internet en todo el local. 
-Ya sea para trabajar, estudiar o compartir tu experiencia, te mantenemos siempre conectado.'),
+('Silla para bebes','Disponemos de sillas especialmente diseñadas para bebés y niños pequeños, brindando mayor comodidad y seguridad para toda la familia.'),
 ('Un año mas','Convertimos tu cumpleaños en una experiencia única. Decoración especial, atención personalizada y la posibilidad de 
 sorprender a esa persona especial con un momento inolvidable en Le Maison Gourmet.'),
 ('Niños','Un área pensada para los más pequeños, donde pueden divertirse de forma segura mientras los 
