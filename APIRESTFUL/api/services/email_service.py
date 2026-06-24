@@ -1,16 +1,20 @@
 import smtplib
 from email.message import EmailMessage
 import os
+from ..constantes import SMTP_SERVER, SMTP_PORT, SMTP_EMAIL, SMTP_PASSWORD
 
 def enviar_mail(destinatario, asunto, cuerpo, archivo_adjunto=None):
+    #Creo email vacio
     msg = EmailMessage()
+
+    #Defino datos importantes del gmail
     msg["Subject"] = asunto
     msg["From"] = "tuemail@gmail.com"
     msg["To"] = destinatario
 
     msg.set_content(cuerpo)
 
-    # Adjuntar QR si existe
+    # Adjunto el QR si el mismo existe
     if archivo_adjunto:
         with open(archivo_adjunto, "rb") as f:
             file_data = f.read()
@@ -23,7 +27,7 @@ def enviar_mail(destinatario, asunto, cuerpo, archivo_adjunto=None):
             filename=file_name
         )
 
-    # SMTP Gmail (ejemplo)
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login("noreply.reservas.app@gmail.com", "dqtt pwep ymnu lrii ")
+    #Envio el email
+    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as smtp:
+        smtp.login(SMTP_EMAIL, SMTP_PASSWORD)
         smtp.send_message(msg)

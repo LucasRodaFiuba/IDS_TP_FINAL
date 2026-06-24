@@ -76,26 +76,6 @@
 
     <div id="Formularios">
         <h2>Gestionar reservas</h2>
-
-        <div id="Agregar_reserva">
-            <form action="{{ url_for('agregar_reserva') }}" method="post">
-                <p>Agregar Reservas</p>
-                <input type="text" name="nombre_cliente" placeholder="Nombre del cliente" required>
-                <input type="date" name="fecha_reserva" placeholder="Fecha y hora de la reserva" required>
-                <input type="email" name="correo_electronico" placeholder="Correo electrónico" required>
-                <input type="text" name="telefono-cliente" placeholder="Número de teléfono" required>
-                <input type="text" name="horario_reserva" placeholder="Hora de la reserva" required>
-                <input type="number" name="cantidad_personas" placeholder="Cantidad de personas" required>
-                <select name="servicios_extras" required>
-                    <option value="">Seleccione un servicio</option>
-                    {% for servicio in servicios_extra %}
-                        <option value="{{ servicio.id }}">{{ servicio.nombre }}</option>
-                    {% endfor %}
-                </select>
-                <button>Confirmar</button>
-            </form>
-        </div>
-
         <div id="Eliminar_reserva">
             <form action="{{ url_for('eliminar_reserva_admin') }}" method="post">
                 <p>Eliminar Reservas</p>

@@ -5,7 +5,6 @@ from ..services.reservas import (
     crear_reserva,
     cambiar_reserva,
     cancelar_reserva_service,
-    crear_reserva_admin,
     validar_reserva_service,
     obtener_reservas_segun_email,
     eliminar_reserva
@@ -122,7 +121,6 @@ def cancelar_reserva(id):
 
     return "", 204
 
-#Página a la que va a entrar al escanear el QR
 @reservas_bp.route("/reservas/validar/<token>")
 def validar_reserva(token):
     # buscar reserva por token
@@ -150,7 +148,6 @@ def validar_reserva(token):
 def obtener_reservas(email):
     """
     Devuelve todas las reservas de un usuario logeado
-    necesito devolver: numero mesa, fecha, hora, cantidad de personas
     """
     #validar email
     try:
@@ -178,31 +175,6 @@ def obtener_reservas(email):
         }), 500
 
     return jsonify(resultado), 200
-
-
-@reservas_bp.route('/admin/reservas' , methods = ['POST'])
-def agregar_reservar_admin():
-    #obtengo el body completado por el usuario.
-    body = request.get_json(silent=True)
-
-    try:
-        reserva = crear_reserva_admin(body)
-    except ValueError as e:
-        status = e.args[1] if len(e.args) > 1 else 400
-        return jsonify(e.args[0]), status
-    except Exception as e:
-        #Para cualquier error inesperado del servidor.
-        return jsonify({
-            'errors': [
-                {
-                    'code': 'internal.server.error',
-                    'message': str(e),
-                    'description': 'Ocurrio un error inesperado, estoy en routes'
-                }
-            ]
-        }), 500
-
-    return jsonify(reserva), 201
 
 
 @reservas_bp.route('/admin/reservas', methods = ['DELETE'])

@@ -7,7 +7,7 @@ from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
-from services.reservas import crear_reserva_admin, enviar_reserva, eliminar_reserva, obtener_disponibilidad
+from services.reservas import enviar_reserva, eliminar_reserva, obtener_disponibilidad
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 from services.auth import (
     eliminar_usuario_api,
@@ -292,13 +292,14 @@ def pagina_mis_reservas():
         flash("Tenés que iniciar sesión primero", "error")
         return redirect(url_for("iniciar_sesion"))
 
-    #uso services
+    #uso services para realizar la conexión con el backend.
     resultado = obtener_reservas(email)
     
     if resultado.get("ok"):
         flash("Reservas obtenidas", "success")
         reservas = resultado['response']
 
+        #Agrego dos campos para mostrar en el frontend el mes y el dia.
         for reserva in reservas:
             fecha = datetime.strptime(reserva['fecha_reserva'], "%Y-%m-%d")
             reserva['mes_abreviado'] = MESES[fecha.month - 1]
@@ -396,31 +397,6 @@ def eliminar_objeto():
 
     flash('Plato eliminado exitosamente', 'success')
     return redirect(url_for('pagina_menu'))
-
-@app.route('/admin/reservas/agregar', methods=['POST'])
-def agregar_reserva():
-
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        #Hago posible que servicios extras tenga como valor una lista.
-        data['servicios_extras'] = request.form.getlist('servicios_extras')
-
-        response = enviar_reserva(data)
-
-        if response.get("ok"):
-            flash("¡Reserva confirmada! Nos vemos pronto en Le Maison Gourmet.", "success")
-            return redirect(url_for("pagina_admin"))
-
-
-
-    if response is None:
-        return redirect(url_for('pagina_admin'))  
-    
-    if response.status_code == 204:
-        return redirect(url_for('pagina_admin'))  
-    
-    elif response.status_code == 404:
-        return redirect(url_for('pagina_admin'))
 
 
 @app.route('/admin/dashboard')

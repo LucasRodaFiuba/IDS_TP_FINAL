@@ -20,6 +20,17 @@ MAX_COMENSALES = 10
 MIN_ID = 1
 MAX_ID = 7
 
+#URL para validar la reserva
+URL_VALIDAR_RESERVA="https://unhitched-halved-surname.ngrok-free.dev/reservas/validar"
+#ACLARACIÓN SOLO SE DEBE DE CAMBIAR LO QUE ESTÁ ANTES DE /RESERVAS.
+
+#ENVIAR EMAIL (CREDENCIALES)
+SMTP_SERVER="smtp.gmail.com"
+SMTP_PORT=465
+
+SMTP_EMAIL="noreply.reservas.app@gmail.com"
+SMTP_PASSWORD="dqtt pwep ymnu lrii "
+
 #Horarios fijos en que se pueden hacer la reserva (18-23hs)
 HORARIOS_PARA_RESERVAR = ["18:00","19:00","20:00","21:00","22:00","23:00"]
 
