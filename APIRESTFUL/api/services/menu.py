@@ -1,11 +1,10 @@
 from api.db import get_db_connection
 
-def obtener_platos(limit, offset):
+def obtener_platos():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute(
-        "SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion, imagen FROM menu LIMIT %s OFFSET %s",
-        (limit, offset)
+        "SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion, imagen FROM menu",
     )
     platos = cursor.fetchall()
     cursor.close()

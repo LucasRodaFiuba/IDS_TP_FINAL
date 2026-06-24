@@ -170,9 +170,9 @@ VALUES
    MESAS
    ========================= */
 INSERT INTO mesas (capacidad, ubicacion, disponible) VALUES
-(2, 'Ventana', TRUE)
-(2, 'Barra', TRUE)
-(3, 'Centro', TRUE)
+(2, 'Ventana', TRUE),
+(2, 'Barra', TRUE),
+(3, 'Centro', TRUE),
 (4, 'Salón principal', TRUE),
 (6, 'Terraza', TRUE);
 
@@ -305,13 +305,13 @@ INSERT INTO reservas
 VALUES
 (2,1,'2026-06-28','20:30:00',2,'confirmada','QR001'),
 (3,4,'2026-06-29','21:00:00',4,'pendiente','QR002'),
-(4,7,'2026-06-30','20:00:00',6,'confirmada','QR003'),
+(4,2,'2026-06-30','20:00:00',6,'confirmada','QR003'),
 (5,2,'2026-07-01','22:00:00',2,'cancelada','QR004'),
 (6,5,'2026-07-03','20:30:00',4,'finalizada','QR005'),
-(7,9,'2026-07-05','21:30:00',8,'confirmada','QR006'),
-(8,6,'2026-07-07','20:00:00',4,'pendiente','QR007'),
+(7,3,'2026-07-05','21:30:00',8,'confirmada','QR006'),
+(8,4,'2026-07-07','20:00:00',4,'pendiente','QR007'),
 (9,3,'2026-07-08','19:30:00',2,'confirmada','QR008'),
-(10,8,'2026-07-10','21:00:00',6,'confirmada','QR009');
+(10,1,'2026-07-10','21:00:00',6,'confirmada','QR009');
 
 
 /* =========================

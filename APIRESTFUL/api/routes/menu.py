@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from api.utils import construir_error_api, validar_string_no_vacio, validar_entero
-from api.validators.menu import validar_paginacion, validar_precio,validar_id
+from api.validators.menu import validar_precio,validar_id
 from api.services.menu import obtener_platos, obtener_plato_por_nombre, obtener_plato_por_id,actualizar_plato, insertar_plato, eliminar_plato_por_nombre
 from ..constantes import RESTRICCIONES_VALIDAS, CATEGORIAS_VALIDAS
  
@@ -10,20 +10,11 @@ menu_bp = Blueprint('menu', __name__)
 @menu_bp.route('/menu', methods=['GET'])
 def obtener_menu():
     try:
-        try:
-            limit, offset = validar_paginacion(
-                request.args.get('_limit', 20),
-                request.args.get('_offset', 0)
-            )
-        except ValueError as e:
-            return jsonify(e.args[0]), 400
-    
-        platos = obtener_platos(limit, offset)
+        platos = obtener_platos()
         if not platos:
             return '', 204
- 
         return jsonify({"platos": platos}), 200
- 
+
     except Exception as e:
         return jsonify(construir_error_api(
             code='internal.server.error',
