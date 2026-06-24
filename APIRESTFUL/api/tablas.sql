@@ -149,8 +149,11 @@ CREATE TABLE reserva_servicios (
 -- =========================
 
 INSERT INTO mesas (capacidad, ubicacion, disponible) VALUES
+(2, 'Ventana', TRUE)
+(2, 'Barra', TRUE)
+(3, 'Centro', TRUE)
 (4, 'Salón principal', TRUE),
-(2, 'Terraza', TRUE);
+(6, 'Terraza', TRUE);
 
 INSERT INTO usuarios (nombre, apellido, email, password, telefono, id_rol) VALUES
 ('Carlos', 'Pérez', 'carlos@mail.com', '1234', '1122334455', 2),
