@@ -55,6 +55,41 @@
     text-align: center;
     animation: entradaSuave 0.5s ease-out forwards;
 }
+#leyenda-restricciones {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #0d0d0d;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    animation: entradaSuave 0.5s ease-out forwards;
+}
+
+#leyenda-restricciones h2 {
+    color: #c9a646;
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #252525;
+    padding-bottom: 15px;
+}
+
+#leyenda-restricciones ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+#leyenda-restricciones li {
+    color: #a6a0a0;
+    font-size: 1.1rem;
+}
 .titulo-entradas {
     color: #c9a646;                         
     font-family: 'Cinzel', serif;

@@ -1,5 +1,11 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_URL = '/'
-DB_URL = "mysql+pymysql://root:212212@localhost/restaurante_db" #reemplazar por el usuario y contraseña de mysql 
+DB_URL = os.getenv("DATABASE_URL")
+
 # Formato de fecha esperado por la API
 FORMATO_FECHA = '%Y-%m-%d'
 
@@ -13,6 +19,17 @@ MAX_COMENSALES = 10
 #valores minimos y máximos de ids para servicios extras
 MIN_ID = 1
 MAX_ID = 7
+
+#URL para validar la reserva
+URL_VALIDAR_RESERVA="https://extruding-headroom-resonate.ngrok-free.dev/reservas/validar"
+#ACLARACIÓN SOLO SE DEBE DE CAMBIAR LO QUE ESTÁ ANTES DE /RESERVAS.
+
+#ENVIAR EMAIL (CREDENCIALES)
+SMTP_SERVER="smtp.gmail.com"
+SMTP_PORT=465
+
+SMTP_EMAIL="noreply.reservas.app@gmail.com"
+SMTP_PASSWORD="dqtt pwep ymnu lrii "
 
 #Horarios fijos en que se pueden hacer la reserva (18-23hs)
 HORARIOS_PARA_RESERVAR = ["18:00","19:00","20:00","21:00","22:00","23:00"]

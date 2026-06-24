@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conocenos</title>
+{% extends "base.html" %}
+{% block extra_css %}
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_resena.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_nosotros.css') }}">
-</head>
-<body>
-
-{% extends "base.html" %}
-
-{% block title %}Le Maison Gourmet{% endblock %}
+{% endblock %}
+{% block title %}Nosotros{% endblock %}
 
 {% block content %}
 
@@ -26,14 +18,14 @@
         <p>Trabajamos con productores locales, seleccionando carnes, verduras y vinos de la mejor calidad, porque sabemos que detrás de cada sabor hay un pedazo de identidad argentina. Nuestro compromiso es ofrecer un menú que celebre lo auténtico, lo cercano y lo que nos une alrededor de la mesa.</p>
     </div>
 
-    
+
 
 <section class="servicios-extra">
 
     <h2>✦ Servicios Extra ✦</h2>
 {% for servicio in servicios %}
     <div class="servicio">
-        <p>ID: {{ servicio["id_servicio"] }}</p>   
+        <p>{{ servicio["id_servicio"] }}</p>   
         <h3>{{servicio["nombre"]}}</h3>
         <p>{{servicio["descripcion"]}}</p>
     </div>
@@ -42,90 +34,6 @@
 
 
 
-
-
-<section class="seccion-resenas">
-    <div class="resena">
-        <h2>Miguel Angel</h2>
-
-        <p>
-            La comida estuvo excelente y la atención muy buena.
-            Volvería sin duda.
-        </p>
-
-        <span>★★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Lionel Messi</h2>
-
-        <p>
-            La comida estuvo horrible y la atención muy mala.
-        </p>
-
-        <span>★</span>
-    </div>
-
-
-    <div class="resena">
-        <h2>María Gómez</h2>
-        <p>
-            Muy buena atención y los platos salieron rápido. Me encantó el postre.
-        </p>
-        <span>★★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Carlos Fernández</h2>
-        <p>
-            La comida estuvo rica, aunque la espera fue un poco larga. Igual la experiencia fue buena.
-        </p>
-        <span>★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Ana Rodríguez</h2>
-        <p>
-            Hermoso lugar. Muy tranquilo y bien ambientado. Ideal para venir en pareja.
-        </p>
-        <span>★★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Diego Maradona</h2>
-        <p>
-            La comida estaba fría y demoraron bastante en atendernos.
-        </p>
-        <span>★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Sofía Martínez</h2>
-        <p>
-            El ambiente es muy lindo, aunque esperaba un poco más del plato principal.
-        </p>
-        <span>★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Juan Pérez</h2>
-        <p>
-            Excelente atención del personal y porciones abundantes. Muy recomendable.
-        </p>
-        <span>★★★★★</span>
-    </div>
-
-    <div class="resena">
-        <h2>Ricardo Fort</h2>
-        <p>
-            Buena presentación de los platos y muy rico todo. Seguro vuelvo.
-        </p>
-        <span>★★★★</span>
-    </div>
-</section>
-
+{% include "reseñas_contenido.html" %}
 
 {% endblock %}
-
-</body>
-</html>

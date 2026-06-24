@@ -1,19 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
+{% extends "base.html" %}
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_menu.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway:wght@400&display=swap" rel="stylesheet">
-</head>
-<body>
-    {% extends "base.html" %}
-
-    {% block title %}Le Maison Gourmet{% endblock %}
+{% endblock %}
+{% block title %}Menú{% endblock %}
 
     {% block content %} 
-        <h2>RESTRICCIONES</h2>
+    
+    {% set iconos = {
+        'vegano': '🌱',
+        'vegetariano': '🥗',
+        'sin tacc': '🌾',
+        'sin lactosa': '🥛',
+    } %}
+            <div id="leyenda-restricciones">
+                <h2>Restricciones alimenticias</h2>
+                <ul>
+                    <li>🌱 Vegano</li>
+                    <li>🥗 Vegetariano</li>
+                    <li>🌾 Sin TACC</li>
+                    <li>🥛 Sin lactosa</li>
+
+                </ul>
+            </div>
            <div id="entradas">
                 <h2 class="titulo-entradas">Entradas</h2>          
                 <div class="contenedor-entradas">
@@ -22,7 +31,7 @@
                         <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
                         <p class="entrada-descripcion">{{ plato.descripcion }}</p>
                         <p class="entrada-precio">${{ plato.precio }}</p>
-                        <p class="entrada-restriccion">${{ plato.restriccion}}</p>
+                        <p class="entrada-restriccion">{{ iconos.get(plato.restriccion, '') }} </p>
                         {% if plato.imagen %}
                             <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
@@ -39,6 +48,7 @@
                         <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
                         <p class="entrada-descripcion">{{ plato.descripcion }}</p>
                         <p class="entrada-precio">${{ plato.precio }}</p>
+                        <p class="entrada-restriccion">{{ iconos.get(plato.restriccion, '') }} </p>
                         {% if plato.imagen %}
                             <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
@@ -55,6 +65,7 @@
                         <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
                         <p class="entrada-descripcion">{{ plato.descripcion }}</p>
                         <p class="entrada-precio">${{ plato.precio }}</p>
+                        <p class="entrada-restriccion">{{ iconos.get(plato.restriccion, '') }} </p>
                         {% if plato.imagen %}
                             <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
@@ -71,6 +82,7 @@
                         <h5 class="entrada-titulo">{{ plato.nombre }}</h5>
                         <p class="entrada-descripcion">{{ plato.descripcion }}</p>
                         <p class="entrada-precio">${{ plato.precio }}</p>
+                        <p class="entrada-restriccion">{{ iconos.get(plato.restriccion, '') }} </p>
                         {% if plato.imagen %}
                             <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="entrada-imagen">
                         {% endif %}
@@ -78,7 +90,4 @@
                     {% endfor %}
                 </div>
             </div>
-    {% endblock %}
-
-</body>
-</html>
+{% endblock %}

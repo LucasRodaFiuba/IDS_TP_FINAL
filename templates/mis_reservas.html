@@ -1,77 +1,53 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_mis_reservas.css') }}">
-</head>
-<body>
-    {% extends "base.html" %}
-
-    {% block title %}Le Maison Gourmet{% endblock %}
-
-    {% block content %}
-    <h1 id="titulo-principal">Historial de reservas del usuario</h1>
-    <p id="mensaje-introductorio-historial">Aquí puedes ver todo el historial de tus reservas</p>
-
-    <!-- PRIMER ESTADO: USUARIO NO LOGEADO-->
-    {% if reservas == None %}
-        <div class="mensaje-login">
-            <p id="mensaje_">Iniciá sesión para ver tus reservas.</p>
-
-            <a href="{{ url_for('iniciar_sesion') }}">
-                <button id="boton-login">Iniciar sesión</button>
-            </a>
-        </div>
-
-    <!-- LOGEADO - USAMOS JINJA (VERSION CORRECTA)-->
-     <!-- USUARIO SIN RESERVAS-->
-    {% elif reservas|length == 0 %}
-        <p id="usuario-sin-reservas">Historial limpio. Haz alguna reserva!</p>
-        <a href="{{ url_for('pagina_reservas') }}" id="link-reservar">Reservar<a>
-    {% else %}
-        <!-- USUARIO CON RESERVAS-->
-        <div class="contenedor-reservas">
-            {% for reserva in reservas %}
-            <div class="card-reserva">
-                <img src="{{ url_for('static', filename='img/calendario.jpg') }}" id="imagen-calendario">
-                <div class="info-reserva">
-                    <div class="hora">
-                        <p id="titulo-hora">Hora</p>
-                        <p id="hora-valor">{{ reserva.hora_reserva }}</p>
-                    </div>
-                    <div class="mesa">
-                        <p>Mesa</p>
-                        <p>{{ reserva.numero_mesa }}</p>
-                    </div>
-                    <div class="fecha">
-                        <p>Fecha</p>
-                        <p>{{ reserva.fecha_reserva }}</p>
-                    </div>
-                    <div class="cantidad-personas">
-                        <p>Personas</p>
-                        <p>{{ reserva.cantidad_personas}}</p>
-                    </div>
-                </div>
-                <div class="estado-reserva">
-                    <p class="{{ reserva.estado }}">{{ reserva.estado}}</p>
-                    {% if reserva.estado == "pendiente" %}
-                    <form method="POST" action="/cancelar_reserva/{{ reserva.id_reserva }}" class="hijo-estado-reserva">
-                        <button type="submit" id="boton-cancelar-reserva">
-                            Cancelar reserva
-                        </button>
-                    </form>
-                    {% endif %}
-                    
-                </div>
-
-            </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_mis_reservas.css') }}">   
+{% endblock %}
     
-    {% endblock %}
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Le Maison Gourmet{% endblock %}
+
+{% block content %}
+<div id="Contenedor-presentacion">
+    <h1 id="titulo-principal">Historial de reservas del usuario</h1>
+    <p id="mensaje-introductorio-historial">Consulta el historial y el estado de tus reservas</p>
+</div>
+
+<!-- LOGEADO-->
+    <!-- USUARIO SIN RESERVAS-->
+{%if reservas|length == 0 %}
+    <div id="contenedor-usuario-sin-reservas">
+        <h2 id="titulo-sin-reservas">Aun no tienes reservas registradas</h2>
+        <p id="mensaje-descriptivo-sin-reservas">Cuando realices una reserva, aparecerá aqui para que puedas consultar su estado</p>
+        <button id="btn-redirigir-para-reservar">
+            <a href="{{ url_for('pagina_reservas') }}" id="link-reservar">Reservar<a></a>
+        </button>
+    </div>
+{% else %}
+    <!-- USUARIO CON RESERVAS-->
+    <div class="contenedor-reservas">
+        {% for reserva in reservas %}
+        <div class="card-reserva {{ reserva.estado }}">
+            <div class="reserva-fecha-box {{ reserva.estado }}">
+                <span class="mes">{{ reserva.mes_abreviado }}</span>
+                <span class="dia">{{ reserva.dia}}</span></div>
+            <div class="reserva-datos">
+                <div><label>Hora</label><span><i class="ti ti-clock"></i>{{ reserva.hora_reserva }}</span></div>
+                <div><label>Fecha</label><span>{{ reserva.fecha_reserva}}</span></div>
+                <div><label>Mesa</label><span><i class="ti ti-armchair"></i>{{ reserva.numero_mesa }}</span></div>
+                <div><label>Personas</label><span><i class="ti ti-users"></i>{{ reserva.cantidad_personas }}</span></div>
+            </div>
+            <div class="reserva-acciones">
+                <span class="badge-{{ reserva.estado }}"><i class="ti ti-check"></i>{{ reserva.estado }}</span>
+                {% if reserva.estado == "pendiente" %}
+                <form method="POST" action="/cancelar_reserva/{{ reserva.id_reserva }}" class="hijo-estado-reserva">
+                    <button type="submit" class="btn-cancelar">
+                        Cancelar
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

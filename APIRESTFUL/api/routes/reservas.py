@@ -6,7 +6,9 @@ from ..services.reservas import (
     cambiar_reserva,
     cancelar_reserva_service,
     validar_reserva_service,
-    obtener_reservas_segun_email
+    obtener_reservas_segun_email,
+    eliminar_reserva
+
 )
 from ..validators.reservas import validar_id
 
@@ -119,7 +121,6 @@ def cancelar_reserva(id):
 
     return "", 204
 
-#Página a la que va a entrar al escanear el QR
 @reservas_bp.route("/reservas/validar/<token>")
 def validar_reserva(token):
     # buscar reserva por token
@@ -147,7 +148,6 @@ def validar_reserva(token):
 def obtener_reservas(email):
     """
     Devuelve todas las reservas de un usuario logeado
-    necesito devolver: numero mesa, fecha, hora, cantidad de personas
     """
     #validar email
     try:
@@ -175,3 +175,26 @@ def obtener_reservas(email):
         }), 500
 
     return jsonify(resultado), 200
+
+
+@reservas_bp.route('/admin/reservas', methods = ['DELETE'])
+def eliminar_reserva_admin():
+    body = request.get_json(silent=True)
+
+    if not body:
+        return jsonify({"errors": [{"message": "Faltan datos"}]}), 400
+
+    email = body.get('email')
+    fecha_reserva = body.get('fecha_reserva')
+    hora_reserva = body.get('hora_reserva')
+
+    try:
+        # Se las pasamos a la base de datos
+        eliminar_reserva(email, fecha_reserva, hora_reserva)
+    except ValueError as e:
+        status = e.args[1] if len(e.args) > 1 else 400
+        return jsonify(e.args[0]), status
+    except Exception as e:
+        return jsonify({'errors': [{'code': 'internal.server.error', 'message': str(e)}]}), 500
+
+    return "", 204

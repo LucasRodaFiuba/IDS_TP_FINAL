@@ -1,71 +1,94 @@
 #Iniciar_sesion {
-    display: flex;
-    justify-content: center;  
-    align-items: center;     
-    flex-direction: column;
-    background-color: #0d0d0d88; 
-    color: #a6a0a0;
-
-    margin-top: 100px;
-    margin-bottom: 100px;
+    width: 90%;
+    max-width: 500px;
+    margin: 120px auto 60px auto;
     padding: 40px;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-
-    border-radius: 12px;
-    border: #c9a646 solid 2px;
-    margin-bottom: 100px;
+    background: #0d0d0ddd;
+    border-radius: 16px;
+    box-shadow: 0 0px 70px rgba(0, 0, 0, 0.9);
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    color: #a6a0a0;
+    height: auto;
 }
 
 #Iniciar_sesion button {
-    margin-top: 40px;
-    background-color: rgba(0, 0, 0, 0.801);
-    border-radius: 12px;
-    border-color: #c9a646;
-    width: 50%;
+    padding: 12px 20px;       
+    width: 60%;               
+    margin: 15px auto;        
+    background: #907a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+#Iniciar_sesion button:hover {
+    background: #c9a646;
+    color: #000000;
+    transform: scale(1,01); 
+    box-shadow: 0 0 15px rgba(201, 166, 70, 0.6); 
+}
+
+#Iniciar_sesion h1 {
+    color: #c9a646;                         
+    font-family: 'Cinzel', serif;
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+#Iniciar_sesion label {
+    display: block;
     color: #a6a0a0;
-    font-family: cinzel, serif;
+    font-size: 20px;
+    margin-bottom: 12px;
+    text-align: left;
 }
 
 #Iniciar_sesion input {
-    width: 80%;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.514);
-    border-radius: 20px;
-}
-
-
-#Iniciar_sesion input::placeholder {
-    text-align: center;
-}
-
-#Botones_cuenta {
-    display: flex;
-    justify-content: center;  
-    align-items: center;     
-    flex-direction: column;
-    background-color: #0d0d0d88; 
-    color: #a6a0a0;
-
-    margin-top: 40px;
-    margin-bottom: 100px;
-    padding: 50px;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-
-    border-radius: 12px;
-    border: #c9a646 solid 2px;
-}
-
-#Botones_cuenta button {
-    margin-top: 20px;
+    width: 100%;
+    padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #151515;
+    color: #ffffff;
     margin-bottom: 20px;
-    background-color: rgba(0, 0, 0, 0.801);
-    border-radius: 12px;
-    border-color: #c9a646;
-    width: 50%;
-    color: #a6a0a0;
-    font-family: cinzel, serif;
+    transition: all 0.3s ease;
+}
+
+#Iniciar_sesion input:focus {
+    outline: none;
+    background-color: #1c1c1c;
+    box-shadow: 0 0 0 2px #c9a646;
+}
+
+/* Botones estilo reservas */
+.btn-reserva {
+    padding: 15px;
+    background: #907a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn-reserva:hover {
+    background: #c9a646;
+    color: #000000;
 }

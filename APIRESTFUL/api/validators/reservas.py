@@ -60,8 +60,6 @@ def validar_parametros(fecha,comensales):
             message='Error de validación',
             description='Los parámetros no son válidos'
         ))
-    print(fecha_valida)
-    print(comensales_valido)
 
     return {
         'fecha': fecha_valida,

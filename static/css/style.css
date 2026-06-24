@@ -1,7 +1,13 @@
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
-    margin-top: 15px;
-    background-image: url(../img/fondo.jpg);
+    background-image: url("../img/fondo.jpg");
+}
+
+main {
+    flex: 1;
 }
 
 header {
@@ -152,7 +158,6 @@ header {
     color: white;
 }
 
-
 #Reserva1 h2{
     color: #a6a0a0;
     font-family: 'Cormorant Garamond', serif;
@@ -193,7 +198,8 @@ header {
 
     width: 100%;
     padding: 18px 60px;
-    margin-top: 80px;
+    margin-top: auto;
+    margin-bottom: 0;
 
     border-top: 1px solid #b08d2f;
     background: rgba(0, 0, 0, 0.85);
@@ -265,4 +271,47 @@ header {
 .btn-reservar:hover {
     background: #c9a646;
     color: #000000;
+}
+
+.flash-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    animation: ocultar 2.5s forwards;
+}
+
+.flash {
+    min-width: 280px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.flash--success {
+    background: #2ecc71;
+}
+
+.flash--error {
+    background: #e74c3c;
+}
+
+
+@keyframes ocultar {
+    0%, 85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
 }

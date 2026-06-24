@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin.css') }}">
-    <title>Admin Le Mansion Gourmet</title>
-</head>
-<body>
+{% endblock %}
+
+{% block title %}Administración{% endblock %}
 
     {% extends "base.html" %}
-
-    {% block title %}Le Maison Gourmet{% endblock %}
 
     {% block content %}
 
@@ -23,9 +17,9 @@
     <h2>Modificar Menú</h2>
     <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
         <p>Agregar Plato</p>
-        <input type="text" name="nombre" placeholder="Nombre">
-        <input type="text" name="descripcion" placeholder="Descripción">
-        <input type="text" name="precio" placeholder="Precio">
+        <input type="text" name="nombre" placeholder="Nombre" >
+        <input type="text" name="descripcion" placeholder="Descripción" >
+        <input type="text" name="precio" placeholder="Precio" >
 
         <select name="categoria">
             <option value="entrada">Entrada</option>
@@ -35,7 +29,7 @@
         </select>
         <select name="restriccion">
             <option value="vegano">vegano</option>
-            <option value="vegetariano">vegetariano</option>
+            <option value="veguetariano">veguetariano</option>
             <option value="sin tacc">sin tacc</option>
             <option value="sin lactosa">sin lactosa</option>
             <option value="ninguno">ninguno</option>
@@ -50,10 +44,10 @@
             <h2>Modifica cualquier objeto del menú</h2>
             <p>Los espacios en blanco se quedarán con el último valor guardado, solo ingresar los campos que desea actualizar.</p>
             <p>El nombre del objeto es obligatorio para poder identificarlo.</p>
-            <input type="number" name="id" placeholder="ID del plato (obligatorio)">
-            <input type="text" name="nombre" placeholder="Nombre del objeto a modificar">
-            <input type="text" name="descripcion" placeholder="Nueva descripción del objeto">
-            <input type="text" name="precio" placeholder="Nuevo precio del objeto" min="0" step="any">
+            <input type="number" name="id" placeholder="ID del plato (obligatorio)" >
+            <input type="text" name="nombre" placeholder="Nombre del objeto a modificar" >
+            <input type="text" name="descripcion" placeholder="Nueva descripción del objeto" >
+            <input type="text" name="precio" placeholder="Nuevo precio del objeto" min="0" step="any" >
             <select name="categoria">
                 <option value="entrada">Entrada</option>
                 <option value="plato_principal">Plato Principal</option>
@@ -75,88 +69,49 @@
     <div id="Formularios">
         <form action="{{ url_for('eliminar_objeto') }}" method="post">
             <h2>Eliminar cualquier objeto del menú</h2>
-            <input type="text" name="nombre" placeholder="Nombre del objeto a eliminar">
+            <input type="text" name="nombre" placeholder="Nombre del objeto a eliminar" required>
             <button>Confirmar</button>
         </form>
     </div>
 
     <div id="Formularios">
         <h2>Gestionar reservas</h2>
-
-        <div id="Agregar_reserva">
-            <form action="{{ url_for('agregar_reserva') }}" method="post">
-                <p>Agregar Reservas</p>
-                <input type="text" name="cliente" placeholder="Nombre del cliente">
-                <input type="datetime" name="fecha" placeholder="Fecha y hora de la reserva">
-                <input type="text" name="personas" placeholder="Cantidad de personas">
-                <button>Confirmar</button>
-            </form>
-        </div>
-
-        <div id="Modificar_reserva">
-            <form action="{{ url_for('modificar_reserva') }}" method="post">
-                <p>Modificar Reservas</p>
-                <input type="text" name="cliente" placeholder="Nombre del cliente">
-                <input type="datetime" name="fecha_actual" placeholder="Fecha y hora de la reserva a modificar">
-                <input type="datetime" name="fecha_nueva" placeholder="Nueva fecha y hora de la reserva">
-                <button>Confirmar cambios</button>
-            </form>
-        </div>
-
         <div id="Eliminar_reserva">
-            <form action="{{ url_for('eliminar_reserva') }}" method="post">
+            <form action="{{ url_for('eliminar_reserva_admin') }}" method="post">
                 <p>Eliminar Reservas</p>
-                <input type="text" name="cliente" placeholder="Nombre del cliente">
-                <input type="datetime" name="fecha" placeholder="Fecha y hora de la reserva">
-                <button>Confirmar</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="Formularios">
-        <h2>Gestionar Usuarios</h2>
-
-        <div id="Agregar_usuario">
-            <form action="{{ url_for('agregar_usuario') }}" method="post">
-                <p>Agregar usuario</p>
-                <input type="text" name="usuario" placeholder="Nombre de usuario">
-                <input type="email" name="correo" placeholder="Correo electrónico">
-                <input type="password" name="password" placeholder="Contraseña">
+                <input type="email" name="email" placeholder="Correo electrónico" required>
+                <input type="date" id="fecha_reserva" name="fecha_reserva" required>
+                <select id="horario_reserva" name="horario_reserva" required>
+                        <option value="" disabled selected>Elegí un turno...</option>
+                        <option value="18:00">18:00 hs</option>
+                        <option value="19:00">19:00 hs</option>
+                        <option value="20:00">20:00 hs</option>
+                        <option value="21:00">21:00 hs</option>
+                        <option value="22:00">22:00 hs</option>
+                        <option value="23:00">23:00 hs</option>
+                </select>   
                 <button>Confirmar</button>
             </form>
         </div>
 
-        <div id="Modificar_usuario">
-            <form action="{{ url_for('modificar_usuario') }}" method="post">
-                <p>Modificar usuario</p>
-                <input type="text" name="usuario_actual" placeholder="Nombre del usuario a modificar">
-                <input type="text" name="usuario_nuevo" placeholder="Nuevo nombre de usuario">
-                <input type="email" name="correo_nuevo" placeholder="Nuevo correo electrónico">
-                <input type="password" name="password_nuevo" placeholder="Nueva contraseña">
-                <button>Confirmar cambios</button>
-            </form>
-        </div>
-
-        <div id="Eliminar_usuario">
-            <form action="{{ url_for('eliminar_usuario') }}" method="post">
-                <p>Eliminar usuario</p>
-                <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
-                <button>Confirmar</button>
-            </form>
-        </div>
-    </div>
-
-
-
-
-    <div id="Formularios">
+ <div id="Formularios">
         <h2>Gestionar Servicios</h2>
 
         <div id="Agregar_servicio">
             <form action="{{ url_for('servicios_extra.agregar_servicio') }}" method="post">
                 <p>Agregar servicio</p>
-                <input type="text" name="nombre" placeholder="Nombre del servicio">
-                <input type="text" name="descripcion" placeholder="Descripción del servicio">
+                <input type="text" name="nombre" placeholder="Nombre del servicio" required>
+                <input type="text" name="descripcion" placeholder="Descripción del servicio" required>
+                <button>Confirmar</button>
+            </form>
+        </div>
+
+        <div id="Actualizar_servicio">
+            <form action="{{ url_for('servicios_extra.actualizar_servicio') }}" method="post">
+                <p>Actualizar servicio</p>
+                <input type="number" name="id_servicio" placeholder="Id del servicio a modificar" required>
+                <input type="text" name="nuevo_nombre" placeholder="Nuevo nombre del servicio" required>
+                <input type="text" name="nueva_descripcion" placeholder="Nueva descripción del servicio" required>
                 <button>Confirmar</button>
             </form>
         </div>
@@ -164,19 +119,19 @@
         <div id="Eliminar_servicio">
             <form action="{{ url_for('servicios_extra.eliminar_servicio') }}" method="post">
                 <p>Eliminar servicio</p>
-                <input type="text" name="id_servicio" placeholder="ID del servicio a eliminar">
+                <input type="number" name="id_servicio" placeholder="ID del servicio a eliminar" required>
                 <button>Confirmar</button>
             </form>
         </div>
     </div>
 
+
     <div id="dashboard">
         <a href="{{ url_for('pagina_dashboard') }}"><button>Estadisticas</button></a>
     </div>
 
-    <script src="../js/script.js"></script>
+    <div id="dashboard">
+        <a href="{{ url_for('pagina_usuarios') }}"><button>USUARIOS</button></a>
+    </div>
 
-    {% endblock %}
-    
-</body>
-</html>
+{% endblock %}  

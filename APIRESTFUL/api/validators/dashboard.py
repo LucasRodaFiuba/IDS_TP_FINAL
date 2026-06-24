@@ -31,13 +31,21 @@ def validar_parametros_dashboard(args):
         restriccion = args.get('restriccion_popular', 'ninguno')
         incluir_canceladas = args.get('incluir_canceladas', 'false').lower() == 'true'
         
-        return {
-            'fecha_inicio': fecha_inicio_raw,
-            'fecha_fin': fecha_fin_raw,
-            'restriccion': restriccion,
-            'incluir_canceladas': incluir_canceladas
-        }, None
+        try:
+            page = int(args.get('page', 1))
+            if page < 1:
+                page = 1
+        except (ValueError, TypeError):
+            page = 1
+
+        try:
+            per_page = int(args.get('per_page', 10))
+            if per_page < 1:
+                per_page = 10
+        except (ValueError, TypeError):
+            per_page = 10
+        
+        return { 'fecha_inicio': fecha_inicio_raw, 'fecha_fin': fecha_fin_raw, 'restriccion': restriccion, 'incluir_canceladas': incluir_canceladas, 'page': page,}, None
 
     except ValueError as e:
-        # Captura los diccionarios de error lanzados por utils.py
         return None, e.args[0]

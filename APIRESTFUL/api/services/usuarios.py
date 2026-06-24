@@ -1,5 +1,4 @@
 from sqlalchemy.exc import IntegrityError
-
 from api import db_funciones
 from api.utils import construir_error_api
 
@@ -70,6 +69,9 @@ def eliminar_usuario_por_id(id_usuario):
         ), 404)
 
     try:
+        
+        db_funciones.eliminar_resenas_de_usuario(id_usuario)
+        db_funciones.eliminar_reservas_de_usuario(id_usuario)
         db_funciones.eliminar_usuario_por_id(id_usuario)
     except IntegrityError:
         raise ValueError(construir_error_api(
@@ -77,3 +79,59 @@ def eliminar_usuario_por_id(id_usuario):
             message='No se puede eliminar el usuario',
             description='El usuario tiene datos relacionados, por ejemplo reservas o resenas. Para borrado real hace falta definir una politica de baja logica o cascada.'
         ), 400)
+
+
+def obtener_usuarios():
+    lista_usuarios = db_funciones.obtener_usuarios()
+    datos = [construir_usuario_dto(usuario) for usuario in lista_usuarios]
+    return {"usuarios": datos}
+
+
+def agregar_usuario(datos_usuario):
+    try:
+        roles = {'cliente': 2, 'admin': 1}
+        id_rol = roles.get(datos_usuario.get('rol', 'cliente'), 1)
+
+        nuevo_usuario = db_funciones.insertar_usuario(
+            nombre=datos_usuario['nombre'],
+            apellido=datos_usuario['apellido'],
+            email=datos_usuario['email'],
+            telefono=datos_usuario.get('telefono'),
+            password_hash=datos_usuario['password'],  
+            id_rol=id_rol
+        )
+        return construir_usuario_dto(nuevo_usuario)
+    except IntegrityError:
+        raise ValueError(construir_error_api(
+            code='usuario.email.duplicate',
+            message='El email ya está registrado',
+            description=f"Ya existe un usuario con el email '{datos_usuario['email']}'"
+        ), 400)
+    
+def cambiar_rol(id_usuario):
+    usuario = db_funciones.obtener_usuario_publico_por_id(id_usuario)
+
+    if not usuario:
+        raise ValueError(construir_error_api(
+            code='usuario.not.found',
+            message='Usuario no encontrado',
+            description=f"No existe un usuario con id '{id_usuario}'"
+        ), 404)
+
+    if usuario["rol"] == "admin":
+        nuevo_rol = 2
+    else:
+        nuevo_rol = 1
+
+    db_funciones.actualizar_rol(id_usuario, nuevo_rol)
+
+def actualizar_usuario(id_usuario, nombre, apellido, email, telefono):
+    usuario = db_funciones.obtener_usuario_publico_por_id(id_usuario)
+
+    if not usuario:
+        raise ValueError(construir_error_api(
+            code='usuario.not.found',
+            message='Usuario no encontrado',
+            description=f"No existe un usuario con id '{id_usuario}'"
+        ), 404)
+    db_funciones.actualizar_usuario(id_usuario, nombre, apellido, email, telefono)

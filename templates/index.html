@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Maison Gourmet</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends "base.html" %}
+{% block title %}Le Maison Gourmet{% endblock %}
+{% block extra_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style_horarios.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    
-{% extends "base.html" %}
-
-{% block title %}Le Maison Gourmet{% endblock %}
+{% endblock %}
 
 {% block content %}
 
@@ -73,7 +64,4 @@
     </div>
 
     </section>
-    {% endblock %}
-
-</body>
-</html>
+{% endblock %}

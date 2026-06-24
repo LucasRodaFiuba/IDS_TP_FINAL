@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway:wght@400&display=swap" rel="stylesheet">
+{% endblock %}
+{% block title %}USUARIOS{% endblock %}
+
+{% block content %} 
+
+                    <div id="Formularios">
+                        <h2>Gestionar Usuarios</h2>
+    
+                            <div id="Agregar_usuario">
+                                <form action="{{url_for('agregar_usuario')}}" method="post">
+                                    <p>Agregar usuario</p>
+                                    <input type="text" name="usuario" placeholder="Nombre de usuario">
+                                    <input type="text" name="apellido" placeholder="Apellido">
+                                    <input type="email" name="correo" placeholder="Correo electrónico">
+                                    <input type="password" name="password_hash" placeholder="Contraseña">
+                                    <select name="id_rol">
+                                            <option value="1">Admin</option>
+                                            <option value="2">Usuario</option>
+                                    </select>
+                                    <input type="text" name="telefono" placeholder="Teléfono">
+                                    <button>Confirmar</button>
+                                </form>
+                            </div>
+                            
+                            <div id="Modificar_usuario">
+                                <form action="{{ url_for('modificar_usuario') }}" method="post">
+                                    <p>Modificar usuario</p>
+                                    <input type="number" name="id" placeholder="ID del usuario">
+                                    <input type="text" name="nombre" placeholder="Nuevo nombre">
+                                     <input type="text" name="apellido" placeholder="Nuevo apellido">
+                                    <input type="email" name="email" placeholder="Nuevo correo">
+                                    <input type="text" name="telefono" placeholder="Nuevo teléfono">
+                                    <button>Confirmar cambios</button>
+                                </form>
+                            </div>
+                            
+                            <div id="Eliminar_usuario">
+                                <form action="/admin/usuarios/eliminar" method="post">
+                                    <p>Eliminar usuario</p>
+                                    <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
+                                    <button>Confirmar eliminación</button>
+                                </form>
+                            </div>
+
+                        
+                        <div id="entradas">
+                             <h2 class="titulo-entradas">USUARIOS</h2>          
+                             <div class="contenedor-entradas">
+                                 {% for usuario in usuarios %}
+                                 <div class="entrada-carta">
+                                     <h5 class="entrada-titulo">{{ usuario.nombre }}</h5>
+                                     <p class="entrada-descripcion">{{ usuario.apellido }}</p>
+                                     <p class="entrada-descripcion">{{ usuario.id }}</p>
+                                     <p class="entrada-descripcion">{{ usuario.email }}</p>
+                                     <p class="entrada-precio">${{ usuario.telefono }}</p>
+                                     <p class="entrada-restriccion">{{ usuario.fecha_registro }}</p>
+                                     <p class="entrada-restriccion">{{ usuario.rol }}</p>
+                                     <form method="POST" action="/admin/usuarios/eliminar/{{ usuario.id }}">
+                                        <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar a {{ usuario.nombre }}?')">Eliminar Usuario</button>
+                                     </form>
+                                     <form action="{{ url_for('actualizar_rol') }}" method="POST">
+                                        <input type="hidden" name="id_usuario" value="{{ usuario.id }}">
+                                        <button type="submit" class="btn-modificar">
+                                            Modificar Rol
+                                        </button>
+                                    </form>
+                                 </div>
+                                 {% endfor %}
+                             </div>
+                         </div>
+
+{% endblock %}
