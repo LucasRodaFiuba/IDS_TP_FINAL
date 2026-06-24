@@ -1,5 +1,11 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_URL = '/'
-DB_URL = "mysql+pymysql://root:212212@localhost/restaurante_db" #reemplazar por el usuario y contraseña de mysql 
+DB_URL = os.getenv("DATABASE_URL")
+
 # Formato de fecha esperado por la API
 FORMATO_FECHA = '%Y-%m-%d'
 

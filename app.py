@@ -17,6 +17,7 @@ from services.auth import (
     solicitar_recuperacion_password_api,
 )
 from routes.servicios_extra import servicios_extra_bp
+from services.servicios_extra import obtener_servicios_extra
 from services.dashboard import obtener_estadisticas
 from services.usuarios import obtener_usuarios,actualizar_rol_usuario, crear_usuario, actualizar_usuario
 from datetime import datetime
@@ -107,6 +108,19 @@ def pagina_nosotros():
 
 @app.route('/reservas', methods=['GET', 'POST'])
 def pagina_reservas():
+
+    usuario = session.get("usuario")
+
+    if not usuario:
+        flash("Tenés que iniciar sesión primero", "error")
+        return redirect(url_for("iniciar_sesion"))
+
+    email = usuario.get("email")
+
+    if not email:
+        flash("Tenés que iniciar sesión primero", "error")
+        return redirect(url_for("iniciar_sesion"))
+
     if request.method == 'POST':
         data = request.form.to_dict()
         data['servicios_extras'] = request.form.getlist('servicios_extras')
@@ -136,7 +150,9 @@ def pagina_reservas():
             for e in resultado.get('errores', []):
                 flash(f"No se pudieron cargar los horarios: {e}", "error")
 
-    return render_template("reservas.html", horarios=horarios_disponibles, comensales_seleccionados=comensales, fecha_seleccionada=fecha_seleccionada)
+    servicios_extra = obtener_servicios_extra()
+
+    return render_template("reservas.html", horarios=horarios_disponibles, comensales_seleccionados=comensales, fecha_seleccionada=fecha_seleccionada, servicios_extra=servicios_extra)
 
 @app.route('/clientes')
 def pagina_clientes():
@@ -430,6 +446,7 @@ def pagina_dashboard():
 
 @app.route('/resenas', methods=['GET', 'POST'])
 def pagina_resenas():
+    origen = request.form.get('origen', url_for('pagina_resenas'))
     if request.method == 'POST':
         usuario = session.get('usuario')
         token = session.get('token')
@@ -452,7 +469,7 @@ def pagina_resenas():
             for e in resultado.get('errores', []):
                 flash(e, 'error')
 
-        return redirect(url_for('pagina_resenas'))
+        return redirect(origen)
 
     # GET
     resultado = obtener_resenas()
@@ -464,6 +481,7 @@ def pagina_resenas():
 
 @app.route('/resenas/eliminar/<int:id_resena>', methods=['POST'])
 def eliminar_resena_view(id_resena):
+    origen = request.form.get('origen', url_for('pagina_resenas'))
     usuario = session.get('usuario')
     token = session.get('token')
 
@@ -479,7 +497,7 @@ def eliminar_resena_view(id_resena):
         for e in resultado.get('errores', []):
             flash(e, 'error')
 
-    return redirect(url_for('pagina_resenas'))
+    return redirect(origen)
 
 
 @app.route('/admin/reservas/eliminar', methods=['POST'])

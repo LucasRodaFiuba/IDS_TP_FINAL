@@ -65,48 +65,16 @@
             <div class="paso-cuerpo">
                 <label>Personalizá tu Experiencia</label>
                 <span class="ayuda-texto texto-centrado">Seleccioná los servicios adicionales:</span>
+            <span class="ayuda-texto texto-centrado">Para más información sobre los servicios extra, visitá <strong>Conocenos</strong>.</span>
             </div>
             
+            {% for servicio in servicios_extra %}
             <label class="tarjeta-simple">
-                <input type="checkbox" name="servicios_extras" value="1">
-                <div class="tarjeta-textos">
-                    <strong>¿Celebrás un cumpleaños?</strong>
-                    <span class="ayuda-texto">Decoración especial en la mesa.</span>
+                <input type="checkbox" name="servicios_extras" value="{{ servicio.id }}">
+                <div class="tarjeta-textos"><strong>{{ servicio.nombre }}</strong>
                 </div>
             </label>
-
-            <label class="tarjeta-simple">
-                <input type="checkbox" name="servicios_extras" value="2">
-                <div class="tarjeta-textos">
-                    <strong>¿Te acompaña tu mascota?</strong>
-                    <span class="ayuda-texto">Espacio cómodo y amigable.</span>
-                </div>
-            </label>
-
-            <label class="tarjeta-simple">
-                <input type="checkbox" name="servicios_extras" value="3">
-                <div class="tarjeta-textos">
-                    <strong>¿Requerís opciones veganas?</strong>
-                    <span class="ayuda-texto">Platos 100% de origen vegetal.</span>
-                </div>
-            </label>   
-
-            <label class="tarjeta-simple">
-                <input type="checkbox" name="servicios_extras" value="4">
-                <div class="tarjeta-textos">
-                    <strong>¿Preferís mesa en la terraza?</strong>
-                    <span class="ayuda-texto">Espacio al aire libre rodeado de un ambiente cálido y relajado.</span>
-                </div>
-            </label>
-
-            <div class="paso-cuerpo">
-                <div class="info-carta">
-                    <p><strong>Nuestro local incluye gratis:</strong></p>
-                    <span class="ayuda-texto desc-check">• Conexión Wifi de alta velocidad</span>
-                    <span class="ayuda-texto desc-check">• Rampa de acceso adaptada y segura</span>
-                    <span class="ayuda-texto desc-check">• Área infantil supervisada</span>
-                </div>
-            </div>
+            {% endfor %}
 
             <div class="botones-grupo">
                 <button type="button" class="btn-volver" onclick="cambiarPaso(4, 3)">Atrás</button>

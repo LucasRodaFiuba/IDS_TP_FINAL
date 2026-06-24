@@ -258,21 +258,6 @@ def tiene_muchas_cancelaciones(id_usuario):
     #devuelve True o False acorde a si tiene mas de 3 cancelaciones en el mes.
     return cantidad_cancelaciones[0]['cantidad'] >= 3
 
-def ya_tiene_reserva_en_dia(id_usuario,fecha_reserva):
-    query = """
-        SELECT COUNT(*) as cantidad
-        FROM reservas
-        WHERE id_usuario = :id_usuario
-        AND fecha_reserva = :fecha_reserva
-        AND estado != 'cancelada'
-    """
-    resultado = ejecutar_consulta(query, {
-        "id_usuario": id_usuario,
-        "fecha_reserva": fecha_reserva
-    })
-
-    return resultado[0]["cantidad"] > 0
-
 # <=========================> CUENTAS DE USUARIO <============================>
 
 def obtener_usuarios():
