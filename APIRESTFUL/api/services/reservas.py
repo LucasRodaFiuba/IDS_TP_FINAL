@@ -191,7 +191,7 @@ def validar_reserva_service(token):
     #Actualizo el estado en confirmada
     db_funciones.actualizar_estado_reserva(token, "confirmada")
 
-    return {"message": "Reserva confirmada"}
+    return {"Hora":reserva["hora_reserva"],"Fecha":reserva["fecha_reserva"],"comensales":reserva["cantidad_personas"],"Estado de la reserva": reserva["estado"]}
 
 #SERVICE PARA MIS_RESERVAS
 def obtener_reservas_segun_email(email):

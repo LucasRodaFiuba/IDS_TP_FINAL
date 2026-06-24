@@ -218,7 +218,7 @@ def cancelar_reserva(id_reserva):
 
 def buscar_reserva_por_token(token):
     query = """
-        SELECT estado
+        SELECT *
         FROM reservas
         WHERE codigo_qr = :codigo_qr
     """
