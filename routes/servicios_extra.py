@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint,redirect,url_for,request,render_template, flash
 from services.servicios_extra import obtener_servicios_extra,agregar_servicio_extra,eliminar_servicio_extra,actualizar_servicio_extra
 from services.resenas import obtener_resenas
+from services.menu import obtener_menu
 
 servicios_extra_bp= Blueprint('servicios_extra',__name__)
 
@@ -16,11 +17,13 @@ def pagina_nosotros():
         resenas = resultado['response']
     else:
         resenas = []
-
+    menu = obtener_menu()
+    platos = menu.get('platos', [])
     return render_template(
         'nosotros.html',
         servicios=servicios,
-        resenas=resenas
+        resenas=resenas,
+        platos=platos
     )
 
 @servicios_extra_bp.route('/admin/servicios/agregar', methods=['POST'])

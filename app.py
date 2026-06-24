@@ -459,6 +459,7 @@ def pagina_resenas():
         resultado = enviar_resena(
             id_usuario=usuario['id'],
             id_reserva=None,
+            id_plato=request.form.get('id_plato'), 
             puntuacion=int(request.form.get('puntuacion')),
             comentario=request.form.get('comentario'),
             token=token

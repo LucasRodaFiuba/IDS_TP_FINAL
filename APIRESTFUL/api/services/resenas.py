@@ -22,13 +22,14 @@ def obtener_resenas():
         return {'errores': [str(e)]}
 
 
-def enviar_resena(id_usuario, id_reserva, puntuacion, comentario, token):
+def enviar_resena(id_usuario, id_reserva, id_plato, puntuacion, comentario, token):
     try:
         response = requests.post(
             f'{API_BASE_URL}/resenas',
             json={
                 'id_usuario': id_usuario,
                 'id_reserva': id_reserva,
+                'id_plato': id_plato,
                 'puntuacion': puntuacion,
                 'comentario': comentario
             },

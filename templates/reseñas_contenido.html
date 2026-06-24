@@ -15,6 +15,15 @@
                     <option value="1">★</option>
                 </select>
             </div>
+            <div class="plato-input">
+                <label>Plato que probaste</label>
+                <select name="id_plato" required>
+                <option value="">Seleccioná un plato</option>
+                {% for plato in platos %}
+                <option value="{{ plato.id_plato }}">{{ plato.nombre }}</option>
+                {% endfor %}
+                </select>
+            </div>
             <div class="comentario-input">
                 <label>Comentario</label>
                 <textarea name="comentario" placeholder="Contanos tu experiencia..." required></textarea>

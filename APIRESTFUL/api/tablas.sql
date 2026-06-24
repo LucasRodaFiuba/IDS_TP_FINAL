@@ -99,6 +99,9 @@ CREATE TABLE resenas (
 
     FOREIGN KEY (id_reserva)
     REFERENCES reservas(id_reserva)
+
+    FOREIGN KEY (id_plato)
+    REFERENCES menu(id_plato)
 );
 
 
