@@ -5,7 +5,6 @@ from ..services.reservas import (
     crear_reserva,
     cambiar_reserva,
     cancelar_reserva_service,
-    crear_reserva_admin,
     validar_reserva_service,
     obtener_reservas_segun_email,
     eliminar_reserva

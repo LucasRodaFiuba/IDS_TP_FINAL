@@ -7,7 +7,7 @@ from mysql.connector import Error
 from werkzeug.utils import secure_filename
 import os
 from services.menu import obtener_menu,crear_plato,eliminar_plato,actualizar_plato
-from services.reservas import crear_reserva_admin, enviar_reserva, eliminar_reserva, obtener_disponibilidad
+from services.reservas import enviar_reserva, eliminar_reserva, obtener_disponibilidad
 from services.mis_reservas import obtener_reservas,cancelar_reserva_service
 from services.auth import (
     eliminar_usuario_api,
