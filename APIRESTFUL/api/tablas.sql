@@ -195,7 +195,107 @@ VALUES
 /* =========================
    MENÚ
    ========================= */
+INSERT INTO menu
+(nombre,descripcion,precio,restriccion,imagen,categoria)
+VALUES
 
+('Empanadas Criollas',
+'Empanadas de carne cortada a cuchillo.',
+3200,
+'ninguno',
+'empanadas.jpg',
+'entrada'),
+
+('Provoleta',
+'Provoleta a la parrilla con orégano.',
+4800,
+'vegetariano',
+'provoleta.jpg',
+'entrada'),
+
+('Mollejas',
+'Mollejas crocantes a la parrilla.',
+6900,
+'ninguno',
+'mollejas.jpg',
+'entrada'),
+
+('Bife de Chorizo',
+'Bife premium acompañado con papas rústicas.',
+18900,
+'ninguno',
+'bife.jpg',
+'plato_principal'),
+
+('Salmón Grillado',
+'Salmón con vegetales salteados.',
+20500,
+'sin lactosa',
+'salmon.jpg',
+'plato_principal'),
+
+('Ravioles de Verdura',
+'Pasta casera con salsa fileto.',
+12400,
+'vegetariano',
+'ravioles.jpg',
+'plato_principal'),
+
+('Milanesa Napolitana',
+'Con papas fritas.',
+14900,
+'ninguno',
+'milanesa.jpg',
+'plato_principal'),
+
+('Flan Casero',
+'Con dulce de leche y crema.',
+3900,
+'vegetariano',
+'flan.jpg',
+'postre'),
+
+('Volcán de Chocolate',
+'Con helado de vainilla.',
+5600,
+'vegetariano',
+'volcan.jpg',
+'postre'),
+
+('Cheesecake',
+'Con frutos rojos.',
+5400,
+'vegetariano',
+'cheesecake.jpg',
+'postre'),
+
+('Limonada',
+'Limonada con menta y jengibre.',
+2800,
+'vegano',
+'limonada.jpg',
+'bebida'),
+
+('Malbec Reserva',
+'Copa de vino Malbec.',
+5200,
+'ninguno',
+'malbec.jpg',
+'bebida'),
+
+('Agua Mineral',
+'Con o sin gas.',
+1800,
+'vegano',
+'agua.jpg',
+'bebida'),
+
+('Cerveza Artesanal',
+'Pinta de cerveza rubia.',
+4200,
+'ninguno',
+'cerveza.jpg',
+'bebida');
 
 
 /* =========================
