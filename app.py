@@ -312,8 +312,6 @@ def agregar_objeto():
     categoria = request.form.get('categoria', '').strip()
     imagen = request.form.get('imagen', '').strip()
 
-    if not nombre or not precio or not descripcion or not categoria:
-         return render_template('admin.html', error='Los campos son obligatorios')
     imagen = None
     archivo = request.files.get('imagen')
     if archivo and archivo.filename != '':
@@ -321,8 +319,17 @@ def agregar_objeto():
         archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         imagen = f"/static/img/{filename}"
     else:
-        imagen = request.form.get('imagen', '').strip() 
-    resultado = crear_plato(nombre, float(precio), descripcion, restriccion, categoria, imagen) 
+        imagen = request.form.get('imagen', '').strip()   
+    
+    resultado = crear_plato(nombre, precio, descripcion, restriccion, categoria, imagen) 
+    if not resultado['ok']:
+        errores = resultado['error'].get('errors', [])
+        mensaje_error = errores[0].get('description', 'No se pudo crear el plato') if errores else 'No se pudo actualizar el plato'
+        flash(mensaje_error, 'error')  
+        return redirect(url_for('pagina_admin')) 
+
+ 
+    flash('Plato creado exitosamente', 'success')
     return redirect(url_for('pagina_menu'))
 
 
@@ -342,37 +349,36 @@ def modificar_objeto():
     restriccion = request.form.get('restriccion')
     categoria = request.form.get('categoria')
     archivo = request.files.get('imagen')
+   
     imagen_url = None
     if archivo and archivo.filename != '':
         nombre_archivo = archivo.filename
         archivo.save(f'static/img/{nombre_archivo}')
         imagen_url = f'/static/img/{nombre_archivo}'
 
-    response = actualizar_plato(id, nombre, precio, descripcion, restriccion, categoria, imagen_url)
-    if response is None:
-        return render_template('admin.html', error='No se pudo conectar con el servidor')
+    resultado = actualizar_plato(id, nombre, precio, descripcion, restriccion, categoria, imagen_url)
+    if not resultado['ok']:
+        errores = resultado['error'].get('errors', [])
+        mensaje_error = errores[0].get('description', 'No se pudo actualizar el plato') if errores else 'No se pudo actualizar el plato'
+        flash(mensaje_error, 'error')  
+        return redirect(url_for('pagina_admin')) 
 
-    if response.status_code == 204:
-        return redirect(url_for('pagina_menu'))
-
-
-    else:   
-        return render_template('admin.html', error= 'no se pudoconectar')
+    flash('Plato actualizado exitosamente', 'success')
+    return redirect(url_for('pagina_menu'))
 
 
 @app.route('/admin/menu/eliminar', methods=['POST'])
 def eliminar_objeto():
     nombre = request.form.get('nombre')
-    response = eliminar_plato(nombre)  
+    resultado = eliminar_plato(nombre)  
+    if not resultado['ok']:
+        errores = resultado['error'].get('errors', [])
+        mensaje = errores[0].get('description', 'No se pudo eliminar el plato') if errores else 'No se pudo eliminar el plato'
+        flash(mensaje, 'error')
+        return redirect(url_for('pagina_admin'))
 
-    if response is None:
-        return redirect(url_for('pagina_menu'))  
-    
-    if response.status_code == 204:
-        return redirect(url_for('pagina_menu'))  
-    
-    elif response.status_code == 404:
-        return redirect(url_for('pagina_menu'))
+    flash('Plato eliminado exitosamente', 'success')
+    return redirect(url_for('pagina_menu'))
 
 @app.route('/admin/reservas/agregar', methods=['POST'])
 def agregar_reserva():

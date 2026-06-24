@@ -17,9 +17,9 @@
     <h2>Modificar Menú</h2>
     <form action="{{ url_for('agregar_objeto') }}" method="post" enctype="multipart/form-data">
         <p>Agregar Plato</p>
-        <input type="text" name="nombre" placeholder="Nombre" required>
-        <input type="text" name="descripcion" placeholder="Descripción" required>
-        <input type="text" name="precio" placeholder="Precio" required>
+        <input type="text" name="nombre" placeholder="Nombre" >
+        <input type="text" name="descripcion" placeholder="Descripción" >
+        <input type="text" name="precio" placeholder="Precio" >
 
         <select name="categoria">
             <option value="entrada">Entrada</option>
@@ -30,9 +30,9 @@
         <select name="restriccion">
             <option value="vegano">vegano</option>
             <option value="veguetariano">veguetariano</option>
-            <option value="sin_tacc">sin tacc</option>
-            <option value="sin_lactosa">sin lactosa</option>
-            <option value="ninguna">ninguna</option>
+            <option value="sin tacc">sin tacc</option>
+            <option value="sin lactosa">sin lactosa</option>
+            <option value="ninguno">ninguno</option>
         </select>
 
         <input type="file" name="imagen" accept="image/*">
@@ -40,14 +40,14 @@
     </form>
 </div>
     <div id="Formularios">
-        <form action="{{ url_for('modificar_objeto') }}" method="post" id="Formulario_modificar">
+        <form action="{{ url_for('modificar_objeto') }}" method="post" id="Formulario_modificar" enctype="multipart/form-data">
             <h2>Modifica cualquier objeto del menú</h2>
             <p>Los espacios en blanco se quedarán con el último valor guardado, solo ingresar los campos que desea actualizar.</p>
             <p>El nombre del objeto es obligatorio para poder identificarlo.</p>
-            <input type="number" name="id" placeholder="ID del plato (obligatorio)" required>
-            <input type="text" name="nombre" placeholder="Nombre del objeto a modificar" required>
-            <input type="text" name="descripcion" placeholder="Nueva descripción del objeto" required>
-            <input type="text" name="precio" placeholder="Nuevo precio del objeto" min="0" step="any" required>
+            <input type="number" name="id" placeholder="ID del plato (obligatorio)" >
+            <input type="text" name="nombre" placeholder="Nombre del objeto a modificar" >
+            <input type="text" name="descripcion" placeholder="Nueva descripción del objeto" >
+            <input type="text" name="precio" placeholder="Nuevo precio del objeto" min="0" step="any" >
             <select name="categoria">
                 <option value="entrada">Entrada</option>
                 <option value="plato_principal">Plato Principal</option>
@@ -56,10 +56,10 @@
             </select>
             <select name="restriccion">
                 <option value="vegano">vegano</option>
-                <option value="veguetariano">veguetariano</option>
-                <option value="sin_tacc">sin tacc</option>
-                <option value="sin_lactosa">sin lactosa</option>
-                <option value="ninguna">ninguna</option>
+                <option value="vegetariano">vegetariano</option>
+                <option value="sin tacc">sin tacc</option>
+                <option value="sin lactosa">sin lactosa</option>
+                <option value="ninguno">ninguno</option>
             </select>
             <input type="file" name="imagen" accept="image/*">
             <button>Confirmar cambios</button>
@@ -149,5 +149,4 @@
         <a href="{{ url_for('pagina_usuarios') }}"><button>USUARIOS</button></a>
     </div>
 
-{% endblock %}
-
+{% endblock %}  
