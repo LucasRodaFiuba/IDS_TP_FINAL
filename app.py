@@ -398,31 +398,6 @@ def eliminar_objeto():
     flash('Plato eliminado exitosamente', 'success')
     return redirect(url_for('pagina_menu'))
 
-@app.route('/admin/reservas/agregar', methods=['POST'])
-def agregar_reserva():
-
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        #Hago posible que servicios extras tenga como valor una lista.
-        data['servicios_extras'] = request.form.getlist('servicios_extras')
-
-        response = enviar_reserva(data)
-
-        if response.get("ok"):
-            flash("¡Reserva confirmada! Nos vemos pronto en Le Maison Gourmet.", "success")
-            return redirect(url_for("pagina_admin"))
-
-
-
-    if response is None:
-        return redirect(url_for('pagina_admin'))  
-    
-    if response.status_code == 204:
-        return redirect(url_for('pagina_admin'))  
-    
-    elif response.status_code == 404:
-        return redirect(url_for('pagina_admin'))
-
 
 @app.route('/admin/dashboard')
 def pagina_dashboard():
