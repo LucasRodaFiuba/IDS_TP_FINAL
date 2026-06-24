@@ -440,6 +440,7 @@ def pagina_dashboard():
 
 @app.route('/resenas', methods=['GET', 'POST'])
 def pagina_resenas():
+    origen = request.form.get('origen', url_for('pagina_resenas'))
     if request.method == 'POST':
         usuario = session.get('usuario')
         token = session.get('token')
@@ -462,7 +463,7 @@ def pagina_resenas():
             for e in resultado.get('errores', []):
                 flash(e, 'error')
 
-        return redirect(url_for('pagina_resenas'))
+        return redirect(origen)
 
     # GET
     resultado = obtener_resenas()
@@ -474,6 +475,7 @@ def pagina_resenas():
 
 @app.route('/resenas/eliminar/<int:id_resena>', methods=['POST'])
 def eliminar_resena_view(id_resena):
+    origen = request.form.get('origen', url_for('pagina_resenas'))
     usuario = session.get('usuario')
     token = session.get('token')
 
@@ -489,7 +491,7 @@ def eliminar_resena_view(id_resena):
         for e in resultado.get('errores', []):
             flash(e, 'error')
 
-    return redirect(url_for('pagina_resenas'))
+    return redirect(origen)
 
 
 @app.route('/admin/reservas/eliminar', methods=['POST'])
