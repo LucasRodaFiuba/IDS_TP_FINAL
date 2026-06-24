@@ -86,7 +86,12 @@
                 <input type="text" name="telefono-cliente" placeholder="Número de teléfono" required>
                 <input type="text" name="horario_reserva" placeholder="Hora de la reserva" required>
                 <input type="number" name="cantidad_personas" placeholder="Cantidad de personas" required>
-                <input type="text" name="servicios_extras" placeholder="Servicios extras" required>
+                <select name="servicios_extras" required>
+                    <option value="">Seleccione un servicio</option>
+                    {% for servicio in servicios_extra %}
+                        <option value="{{ servicio.id }}">{{ servicio.nombre }}</option>
+                    {% endfor %}
+                </select>
                 <button>Confirmar</button>
             </form>
         </div>

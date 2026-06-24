@@ -266,7 +266,8 @@ def eliminar_cuenta():
 
 @app.route('/admin')
 def pagina_admin():
-    return render_template('admin.html')
+    servicios_extra = obtener_servicios_extra()
+    return render_template('admin.html', servicios_extra=servicios_extra)
 
 @app.route('/admin/reservas')
 def admin_reservas():
@@ -404,7 +405,7 @@ def agregar_reserva():
         #Hago posible que servicios extras tenga como valor una lista.
         data['servicios_extras'] = request.form.getlist('servicios_extras')
 
-        response = crear_reserva_admin(data)
+        response = enviar_reserva(data)
 
         if response.get("ok"):
             flash("¡Reserva confirmada! Nos vemos pronto en Le Maison Gourmet.", "success")
