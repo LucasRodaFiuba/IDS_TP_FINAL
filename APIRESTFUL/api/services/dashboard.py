@@ -12,9 +12,9 @@ def obtener_metricas_dashboard(filtros):
     per_page = int(filtros.get('per_page', 10))
     offset = (page - 1) * per_page
 
-    estados = "('confirmada', 'pendiente', 'finalizada')"
+    estados = "('confirmada', 'pendiente')"
     if incluir_canceladas:
-        estados = "('confirmada', 'pendiente', 'finalizada', 'cancelada')"
+        estados = "('confirmada', 'pendiente', 'cancelada')"
 
     query_reservas = f"""
         SELECT 
