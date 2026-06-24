@@ -122,7 +122,6 @@ def cancelar_reserva(id):
 
     return "", 204
 
-#Página a la que va a entrar al escanear el QR
 @reservas_bp.route("/reservas/validar/<token>")
 def validar_reserva(token):
     # buscar reserva por token
@@ -150,7 +149,6 @@ def validar_reserva(token):
 def obtener_reservas(email):
     """
     Devuelve todas las reservas de un usuario logeado
-    necesito devolver: numero mesa, fecha, hora, cantidad de personas
     """
     #validar email
     try:

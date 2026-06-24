@@ -35,6 +35,9 @@ def ejecutar_insert(sql: str, parametros: dict = None) -> int:
         return resultado.lastrowid or 0
 
 def ejecutar_mutacion(sql, parametros=None):
+    """
+    Retorna cuantas filas afecta
+    """
     with motor.begin() as conexion:
         result = conexion.execute(text(sql), parametros or {})
         return result.rowcount
@@ -44,7 +47,7 @@ def ejecutar_mutacion(sql, parametros=None):
 #--------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------
-# Queries para crear reservas (especialmente)
+# Queries para crear reservas y consultar disponibilidad de horarios libres.
 #--------------------------------------------------------------------------
 def obtener_mesas_por_capacidad(min_capacidad):
     query = """
@@ -255,7 +258,6 @@ def tiene_muchas_cancelaciones(id_usuario):
     """
     cantidad_cancelaciones = ejecutar_consulta(query,{'id_usuario':id_usuario})
 
-    #devuelve True o False acorde a si tiene mas de 3 cancelaciones en el mes.
     return cantidad_cancelaciones[0]['cantidad'] >= 3
 
 # <=========================> CUENTAS DE USUARIO <============================>

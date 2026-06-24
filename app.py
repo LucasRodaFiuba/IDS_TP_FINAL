@@ -292,13 +292,14 @@ def pagina_mis_reservas():
         flash("Tenés que iniciar sesión primero", "error")
         return redirect(url_for("iniciar_sesion"))
 
-    #uso services
+    #uso services para realizar la conexión con el backend.
     resultado = obtener_reservas(email)
     
     if resultado.get("ok"):
         flash("Reservas obtenidas", "success")
         reservas = resultado['response']
 
+        #Agrego dos campos para mostrar en el frontend el mes y el dia.
         for reserva in reservas:
             fecha = datetime.strptime(reserva['fecha_reserva'], "%Y-%m-%d")
             reserva['mes_abreviado'] = MESES[fecha.month - 1]

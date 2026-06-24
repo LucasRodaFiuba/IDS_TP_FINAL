@@ -6,16 +6,7 @@ import qrcode
 import json
 from PIL import Image
 import os
-
-#from .constantes import (
-#    ERROR_CODE_INVALID_MIN_VALUE,
-#    ERROR_CODE_INVALID_MAX_VALUE,
-#)
-
-#Temporalmente pongo estás dos constantes acá
-#Errores tipo code
-ERROR_CODE_INVALID_MIN_VALUE   = 'invalid.min.value'
-ERROR_CODE_INVALID_MAX_VALUE   = 'invalid.max.value'
+from .constantes import ERROR_CODE_INVALID_MIN_VALUE, ERROR_CODE_INVALID_MAX_VALUE,URL_VALIDAR_RESERVA
 
 logger = logging.getLogger(__name__)
 
@@ -133,12 +124,10 @@ def validar_que_sea_lista(valor,nombre):
             )
         )
 
-#Generar QR
 def generar_qr(token,data):
+    url = f"{URL_VALIDAR_RESERVA}/{token}"
 
-    #img = qrcode.make(json.dumps(data))
-    url = f"https://unhitched-halved-surname.ngrok-free.dev/reservas/validar/{token}"
-
+    #Genero una imagen QR que lleva a la url definida.
     img = qrcode.make(url)
 
     os.makedirs("qrs", exist_ok=True)
