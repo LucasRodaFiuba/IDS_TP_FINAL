@@ -42,14 +42,15 @@ def actualizar_usuario(id_usuario: int , nombre: str, apellido: str, email: str,
                                 json={ "nombre": nombre,"apellido": apellido, "email": email, "telefono": telefono},
                                 timeout=10)
 
-        if response.status_code == 200:
-            usuarios = response.json()
+        return response.status_code == 200
 
     except requests.exceptions.ConnectionError:
         logger.error(f"No se pudo conectar con la API en {API_BASE_URL}")
+        return False
 
     except Exception as e:
         logger.error(f"Error al obtener los usuarios")
+        return False
 
 def crear_usuario(nombre: str, apellido: str, email: str, password: str, telefono: str, rol: str):
     try:

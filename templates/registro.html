@@ -6,7 +6,7 @@
 
     {% block content %}
 
-    <form id="Iniciar_sesion" method="POST" action="{{ url_for('registro') }}">
+    <form id="Iniciar_sesion" method="POST" action="{{ url_for('auth.registro') }}">
 
         <h1>Registrarse</h1>
 
@@ -35,7 +35,7 @@
 
         <button type="submit" class="btn-ingresar">REGISTRARME</button>
 
-        <button type="button" onclick="window.location.href='{{ url_for('iniciar_sesion') }}'">Ya tengo cuenta</button>
+        <button type="button" onclick="window.location.href='{{ url_for('auth.iniciar_sesion') }}'">Ya tengo cuenta</button>
 
     </form>
 

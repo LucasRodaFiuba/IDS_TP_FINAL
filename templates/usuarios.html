@@ -12,7 +12,7 @@
                         <h2>Gestionar Usuarios</h2>
     
                             <div id="Agregar_usuario">
-                                <form action="{{url_for('agregar_usuario')}}" method="post">
+                                <form action="{{url_for('usuarios.agregar_usuario')}}" method="post">
                                     <p>Agregar usuario</p>
                                     <input type="text" name="usuario" placeholder="Nombre de usuario">
                                     <input type="text" name="apellido" placeholder="Apellido">
@@ -28,7 +28,7 @@
                             </div>
                             
                             <div id="Modificar_usuario">
-                                <form action="{{ url_for('modificar_usuario') }}" method="post">
+                                <form action="{{ url_for('usuarios.modificar_usuario') }}" method="post">
                                     <p>Modificar usuario</p>
                                     <input type="number" name="id" placeholder="ID del usuario">
                                     <input type="text" name="nombre" placeholder="Nuevo nombre">
@@ -38,16 +38,7 @@
                                     <button>Confirmar cambios</button>
                                 </form>
                             </div>
-                            
-                            <div id="Eliminar_usuario">
-                                <form action="/admin/usuarios/eliminar" method="post">
-                                    <p>Eliminar usuario</p>
-                                    <input type="text" name="usuario" placeholder="Nombre del usuario a eliminar">
-                                    <button>Confirmar eliminación</button>
-                                </form>
-                            </div>
-
-                        
+ 
                         <div id="entradas">
                              <h2 class="titulo-entradas">USUARIOS</h2>          
                              <div class="contenedor-entradas">
@@ -60,10 +51,10 @@
                                      <p class="entrada-precio">${{ usuario.telefono }}</p>
                                      <p class="entrada-restriccion">{{ usuario.fecha_registro }}</p>
                                      <p class="entrada-restriccion">{{ usuario.rol }}</p>
-                                     <form method="POST" action="/admin/usuarios/eliminar/{{ usuario.id }}">
+                                     <form method="POST" action="{{ url_for('usuarios.eliminar_usuario', id_usuario=usuario.id) }}">
                                         <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar a {{ usuario.nombre }}?')">Eliminar Usuario</button>
                                      </form>
-                                     <form action="{{ url_for('actualizar_rol') }}" method="POST">
+                                     <form action="{{ url_for('usuarios.actualizar_rol') }}" method="POST">
                                         <input type="hidden" name="id_usuario" value="{{ usuario.id }}">
                                         <button type="submit" class="btn-modificar">
                                             Modificar Rol

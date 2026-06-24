@@ -2,7 +2,7 @@
 
     {% if session.get('usuario') %}
     <div class="formulario-resena">
-        <form method="POST" action="/resenas">
+        <form method="POST" action="{{ url_for('resenas.pagina_resenas')}}">
             <input type="hidden" name="origen" value="{{ request.path }}">
             <div class="estrellas-input">
                 <label>Puntuación</label>
@@ -33,7 +33,7 @@
     </div>
     {% else %}
     <div class="login-aviso">
-        <p><a href="/iniciar_sesion">Iniciá sesión</a> para dejar una reseña.</p>
+        <p><a href="{{ url_for('auth.iniciar_sesion')}}">Iniciá sesión</a> para dejar una reseña.</p>
     </div>
     {% endif %}
 
@@ -53,7 +53,7 @@
                 <p class="resena-comentario">{{ r.comentario }}</p>
                 <small class="resena-fecha">{{ r.fecha_resena }}</small>
                 {% if session.get('usuario') and session.get('usuario').get('rol') == 'admin' %}
-                <form method="POST" action="/resenas/eliminar/{{ r.id_resena }}" class="form-eliminar">
+                <form method="POST" action="{{ url_for('resena_eliminar_resena_view')}}" class="form-eliminar">
                     <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar esta reseña?')">✕ Eliminar</button>
                     <input type="hidden" name="origen" value="{{ request.path }}">
                 </form>

@@ -6,7 +6,7 @@
 
     {% block content %}
 
-    <form id="Iniciar_sesion" method="POST" action="{{ url_for('recuperar_contrasena') }}">
+    <form id="Iniciar_sesion" method="POST" action="{{ url_for('auth.recuperar_contrasena') }}">
 
         <h1>Recuperar contraseña</h1>
 
@@ -23,7 +23,7 @@
 
         <button type="submit" class="btn-ingresar">RECUPERAR CONTRASEÑA</button>
 
-        <button type="button" onclick="window.location.href='{{ url_for('iniciar_sesion') }}'">Volver al login</button>
+        <button type="button" onclick="window.location.href='{{ url_for('auth.iniciar_sesion') }}'">Volver al login</button>
 
     </form>
 

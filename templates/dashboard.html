@@ -8,7 +8,7 @@
 {% block content %}
 
 <div id="Filtros_Dashboard">
-    <form action="{{ url_for('pagina_dashboard') }}" method="GET">
+    <form action="{{ url_for('dashboard.pagina_dashboard') }}" method="GET">
         <label>Desde: <input type="date" name="fecha_inicio" value="{{ f_inicio }}"></label>
         <label>Hasta: <input type="date" name="fecha_fin" value="{{ f_fin }}"></label>
         <button type="submit" class="btn-filtrar">Actualizar</button>
@@ -79,7 +79,7 @@
 
         <div class="paginacion-container">
             {% if page > 1 %}
-                <a href="{{ url_for('pagina_dashboard', fecha_inicio=f_inicio, fecha_fin=f_fin, page=page-1) }}" class="btn-pagi">« Anterior</a>
+                <a href="{{ url_for('dashboard.pagina_dashboard', fecha_inicio=f_inicio, fecha_fin=f_fin, page=page-1) }}" class="btn-pagi">« Anterior</a>
             {% else %}
                 <span class="btn-pagi disabled">« Anterior</span>
             {% endif %}
@@ -87,7 +87,7 @@
             <span class="pagi-info">Página <strong>{{ page }}</strong> de {{ total_paginas }}</span>
 
             {% if page < total_paginas %}
-                <a href="{{ url_for('pagina_dashboard', fecha_inicio=f_inicio, fecha_fin=f_fin, page=page+1) }}" class="btn-pagi">Siguiente »</a>
+                <a href="{{ url_for('dashboard.pagina_dashboard', fecha_inicio=f_inicio, fecha_fin=f_fin, page=page+1) }}" class="btn-pagi">Siguiente »</a>
             {% else %}
                 <span class="btn-pagi disabled">Siguiente »</span>
             {% endif %}

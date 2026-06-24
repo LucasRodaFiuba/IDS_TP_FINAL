@@ -19,16 +19,16 @@
     <div>
         <h2 id="Nuestromenu">Nuestro Menu</h2>
         <div id="Menu">
-            <a href="{{ url_for('pagina_menu') }}#entradas">
+            <a href="{{ url_for('menu.pagina_menu') }}#entradas">
                 <img src="{{ url_for('static', filename='img/entrada.jpg') }}" alt="Entradas">
                 <p>Entradas</p>
             </a>
-            <a href="{{ url_for('pagina_menu') }}#platos_principales">
+            <a href="{{ url_for('menu.pagina_menu') }}#platos_principales">
                 <img src="{{ url_for('static', filename='img/platoprinc.jpg') }}" alt="Platos Principales">
                 <p>Platos Principales</p>
             </a>
 
-            <a href="{{ url_for('pagina_menu') }}#postres">
+            <a href="{{ url_for('menu.pagina_menu') }}#postres">
                 <img src="{{ url_for('static', filename='img/postre.jpg') }}" alt="Postres">
                 <p>Postres</p>
             </a>
@@ -41,7 +41,7 @@
         <div id="Reserva1">
             <h2>Reserva Tu Mesa</h2>
             <p>Haz tu reserva y vive una velada inolvidable en Le Maison Gourmet</p>
-            <a href="{{ url_for('pagina_reservas') }}" class="btn-reserva">Reservar Ahora</a>
+            <a href="{{ url_for('reservas.pagina_reservas') }}" class="btn-reserva">Reservar Ahora</a>
         </div>
     </div>
     <section class="horarios">

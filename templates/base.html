@@ -23,19 +23,19 @@
             </div>
 
             <ul id="Botones">
-                <li><a href="{{ url_for('pagina_menu') }}">Menu</a></li>
-                <li><a href="{{ url_for('pagina_nosotros') }}">Conocenos</a></li>
+                <li><a href="{{ url_for('menu.pagina_menu') }}">Menu</a></li>
+                <li><a href="{{ url_for('servicios_extra.pagina_nosotros') }}">Conocenos</a></li>
 
                 {% if session.get('usuario') and session['usuario'].get('rol') == 'admin' %}
                     <li><a href="{{ url_for('pagina_admin') }}">Administración</a></li>
                 {% endif %}
 
                 {% if session.get('usuario') %}
-                    <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
-                    <li><a href="{{ url_for('pagina_mis_reservas') }}">Mis Reservas</a></li>
-                    <li><a href="{{ url_for('pagina_reservas') }}">Reserva</a></li>
+                    <li><a href="{{ url_for('auth.perfil') }}">Perfil</a></li>
+                    <li><a href="{{ url_for('mis_reservas.pagina_mis_reservas') }}">Mis Reservas</a></li>
+                    <li><a href="{{ url_for('reservas.pagina_reservas') }}">Reserva</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('iniciar_sesion') }}">Iniciar Sesión</a></li>
+                    <li><a href="{{ url_for('auth.iniciar_sesion') }}">Iniciar Sesión</a></li>
                 {% endif %}
             </ul>
         </header>

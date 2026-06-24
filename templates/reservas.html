@@ -18,7 +18,7 @@
         <div class="progreso-nodo" id="nodo-5">5</div>
     </div>
 
-    <form action="{{ url_for('pagina_reservas') }}" method="POST" id="form-reserva">
+    <form action="{{ url_for('reservas.pagina_reservas') }}" method="POST" id="form-reserva">
 
         <div class="paso-bloque {% if not fecha_seleccionada %}activo{% endif %}" id="bloque-1">
             <div class="paso-cuerpo">

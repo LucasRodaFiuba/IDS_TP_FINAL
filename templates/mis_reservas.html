@@ -19,7 +19,7 @@
         <h2 id="titulo-sin-reservas">Aun no tienes reservas registradas</h2>
         <p id="mensaje-descriptivo-sin-reservas">Cuando realices una reserva, aparecerá aqui para que puedas consultar su estado</p>
         <button id="btn-redirigir-para-reservar">
-            <a href="{{ url_for('pagina_reservas') }}" id="link-reservar">Reservar<a></a>
+            <a href="{{ url_for('reservas.pagina_reservas') }}" id="link-reservar">Reservar<a></a>
         </button>
     </div>
 {% else %}
@@ -39,7 +39,7 @@
             <div class="reserva-acciones">
                 <span class="badge-{{ reserva.estado }}"><i class="ti ti-check"></i>{{ reserva.estado }}</span>
                 {% if reserva.estado == "pendiente" %}
-                <form method="POST" action="/cancelar_reserva/{{ reserva.id_reserva }}" class="hijo-estado-reserva">
+                <form method="POST" action="{{ url_for('mis_reservas.cancelar_reserva', id_reserva=reserva.id_reserva) }}" class="hijo-estado-reserva">
                     <button type="submit" class="btn-cancelar">
                         Cancelar
                     </button>

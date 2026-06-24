@@ -40,11 +40,11 @@
         {% endif %}
 
         <div class="acciones-perfil">
-    <form method="POST" action="{{ url_for('cerrar_sesion') }}">
+    <form method="POST" action="{{ url_for('auth.cerrar_sesion') }}">
         <button type="submit" class="btn-perfil">Cerrar sesión</button>
     </form>
 
-    <form method="POST" action="{{ url_for('eliminar_cuenta') }}">
+    <form method="POST" action="{{ url_for('auth.eliminar_cuenta') }}">
         <button type="submit" class="btn-perfil">Eliminar cuenta</button>
     </form>
 </div>
