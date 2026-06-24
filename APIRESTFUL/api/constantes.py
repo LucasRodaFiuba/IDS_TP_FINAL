@@ -21,7 +21,7 @@ MIN_ID = 1
 MAX_ID = 7
 
 #URL para validar la reserva
-URL_VALIDAR_RESERVA="https://unhitched-halved-surname.ngrok-free.dev/reservas/validar"
+URL_VALIDAR_RESERVA="https://extruding-headroom-resonate.ngrok-free.dev/reservas/validar"
 #ACLARACIÓN SOLO SE DEBE DE CAMBIAR LO QUE ESTÁ ANTES DE /RESERVAS.
 
 #ENVIAR EMAIL (CREDENCIALES)
