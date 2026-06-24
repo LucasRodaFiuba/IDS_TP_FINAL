@@ -4,7 +4,7 @@ def obtener_platos():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
     cursor.execute(
-        "SELECT id_plato AS id, nombre, precio, descripcion, categoria, restriccion, imagen FROM menu",
+        "SELECT id_plato , nombre, precio, descripcion, categoria, restriccion, imagen FROM menu",
     )
     platos = cursor.fetchall()
     cursor.close()

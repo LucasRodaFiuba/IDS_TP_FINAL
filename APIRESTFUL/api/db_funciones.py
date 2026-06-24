@@ -496,14 +496,19 @@ def obtener_resenas():
     query = """
     SELECT
         r.id_resena,
+        r.id_usuario,
         u.nombre,
         u.apellido,
         r.puntuacion,
         r.comentario,
-        r.fecha_resena
+        r.fecha_resena,
+        r.id_plato,
+        p.nombre AS nombre_plato
     FROM resenas r
     INNER JOIN usuarios u
         ON u.id_usuario = r.id_usuario
+    LEFT JOIN menu p
+        ON p.id_plato = r.id_plato
     ORDER BY r.fecha_resena DESC
     """
 
@@ -511,6 +516,7 @@ def obtener_resenas():
 def insertar_resena(
     id_usuario,
     id_reserva,
+    id_plato,
     puntuacion,
     comentario
 ):
@@ -518,12 +524,14 @@ def insertar_resena(
     INSERT INTO resenas(
         id_usuario,
         id_reserva,
+        id_plato,
         puntuacion,
         comentario
     )
     VALUES (
         :id_usuario,
         :id_reserva,
+        :id_plato,
         :puntuacion,
         :comentario
     )
@@ -532,6 +540,7 @@ def insertar_resena(
     return ejecutar_insert(query, {
         'id_usuario': id_usuario,
         'id_reserva': id_reserva,
+        'id_plato': id_plato,
         'puntuacion': puntuacion,
         'comentario': comentario
     })

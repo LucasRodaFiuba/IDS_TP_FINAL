@@ -46,6 +46,9 @@
                     <span class="estrellas">
                         {% for i in range(r.puntuacion) %}★{% endfor %}{% for i in range(5 - r.puntuacion) %}☆{% endfor %}
                     </span>
+                    {% if r.nombre_plato %}
+                    <p class="resena-plato"><strong>Plato:</strong> {{ r.nombre_plato }}</p>
+                    {% endif %}
                 </div>
                 <p class="resena-comentario">{{ r.comentario }}</p>
                 <small class="resena-fecha">{{ r.fecha_resena }}</small>

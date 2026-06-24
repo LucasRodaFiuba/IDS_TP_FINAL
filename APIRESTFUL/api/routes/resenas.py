@@ -10,9 +10,11 @@ def get_resenas():
 @resenas_bp.route("/resenas", methods=["POST"])
 def post_resena():
     data = request.get_json()
+    print(data)   
     insertar_resena(
         data['id_usuario'],
         data['id_reserva'],
+        data['id_plato'],
         data['puntuacion'],
         data['comentario']
     )

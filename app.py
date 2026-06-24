@@ -431,15 +431,17 @@ def pagina_resenas():
         if not usuario or not token:
             flash('Tenés que iniciar sesión para dejar una reseña.', 'error')
             return redirect(url_for('iniciar_sesion'))
-
+        print(request.form)
+        print(request.form.get("id_plato"))
         resultado = enviar_resena(
             id_usuario=usuario['id'],
             id_reserva=None,
-            id_plato=request.form.get('id_plato'), 
+            id_plato=request.form.get('id_plato') or None, 
             puntuacion=int(request.form.get('puntuacion')),
             comentario=request.form.get('comentario'),
             token=token
         )
+        print(f"ID_PLATO ENVIADO: {request.form.get('id_plato')}") 
 
         if resultado.get('ok'):
             flash('¡Reseña enviada!', 'success')
@@ -452,10 +454,10 @@ def pagina_resenas():
     # GET
     resultado = obtener_resenas()
     if resultado.get('ok'):
-        return render_template('reseñas.html', resenas=resultado['response'])
+        return render_template('reseñas.html', resenas=resultado['response'],platos=[])
     for e in resultado.get('errores', []):
         flash(e, 'error')
-    return render_template('reseñas.html', resenas=[])
+    return render_template('reseñas.html', resenas=[], platos=[])
 
 @app.route('/resenas/eliminar/<int:id_resena>', methods=['POST'])
 def eliminar_resena_view(id_resena):
